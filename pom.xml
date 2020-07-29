@@ -24,6 +24,7 @@
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<spring-boot-maven-plugin.version>2.1.15.RELEASE</spring-boot-maven-plugin.version>
+		<structured-logging.version>1.9.0</structured-logging.version>
 	</properties>
 	
 	<dependencyManagement>
@@ -72,6 +73,12 @@
 			<artifactId>hamcrest-all</artifactId>
 			<version>${hamcrest-all-version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>uk.gov.companieshouse</groupId>
+			<artifactId>structured-logging</artifactId>
+			<version>${structured-logging.version}</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
