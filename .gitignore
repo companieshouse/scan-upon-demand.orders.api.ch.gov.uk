@@ -20,14 +20,22 @@
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-/target/
 
-# OS files
+hs_err_pid*
+#Build artifacts
+target/
+
+# Eclipse files
+.classpath
+.project
+.settings
+bin/
+
+# Mac files
 .DS_Store
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IntelliJ files
+.idea/
 *.iml
-*.ipr
+
+._*
