@@ -1,2 +1,27 @@
-# scan-upon-demand.orders.api.ch.gov.uk
-CHS API using Java Springboot to enable scan upon demand requests to be ordered.
+# Companies House Scan Upon Demand API
+
+## scan-upon-demand.orders.api.ch.gov.uk
+API handling CRUD operations on CH Scan Upon Demand Ordering Service
+
+### Requirements
+* [Java 8][1]
+* [Maven][2]
+* [Git][3]
+
+### Getting Started
+1. Run `make` to build
+2. Run `./start.sh` to run
+
+### Environment Variables
+Name | Description | Mandatory | Location
+--- | --- | --- | ---
+SCAN_UPON_DEMAND_ORDERS_API_PORT | Port this application runs on when deployed. | ✓ | start.sh
+
+### Endpoints
+Path | Method | Description
+--- | --- | ---
+*`/healthcheck`* | GET | Returns HTTP OK (`200`) to indicate a healthy application instance.
+
+[1]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[2]: https://maven.apache.org/download.cgi
+[3]: https://git-scm.com/downloads

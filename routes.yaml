@@ -1,0 +1,5 @@
+app_name: scan-upon-demand.orders.api.ch.gov.uk
+group: api
+weight: 991
+routes:
+   1: ^/orderable/scan-upon-demand.*
