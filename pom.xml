@@ -13,25 +13,24 @@
 	<description>CH API handling CRUD operations on Scan Upon Demand Service</description>
 
 	<properties>
-		<java.version>1.8</java.version>
-		<org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
-		<jacoco-maven-plugin.version>0.7.7.201606060606</jacoco-maven-plugin.version>
-		<junit-jupiter-engine-version>5.2.0</junit-jupiter-engine-version>
-		<mockito-junit-jupiter-version>2.18.0</mockito-junit-jupiter-version>
-		<hamcrest-all-version>1.3</hamcrest-all-version>
-		<start-class>uk.gov.companieshouse.scanupondemand.orders.api.ScanUponDemandApiApplication</start-class>
-		<spring-boot-dependencies.version>2.1.15.RELEASE</spring-boot-dependencies.version>
-		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-		<spring-boot-maven-plugin.version>2.1.15.RELEASE</spring-boot-maven-plugin.version>
-		<structured-logging.version>1.9.0</structured-logging.version>
-		<commons.lang.version>2.6</commons.lang.version>
-		<gson.version>2.8.0</gson.version>
-		<org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
+		<api-helper-java.version>1.1.0-rc1</api-helper-java.version>
 		<api-sdk-java.version>4.2.1</api-sdk-java.version>
 		<api-sdk-manager-java-library.version>1.0.2</api-sdk-manager-java-library.version>
+		<commons.lang.version>2.6</commons.lang.version>
+		<gson.version>2.8.0</gson.version>
+		<hamcrest-all-version>1.3</hamcrest-all-version>
+		<jacoco-maven-plugin.version>0.7.7.201606060606</jacoco-maven-plugin.version>
+		<java.version>1.8</java.version>
+		<junit-jupiter-engine-version>5.2.0</junit-jupiter-engine-version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+		<mockito-junit-jupiter-version>2.18.0</mockito-junit-jupiter-version>
+		<org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
+		<spring-boot-dependencies.version>2.1.15.RELEASE</spring-boot-dependencies.version>
+		<spring-boot-maven-plugin.version>2.1.15.RELEASE</spring-boot-maven-plugin.version>
+		<start-class>uk.gov.companieshouse.scanupondemand.orders.api.ScanUponDemandApiApplication</start-class>
+		<structured-logging.version>1.9.0</structured-logging.version>
 		<snakeyaml.version>1.25</snakeyaml.version>
-		<api-helper-java.version>1.1.0-rc1</api-helper-java.version>
 	</properties>
 	
 	<dependencyManagement>
