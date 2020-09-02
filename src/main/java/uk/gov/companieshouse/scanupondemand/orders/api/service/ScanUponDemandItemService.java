@@ -1,0 +1,77 @@
+package uk.gov.companieshouse.scanupondemand.orders.api.service;
+
+import org.springframework.stereotype.Service;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.Item;
+import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+
+/**
+ * Service for the management and storage of scan upon demand items.
+ */
+@Service
+public class ScanUponDemandItemService {
+
+    private final ScanUponDemandItemRepository repository;
+    private final IdGeneratorService idGenerator;
+    private final EtagGeneratorService etagGenerator;
+    private final LinksGeneratorService linksGenerator;
+
+    public ScanUponDemandItemService(final ScanUponDemandItemRepository repository,
+
+                                  final IdGeneratorService idGenerator,
+                                  final EtagGeneratorService etagGenerator,
+                                  final LinksGeneratorService linksGenerator) {
+        this.repository = repository;
+        this.idGenerator = idGenerator;
+        this.etagGenerator = etagGenerator;
+        this.linksGenerator = linksGenerator;
+    }
+
+    /**
+     * Creates the scan upond item in the database.
+     *
+     * @param item the item to be created
+     * @return the created item
+     */
+    public ScanUponDemandItem createScanUponDemandItem(final ScanUponDemandItem item) {
+        item.setId(idGenerator.autoGenerateId());
+        setCreationDateTimes(item);
+        item.setEtag(etagGenerator.generateEtag());
+        item.setLinks(linksGenerator.generateLinks(item.getId()));
+        final ScanUponDemandItem itemSaved = repository.save(item);
+        return itemSaved;
+    }
+
+    /**
+     * Saves the certificate item, assumed to have been updated, to the database.
+     *
+     * @param updatedCertificateItem the certificate item to save
+     * @return the latest certificate item state resulting from the save
+     */
+    public ScanUponDemandItem saveCertificateItem(final ScanUponDemandItem updatedScanUponDemandItem) {
+        final LocalDateTime now = LocalDateTime.now();
+        updatedScanUponDemandItem.setUpdatedAt(now);
+        updatedScanUponDemandItem.setEtag(etagGenerator.generateEtag());
+        final ScanUponDemandItem itemSaved = repository.save(updatedScanUponDemandItem);
+                return itemSaved;
+    }
+
+    /**
+     * Sets the created at and updated at date time 'timestamps' to now.
+     *
+     * @param item the item to be 'timestamped'
+     */
+    void setCreationDateTimes(final Item item) {
+        final LocalDateTime now = LocalDateTime.now();
+        item.setCreatedAt(now);
+        item.setUpdatedAt(now);
+    }
+
+    public Optional<ScanUponDemandItem> getScanUponDemandItemById(String id) {
+        return repository.findById(id);
+    }
+}
