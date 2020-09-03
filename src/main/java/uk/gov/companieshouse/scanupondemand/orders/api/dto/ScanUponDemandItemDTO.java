@@ -8,47 +8,50 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 /**
- * An instance of this represents the JSON serializable certificate item for use in REST requests and responses.
+ * An instance of this represents the JSON serializable certificate item for use
+ * in REST requests and responses.
  */
 @JsonPropertyOrder(alphabetic = true)
 public class ScanUponDemandItemDTO extends ItemDTO {
 
-    @Null
-    @JsonProperty("company_name")
-    private String companyName;
+	@Null
+	@JsonProperty("company_name")
+	private String companyName;
 
-    @NotNull
-    @JsonProperty("company_number")
-    private String companyNumber;
+	@NotNull
+	@JsonProperty("company_number")
+	private String companyNumber;
 
-    @JsonProperty("customer_reference")
-    private String customerReference;
+	@JsonProperty("customer_reference")
+	private String customerReference;
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
-    public String getCompanyName() {
-        return companyName;
-    }
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    public void setCompanyNumber(String companyNumber) {
-        this.companyNumber = companyNumber;
-    }
+	public void setCompanyNumber(String companyNumber) {
+		this.companyNumber = companyNumber;
+	}
 
-    public String getCompanyNumber() {
-        return companyNumber;
-    }
+	public String getCompanyNumber() {
+		return companyNumber;
+	}
 
-    public void setCustomerReference(String customerReference) {
-        this.customerReference = customerReference;
-    }
+	public void setCustomerReference(String customerReference) {
+		this.customerReference = customerReference;
+	}
 
-    public String getCustomerReference() {
-        return customerReference;
-    }
+	public String getCustomerReference() {
+		return customerReference;
+	}
 
-    @Override
-    public String toString() { return new Gson().toJson(this); }
+	@Override
+	public String toString() {
+		return new Gson().toJson(this);
+	}
 
 }

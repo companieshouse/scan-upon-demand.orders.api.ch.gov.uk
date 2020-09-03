@@ -7,4 +7,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 
 @Document(collection = "scan-upon-demands")
-public class ScanUponDemandItem extends Item { }
+public class ScanUponDemandItem extends Item {
+}

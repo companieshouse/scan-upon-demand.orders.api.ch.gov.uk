@@ -5,4 +5,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 
 @RepositoryRestResource
-public interface ScanUponDemandItemRepository extends MongoRepository<ScanUponDemandItem, String> { }
+public interface ScanUponDemandItemRepository extends MongoRepository<ScanUponDemandItem, String> {
+}

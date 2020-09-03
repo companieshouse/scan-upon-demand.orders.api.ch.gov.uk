@@ -6,58 +6,59 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Null;
 
 /**
- * An instance of this represents the JSON serializable item for use in REST requests and responses.
+ * An instance of this represents the JSON serializable item for use in REST
+ * requests and responses.
  */
 public class ItemDTO extends AbstractItemDTO {
 
-    @Null
-    @JsonProperty("etag")
-    private String etag;
+	@Null
+	@JsonProperty("etag")
+	private String etag;
 
-    @JsonProperty("kind")
-    private String kind;
+	@JsonProperty("kind")
+	private String kind;
 
-    private boolean isPostalDelivery;
+	private boolean isPostalDelivery;
 
-    @Min(1)
-    @JsonProperty("quantity")
-    private int quantity;
+	@Min(1)
+	@JsonProperty("quantity")
+	private int quantity;
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getEtag() {
-        return etag;
-    }
+	public String getEtag() {
+		return etag;
+	}
 
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
+	public void setEtag(String etag) {
+		this.etag = etag;
+	}
 
-    public String getKind() {
-        return kind;
-    }
+	public String getKind() {
+		return kind;
+	}
 
-    public void setKind(String kind) {
-        this.kind = kind;
-    }
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
 
-    @JsonProperty("postal_delivery")
-    public boolean isPostalDelivery() {
-        return isPostalDelivery;
-    }
+	@JsonProperty("postal_delivery")
+	public boolean isPostalDelivery() {
+		return isPostalDelivery;
+	}
 
-    public void setPostalDelivery(boolean postalDelivery) {
-        isPostalDelivery = postalDelivery;
-    }
+	public void setPostalDelivery(boolean postalDelivery) {
+		isPostalDelivery = postalDelivery;
+	}
 
-    public int getQuantity() {
-        return quantity;
-    }
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 }

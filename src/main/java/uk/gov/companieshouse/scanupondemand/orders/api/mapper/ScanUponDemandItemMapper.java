@@ -10,10 +10,12 @@ import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 @Mapper(componentModel = "spring")
 public interface ScanUponDemandItemMapper {
 	ScanUponDemandItem scanUponDemandItemDTOtoScanUponDemandItem(ScanUponDemandItemDTO scanUponDemandItemDTO);
+
 	ScanUponDemandItemDTO scanUponDemandItemToScanUponDemandItemDTO(ScanUponDemandItem scanUponDemandItem);
-	
+
 	@AfterMapping
-	default void setDefaults(ScanUponDemandItemDTO scanUponDemandItemDTO, @MappingTarget ScanUponDemandItem scanUponDemandItem) {
+	default void setDefaults(ScanUponDemandItemDTO scanUponDemandItemDTO,
+			@MappingTarget ScanUponDemandItem scanUponDemandItem) {
 		int quantity = scanUponDemandItemDTO.getQuantity();
 		scanUponDemandItem.setQuantity(quantity > 0 ? quantity : 1);
 	}
