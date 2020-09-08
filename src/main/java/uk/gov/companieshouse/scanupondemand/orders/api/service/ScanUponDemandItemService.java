@@ -2,7 +2,7 @@ package uk.gov.companieshouse.scanupondemand.orders.api.service;
 
 import org.springframework.stereotype.Service;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.Item;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
 
 import java.time.LocalDateTime;
@@ -45,7 +45,8 @@ public class ScanUponDemandItemService {
 	}
 
 	/**
-	 * Saves the scan upon demand item, assumed to have been updated, to the database.
+	 * Saves the scan upon demand item, assumed to have been updated, to the
+	 * database.
 	 *
 	 * @param updatedScanUponDemandItem the scan upon demand item to save
 	 * @return the latest scan upon demand item state resulting from the save
@@ -63,7 +64,7 @@ public class ScanUponDemandItemService {
 	 *
 	 * @param item the item to be 'timestamped'
 	 */
-	void setCreationDateTimes(final Item item) {
+	void setCreationDateTimes(final ScanUponDemandItem item) {
 		final LocalDateTime now = LocalDateTime.now();
 		item.setCreatedAt(now);
 		item.setUpdatedAt(now);

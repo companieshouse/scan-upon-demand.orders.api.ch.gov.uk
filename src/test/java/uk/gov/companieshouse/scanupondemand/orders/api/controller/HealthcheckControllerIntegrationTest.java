@@ -19,7 +19,7 @@ class HealthcheckControllerIntegrationTest {
     @Test
     @DisplayName("Successfully returns health status")
     public void returnHealthStatusSuccessfully() throws Exception {
-        mockMvc.perform(get("/healthcheck"))
+        mockMvc.perform(get("/orderable/scan-upon-demand/healthcheck"))
                 .andExpect(status().isOk());
     }
 }

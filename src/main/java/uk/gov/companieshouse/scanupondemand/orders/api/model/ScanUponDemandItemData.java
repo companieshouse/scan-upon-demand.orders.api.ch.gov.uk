@@ -4,18 +4,12 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 
-//import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
-
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  * An instance of this represents an item of any type.
  */
-public class ItemData {
-
-	@Transient
-	public static final String SEQUENCE_NAME = "items_sequence";
+public class ScanUponDemandItemData {
 
 	@Field("id")
 	private String id;

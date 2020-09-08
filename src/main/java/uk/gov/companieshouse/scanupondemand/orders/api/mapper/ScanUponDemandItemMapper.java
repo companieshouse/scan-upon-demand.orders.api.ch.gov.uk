@@ -9,6 +9,7 @@ import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 
 @Mapper(componentModel = "spring")
 public interface ScanUponDemandItemMapper {
+	
 	ScanUponDemandItem scanUponDemandItemDTOtoScanUponDemandItem(ScanUponDemandItemDTO scanUponDemandItemDTO);
 
 	ScanUponDemandItemDTO scanUponDemandItemToScanUponDemandItemDTO(ScanUponDemandItem scanUponDemandItem);
