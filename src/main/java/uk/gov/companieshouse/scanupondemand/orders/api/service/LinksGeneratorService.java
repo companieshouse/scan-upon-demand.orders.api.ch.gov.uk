@@ -35,7 +35,7 @@ public class LinksGeneratorService {
 	 */
 	public Links generateLinks(final String itemId) {
 		if (isBlank(itemId)) {
-			throw new IllegalArgumentException("Item ID not populated!");
+			throw new IllegalArgumentException("Scan Upon Demand Item ID not populated!");
 		}
 		final Links links = new Links();
 		links.setSelf(pathToSelf + "/" + itemId);
