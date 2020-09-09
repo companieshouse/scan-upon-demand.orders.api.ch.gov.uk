@@ -5,18 +5,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.gson.Gson;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 /**
  * An instance of this represents the JSON serializable certificate item for use
  * in REST requests and responses.
  */
 @JsonPropertyOrder(alphabetic = true)
-public class ScanUponDemandItemDTO extends ItemDTO {
-
-	@Null
-	@JsonProperty("company_name")
-	private String companyName;
+public class ScanUponDemandItemRequestDTO {
 
 	@NotNull
 	@JsonProperty("company_number")
@@ -25,13 +20,9 @@ public class ScanUponDemandItemDTO extends ItemDTO {
 	@JsonProperty("customer_reference")
 	private String customerReference;
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
+	@NotNull
+	@JsonProperty("quantity")
+	private Integer quantity;
 
 	public void setCompanyNumber(String companyNumber) {
 		this.companyNumber = companyNumber;
@@ -47,6 +38,14 @@ public class ScanUponDemandItemDTO extends ItemDTO {
 
 	public String getCustomerReference() {
 		return customerReference;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

@@ -1,5 +1,10 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.logging;
 
+import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_LOG_KEY;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
 
@@ -22,5 +27,18 @@ public class LoggingUtils {
 
 	public static Logger getLogger() {
 		return LOGGER;
+	}
+	
+	/**
+	 * method to set up a map for logging purposes and add a value for the request
+	 * id
+	 * 
+	 * @param requestId
+	 * @return
+	 */
+	public static Map<String, Object> createLoggingDataMap(final String requestId) {
+		Map<String, Object> logMap = new HashMap<>();
+		logMap.put(REQUEST_ID_LOG_KEY, requestId);
+		return logMap;
 	}
 }

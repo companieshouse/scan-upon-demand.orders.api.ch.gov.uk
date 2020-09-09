@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemDTO;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
+import uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils;
+
 
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
@@ -49,40 +52,28 @@ public class ScanUponDemandItemController {
 
 	@PostMapping("${uk.gov.companieshouse.scanupondemand.orders.api.home}")
 	public ResponseEntity<Object> createScanUponDemandItem(
-			final @Valid @RequestBody ScanUponDemandItemDTO scanUponDemandItemDTO, HttpServletRequest request,
+			final @Valid @RequestBody ScanUponDemandItemRequestDTO scanUponDemandItemDTO, HttpServletRequest request,
 			final @RequestHeader(REQUEST_ID_HEADER_NAME) String requestId) {
 
-		Map<String, Object> logMap = createLoggingDataMap(requestId);
-		LOGGER.infoRequest(request, "create scan upon demand item request", logMap);
+		Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(requestId);
+		LoggingUtils.getLogger().infoRequest(request, "create scan upon demand item request", logMap);
 
-		ScanUponDemandItem item = mapper.scanUponDemandItemDTOtoScanUponDemandItem(scanUponDemandItemDTO);
+		ScanUponDemandItem item = mapper.scanUponDemandItemRequestDTOtoScanUponDemandItem(scanUponDemandItemDTO);
 		item.setUserId(EricHeaderHelper.getIdentity(request));
 		final String companyName = companyService.getCompanyName(item.getCompanyNumber());
 		item.setCompanyName(companyName);
 
 		item = scanUponDemandItemService.createScanUponDemandItem(item);
-		final ScanUponDemandItemDTO createdScanUponDemandItemDTO = mapper
-				.scanUponDemandItemToScanUponDemandItemDTO(item);
+		final ScanUponDemandItemResponseDTO createdScanUponDemandItemResponseDTO = mapper
+				.scanUponDemandItemToScanUponDemandItemResponseDTO(item.getData());
 
 		logMap.put(USER_ID_LOG_KEY, item.getUserId());
 		logMap.put(COMPANY_NUMBER_LOG_KEY, item.getCompanyNumber());
 		logMap.put(SCAN_UPON_DEMAND_ID_LOG_KEY, item.getId());
 		logMap.put(STATUS_LOG_KEY, CREATED);
-		LOGGER.infoRequest(request, "scan upon demand item created", logMap);
-		return ResponseEntity.status(CREATED).body(createdScanUponDemandItemDTO);
+		LoggingUtils.getLogger().infoRequest(request, "scan upon demand item created", logMap);
+		return ResponseEntity.status(CREATED).body(createdScanUponDemandItemResponseDTO);
 
 	}
 
-	/**
-	 * method to set up a map for logging purposes and add a value for the request
-	 * id
-	 * 
-	 * @param requestId
-	 * @return
-	 */
-	private Map<String, Object> createLoggingDataMap(final String requestId) {
-		Map<String, Object> logMap = new HashMap<>();
-		logMap.put(REQUEST_ID_LOG_KEY, requestId);
-		return logMap;
-	}
 }

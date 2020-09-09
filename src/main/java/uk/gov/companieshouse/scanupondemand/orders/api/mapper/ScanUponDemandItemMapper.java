@@ -4,20 +4,21 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemDTO;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
 
 @Mapper(componentModel = "spring")
 public interface ScanUponDemandItemMapper {
-	
-	ScanUponDemandItem scanUponDemandItemDTOtoScanUponDemandItem(ScanUponDemandItemDTO scanUponDemandItemDTO);
 
-	ScanUponDemandItemDTO scanUponDemandItemToScanUponDemandItemDTO(ScanUponDemandItem scanUponDemandItem);
+	ScanUponDemandItem scanUponDemandItemRequestDTOtoScanUponDemandItem(ScanUponDemandItemRequestDTO scanUponDemandItemDTO);
+
+	ScanUponDemandItemResponseDTO scanUponDemandItemToScanUponDemandItemResponseDTO(
+			ScanUponDemandItemData scanUponDemandItemData);
 
 	@AfterMapping
-	default void setDefaults(ScanUponDemandItemDTO scanUponDemandItemDTO,
+	default void setDefaults(ScanUponDemandItemRequestDTO scanUponDemandItemDTO,
 			@MappingTarget ScanUponDemandItem scanUponDemandItem) {
-		int quantity = scanUponDemandItemDTO.getQuantity();
-		scanUponDemandItem.setQuantity(quantity > 0 ? quantity : 1);
 	}
 }
