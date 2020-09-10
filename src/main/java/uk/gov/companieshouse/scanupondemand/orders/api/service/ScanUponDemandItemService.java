@@ -2,7 +2,6 @@ package uk.gov.companieshouse.scanupondemand.orders.api.service;
 
 import org.springframework.stereotype.Service;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
 
 import java.time.LocalDateTime;
@@ -40,8 +39,7 @@ public class ScanUponDemandItemService {
 		setCreationDateTimes(item);
 		item.setEtag(etagGenerator.generateEtag());
 		item.setLinks(linksGenerator.generateLinks(item.getId()));
-		final ScanUponDemandItem itemSaved = repository.save(item);
-		return itemSaved;
+		return repository.save(item);
 	}
 
 	/**
@@ -55,8 +53,7 @@ public class ScanUponDemandItemService {
 		final LocalDateTime now = LocalDateTime.now();
 		updatedScanUponDemandItem.setUpdatedAt(now);
 		updatedScanUponDemandItem.setEtag(etagGenerator.generateEtag());
-		final ScanUponDemandItem itemSaved = repository.save(updatedScanUponDemandItem);
-		return itemSaved;
+		return repository.save(updatedScanUponDemandItem);
 	}
 
 	/**
