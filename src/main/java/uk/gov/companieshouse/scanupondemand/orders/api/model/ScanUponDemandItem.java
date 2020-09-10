@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.gson.Gson;
-
 /**
  * An instance of this represents a scan upon demand item.
  */
