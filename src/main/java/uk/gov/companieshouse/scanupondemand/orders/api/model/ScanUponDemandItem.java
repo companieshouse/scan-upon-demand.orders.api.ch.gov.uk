@@ -1,7 +1,6 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -82,84 +81,16 @@ public class ScanUponDemandItem {
 		data.setCustomerReference(companyReference);
 	}
 
-	public String getDescription() {
-		return data.getDescription();
-	}
-
-	public void setDescription(String description) {
-		data.setDescription(description);
-	}
-
-	public String getDescriptionIdentifier() {
-		return data.getDescriptionIdentifier();
-	}
-
-	public void setDescriptionIdentifier(String descriptionIdentifier) {
-		data.setDescriptionIdentifier(descriptionIdentifier);
-	}
-
-	public Map<String, String> getDescriptionValues() {
-		return data.getDescriptionValues();
-	}
-
-	public void setDescriptionValues(Map<String, String> descriptionValues) {
-		data.setDescriptionValues(descriptionValues);
-	}
-
-	public String getEtag() {
-		return data.getEtag();
-	}
-
 	public void setEtag(String etag) {
 		data.setEtag(etag);
 	}
-
-	public String getKind() {
-		return data.getKind();
-	}
-
-	public void setKind(String kind) {
-		data.setKind(kind);
-	}
-
-	public Links getLinks() {
-		return data.getLinks();
-	}
-
+	
 	public void setLinks(Links links) {
 		data.setLinks(links);
 	}
 
-	public String getPostageCost() {
-		return data.getPostageCost();
-	}
-
-	public void setPostageCost(String postageCost) {
-		data.setPostageCost(postageCost);
-	}
-
-	public Boolean isPostalDelivery() {
-		return data.isPostalDelivery();
-	}
-
-	public void setPostalDelivery(boolean postalDelivery) {
-		data.setPostalDelivery(postalDelivery);
-	}
-
-	public Integer getQuantity() {
-		return data.getQuantity();
-	}
-
 	public void setQuantity(Integer quantity) {
 		data.setQuantity(quantity);
-	}
-
-	public String getTotalItemCost() {
-		return data.getTotalItemCost();
-	}
-
-	public void setTotalItemCost(String totalItemCost) {
-		data.setTotalItemCost(totalItemCost);
 	}
 
 	public String getUserId() {
@@ -170,8 +101,4 @@ public class ScanUponDemandItem {
 		this.userId = userId;
 	}
 
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
-	}
 }

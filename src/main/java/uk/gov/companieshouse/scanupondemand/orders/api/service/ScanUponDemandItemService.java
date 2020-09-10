@@ -5,7 +5,6 @@ import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
  * Service for the management and storage of scan upon demand items.
@@ -43,20 +42,6 @@ public class ScanUponDemandItemService {
 	}
 
 	/**
-	 * Saves the scan upon demand item, assumed to have been updated, to the
-	 * database.
-	 *
-	 * @param updatedScanUponDemandItem the scan upon demand item to save
-	 * @return the latest scan upon demand item state resulting from the save
-	 */
-	public ScanUponDemandItem saveCertificateItem(final ScanUponDemandItem updatedScanUponDemandItem) {
-		final LocalDateTime now = LocalDateTime.now();
-		updatedScanUponDemandItem.setUpdatedAt(now);
-		updatedScanUponDemandItem.setEtag(etagGenerator.generateEtag());
-		return repository.save(updatedScanUponDemandItem);
-	}
-
-	/**
 	 * Sets the created at and updated at date time 'timestamps' to now.
 	 *
 	 * @param item the item to be 'timestamped'
@@ -67,7 +52,4 @@ public class ScanUponDemandItemService {
 		item.setUpdatedAt(now);
 	}
 
-	public Optional<ScanUponDemandItem> getScanUponDemandItemById(String id) {
-		return repository.findById(id);
-	}
 }

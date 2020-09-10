@@ -11,14 +11,16 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 
-
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
 
+import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+
+import java.util.Map;
 
 @ExtendWith(SpringExtension.class)
 @SpringJUnitConfig(ScanUponDemandItemMapperTest.Config.class)
@@ -29,6 +31,13 @@ public class ScanUponDemandItemMapperTest {
 	private static final Integer QUANTITY = 1;
 	private static final String ID = "SCD-462515-995726";
 	private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
+	private static final String KIND = "item#scan-on-demand";
+	private static final String ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
+	private static final String POSTAGE_COST = "15";
+	private static final boolean POSTAL_DELIVERY = true;
+	private static final String DESCRIPTION_IDENTIFIER = "Description Identifier";
+	private static final String DESCRIPTION = "Description";
+    private static final Map<String, String> DESCRIPTION_VALUES = singletonMap("key1", "value1");
 
 	private static final Links LINKS;
 
@@ -73,8 +82,16 @@ public class ScanUponDemandItemMapperTest {
 		item.setCustomerReference(CUSTOMER_REFERENCE);
 		item.setLinks(LINKS);
 		item.setQuantity(QUANTITY);
+		item.setKind(KIND);
+		item.setEtag(ETAG);
+		item.setPostageCost(POSTAGE_COST);
+		item.setPostalDelivery(POSTAL_DELIVERY);
+		item.setDescription(DESCRIPTION);
+		item.setDescriptionIdentifier(DESCRIPTION_IDENTIFIER);
+		item.setDescriptionValues(DESCRIPTION_VALUES);
 
-		final ScanUponDemandItemResponseDTO dto = mapperUnderTest.scanUponDemandItemToScanUponDemandItemResponseDTO(item);
+		final ScanUponDemandItemResponseDTO dto = mapperUnderTest
+				.scanUponDemandItemToScanUponDemandItemResponseDTO(item);
 
 		assertThat(dto.getId(), is(item.getId()));
 		assertThat(dto.getCompanyName(), is(item.getCompanyName()));
@@ -87,7 +104,6 @@ public class ScanUponDemandItemMapperTest {
 
 		assertThat(dto.getKind(), is(item.getKind()));
 		assertThat(dto.getLinks().getSelf(), is(item.getLinks().getSelf()));
-		assertThat(dto.getPostageCost(), is(item.getPostageCost()));
 		assertThat(dto.getQuantity(), is(item.getQuantity()));
 
 	}
