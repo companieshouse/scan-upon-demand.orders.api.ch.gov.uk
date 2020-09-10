@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -39,6 +40,8 @@ public class ScanUponDemandItemData {
 	private Integer quantity;
 
 	private String totalItemCost;
+
+	private List<ItemCosts> itemCosts;
 
 	public String getId() {
 		return id;
@@ -150,6 +153,14 @@ public class ScanUponDemandItemData {
 
 	public void setTotalItemCost(String totalItemCost) {
 		this.totalItemCost = totalItemCost;
+	}
+
+	public List<ItemCosts> getItemCosts() {
+		return itemCosts;
+	}
+
+	public void setItemCosts(List<ItemCosts> itemCosts) {
+		this.itemCosts = itemCosts;
 	}
 
 	@Override

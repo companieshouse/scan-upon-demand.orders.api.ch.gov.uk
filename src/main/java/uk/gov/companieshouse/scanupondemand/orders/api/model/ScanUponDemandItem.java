@@ -1,6 +1,7 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
@@ -168,6 +169,10 @@ public class ScanUponDemandItem {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public void setItemCosts(List<ItemCosts> itemCosts) {
+		data.setItemCosts(itemCosts);
 	}
 
 	@Override
