@@ -1,7 +1,5 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.logging;
 
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_LOG_KEY;
-
 import java.util.HashMap;
 import java.util.Map;
 

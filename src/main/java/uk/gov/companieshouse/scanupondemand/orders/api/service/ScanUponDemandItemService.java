@@ -6,7 +6,6 @@ import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
  * Service for the management and storage of scan upon demand items.
@@ -63,6 +62,7 @@ public class ScanUponDemandItemService {
 		updatedScanUponDemandItem.setEtag(etagGenerator.generateEtag());
 		final ScanUponDemandItem itemSaved = repository.save(updatedScanUponDemandItem);
 		return itemSaved;
+		return repository.save(item);
 	}
 
 	/**
@@ -76,7 +76,4 @@ public class ScanUponDemandItemService {
 		item.setUpdatedAt(now);
 	}
 
-	public Optional<ScanUponDemandItem> getScanUponDemandItemById(String id) {
-		return repository.findById(id);
-	}
 }

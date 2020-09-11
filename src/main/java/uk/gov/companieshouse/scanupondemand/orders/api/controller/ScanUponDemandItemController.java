@@ -5,11 +5,8 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUti
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.COMPANY_NUMBER_LOG_KEY;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.STATUS_LOG_KEY;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.USER_ID_LOG_KEY;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.APPLICATION_NAMESPACE;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_LOG_KEY;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +23,6 @@ import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRes
 import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
 import uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils;
 
-
-import uk.gov.companieshouse.logging.Logger;
-import uk.gov.companieshouse.logging.LoggerFactory;
-
 import uk.gov.companieshouse.scanupondemand.orders.api.mapper.ScanUponDemandItemMapper;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.util.EricHeaderHelper;
@@ -38,7 +31,6 @@ import uk.gov.companieshouse.scanupondemand.orders.api.service.ScanUponDemandIte
 @RestController
 public class ScanUponDemandItemController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(APPLICATION_NAMESPACE);
 	private final ScanUponDemandItemMapper mapper;
 	private final CompanyService companyService;
 	private final ScanUponDemandItemService scanUponDemandItemService;
