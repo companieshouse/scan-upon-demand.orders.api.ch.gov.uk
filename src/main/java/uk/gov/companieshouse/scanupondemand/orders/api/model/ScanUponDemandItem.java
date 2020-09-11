@@ -89,12 +89,20 @@ public class ScanUponDemandItem {
 		data.setLinks(links);
 	}
 
+	public String getPostageCost() {
+		return data.getPostageCost();
+	}
+
 	public void setPostageCost(String postageCost) {
 		data.setPostageCost(postageCost);
 	}
 
 	public void setQuantity(Integer quantity) {
 		data.setQuantity(quantity);
+	}
+
+	public String getTotalItemCost() {
+		return data.getTotalItemCost();
 	}
 
 	public void setTotalItemCost(String totalItemCost) {
@@ -107,6 +115,10 @@ public class ScanUponDemandItem {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public List<ItemCosts> getItemCosts() {
+		return data.getItemCosts();
 	}
 
 	public void setItemCosts(List<ItemCosts> itemCosts) {
