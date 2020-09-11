@@ -9,5 +9,4 @@ public class ScanUponDemandApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ScanUponDemandApiApplication.class, args);
 	}
-
 }

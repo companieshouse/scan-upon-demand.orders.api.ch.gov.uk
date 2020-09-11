@@ -1,0 +1,140 @@
+package uk.gov.companieshouse.scanupondemand.orders.api.dto;
+
+import org.springframework.data.mongodb.core.mapping.Field;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
+
+import java.util.Map;
+
+public class ScanUponDemandItemResponseDTO {
+
+	@Field("id")
+	private String id;
+
+	private String companyName;
+
+	private String companyNumber;
+
+	private String customerReference;
+
+	private String description;
+
+	private String descriptionIdentifier;
+
+	private Map<String, String> descriptionValues;
+
+	private String etag;
+
+	private String kind;
+
+	private Links links;
+
+	private String postageCost;
+
+	private Boolean isPostalDelivery;
+
+	private Integer quantity;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getCompanyNumber() {
+		return companyNumber;
+	}
+
+	public void setCompanyNumber(String companyNumber) {
+		this.companyNumber = companyNumber;
+	}
+
+	public String getCustomerReference() {
+		return customerReference;
+	}
+
+	public void setCustomerReference(String customerReference) {
+		this.customerReference = customerReference;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescriptionIdentifier() {
+		return descriptionIdentifier;
+	}
+
+	public void setDescriptionIdentifier(String descriptionIdentifier) {
+		this.descriptionIdentifier = descriptionIdentifier;
+	}
+
+	public Map<String, String> getDescriptionValues() {
+		return descriptionValues;
+	}
+
+	public void setDescriptionValues(Map<String, String> descriptionValues) {
+		this.descriptionValues = descriptionValues;
+	}
+
+	public String getEtag() {
+		return etag;
+	}
+
+	public void setEtag(String etag) {
+		this.etag = etag;
+	}
+
+	public String getKind() {
+		return kind;
+	}
+
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
+
+	public Links getLinks() {
+		return links;
+	}
+
+	public void setLinks(Links links) {
+		this.links = links;
+	}
+
+	public String getPostageCost() {
+		return postageCost;
+	}
+
+	public void setPostageCost(String postageCost) {
+		this.postageCost = postageCost;
+	}
+
+	public Boolean getPostalDelivery() {
+		return isPostalDelivery;
+	}
+
+	public void setPostalDelivery(Boolean postalDelivery) {
+		isPostalDelivery = postalDelivery;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+}
