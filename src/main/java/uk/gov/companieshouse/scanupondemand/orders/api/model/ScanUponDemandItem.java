@@ -1,13 +1,11 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gson.Gson;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.google.gson.Gson;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * An instance of this represents a scan upon demand item.
@@ -91,8 +89,16 @@ public class ScanUponDemandItem {
 		data.setLinks(links);
 	}
 
+	public void setPostageCost(String postageCost) {
+		data.setPostageCost(postageCost);
+	}
+
 	public void setQuantity(Integer quantity) {
 		data.setQuantity(quantity);
+	}
+
+	public void setTotalItemCost(String totalItemCost) {
+		data.setTotalItemCost(totalItemCost);
 	}
 
 	public String getUserId() {

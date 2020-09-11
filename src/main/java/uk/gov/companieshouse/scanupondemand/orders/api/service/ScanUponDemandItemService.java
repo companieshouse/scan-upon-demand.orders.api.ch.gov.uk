@@ -45,23 +45,6 @@ public class ScanUponDemandItemService {
 		item.setItemCosts(costs.getItemCosts());
 		item.setPostageCost(costs.getPostageCost());
 		item.setTotalItemCost(costs.getTotalItemCost());
-		final ScanUponDemandItem itemSaved = repository.save(item);
-		return itemSaved;
-	}
-
-	/**
-	 * Saves the scan upon demand item, assumed to have been updated, to the
-	 * database.
-	 *
-	 * @param updatedScanUponDemandItem the scan upon demand item to save
-	 * @return the latest scan upon demand item state resulting from the save
-	 */
-	public ScanUponDemandItem saveCertificateItem(final ScanUponDemandItem updatedScanUponDemandItem) {
-		final LocalDateTime now = LocalDateTime.now();
-		updatedScanUponDemandItem.setUpdatedAt(now);
-		updatedScanUponDemandItem.setEtag(etagGenerator.generateEtag());
-		final ScanUponDemandItem itemSaved = repository.save(updatedScanUponDemandItem);
-		return itemSaved;
 		return repository.save(item);
 	}
 
