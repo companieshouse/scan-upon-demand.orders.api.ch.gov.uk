@@ -35,6 +35,8 @@ class ScanUponDemandItemServiceTest {
     private static final String POSTAGE_COST = "0";
     private static final String TOTAL_ITEM_COST = "3";
 
+    private static final int QUANTITY = 1;
+
     private static final ItemCosts ITEM_COSTS =
             new ItemCosts(DISCOUNT_APPLIED, ITEM_COST, CALCULATED_COST, SCAN_UPON_DEMAND);
     private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
@@ -66,8 +68,9 @@ class ScanUponDemandItemServiceTest {
 
         // Given
         when(idGeneratorService.autoGenerateId()).thenReturn(ID);
-        when(costCalculatorService.calculateCosts()).thenReturn(CALCULATION);
+        when(costCalculatorService.calculateCosts(QUANTITY)).thenReturn(CALCULATION);
         ScanUponDemandItem scanUponDemandItem = new ScanUponDemandItem();
+        scanUponDemandItem.setQuantity(QUANTITY);
         when(repository.save(scanUponDemandItem)).thenReturn(scanUponDemandItem);
 
         final LocalDateTime intervalStart = LocalDateTime.now();
@@ -82,7 +85,7 @@ class ScanUponDemandItemServiceTest {
         assertThat(scanUponDemandItem.getId(), is(ID));
         verify(etagGenerator).generateEtag();
         verify(linksGenerator).generateLinks(ID);
-        verify(costCalculatorService).calculateCosts();
+        verify(costCalculatorService).calculateCosts(QUANTITY);
         assertThat(scanUponDemandItem.getItemCosts(), is(singletonList(ITEM_COSTS)));
         assertThat(scanUponDemandItem.getPostageCost(), is(POSTAGE_COST));
         assertThat(scanUponDemandItem.getTotalItemCost(), is(TOTAL_ITEM_COST));

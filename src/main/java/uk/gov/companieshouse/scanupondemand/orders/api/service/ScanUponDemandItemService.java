@@ -41,7 +41,7 @@ public class ScanUponDemandItemService {
 		setCreationDateTimes(item);
 		item.setEtag(etagGenerator.generateEtag());
 		item.setLinks(linksGenerator.generateLinks(item.getId()));
-		final ItemCostCalculation costs = calculator.calculateCosts();
+		final ItemCostCalculation costs = calculator.calculateCosts(item.getQuantity());
 		item.setItemCosts(costs.getItemCosts());
 		item.setPostageCost(costs.getPostageCost());
 		item.setTotalItemCost(costs.getTotalItemCost());

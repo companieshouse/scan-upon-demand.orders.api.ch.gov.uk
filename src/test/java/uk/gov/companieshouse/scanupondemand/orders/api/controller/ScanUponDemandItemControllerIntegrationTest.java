@@ -106,7 +106,7 @@ class ScanUponDemandItemControllerIntegrationTest {
 
 		when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
 		when(etagGeneratorService.generateEtag()).thenReturn(ETAG);
-		when(calculatorService.calculateCosts()).thenReturn(CALCULATION);
+		when(calculatorService.calculateCosts(QUANTITY_1)).thenReturn(CALCULATION);
 		when(companyService.getCompanyName(COMPANY_NUMBER)).thenReturn(COMPANY_NAME);
 
 		final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
