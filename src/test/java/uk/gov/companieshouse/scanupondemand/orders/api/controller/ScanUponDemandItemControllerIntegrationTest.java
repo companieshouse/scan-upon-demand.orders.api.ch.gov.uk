@@ -134,8 +134,7 @@ class ScanUponDemandItemControllerIntegrationTest {
 				.andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
 				.andExpect(jsonPath("$.company_number", is(COMPANY_NUMBER)))
 				.andExpect(jsonPath("$.company_name", is(COMPANY_NAME)))
-				.andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)))
-				.andDo(MockMvcResultHandlers.print());
+				.andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)));
 
 		final ScanUponDemandItem retrievedItem = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
 		final LocalDateTime intervalEnd = LocalDateTime.now();
