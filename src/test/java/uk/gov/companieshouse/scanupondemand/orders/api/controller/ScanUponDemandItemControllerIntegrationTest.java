@@ -57,13 +57,13 @@ class ScanUponDemandItemControllerIntegrationTest {
 	private static final int QUANTITY_1 = 1;
 	private static final String ETAG = "49336c4c011b3b568c9b346d71e4159893a5e888";
 
-	private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
-			singletonList(new ItemCosts(DISCOUNT_APPLIED,
-									    SCAN_UPON_DEMAND_ITEM_COST_STRING,
-									    CALCULATED_COST,
-										SCAN_UPON_DEMAND)),
-			POSTAGE_COST,
-			TOTAL_ITEM_COST);
+    private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
+            singletonList(new ItemCosts(DISCOUNT_APPLIED,
+                                        SCAN_UPON_DEMAND_ITEM_COST_STRING,
+                                        CALCULATED_COST,
+                                        SCAN_UPON_DEMAND)),
+            POSTAGE_COST,
+            TOTAL_ITEM_COST);
 
 	private static final Links LINKS;
 
