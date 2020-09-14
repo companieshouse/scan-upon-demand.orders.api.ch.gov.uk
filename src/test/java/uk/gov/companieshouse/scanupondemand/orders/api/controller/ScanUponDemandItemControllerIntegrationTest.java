@@ -40,6 +40,7 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUti
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 @AutoConfigureMockMvc
 
@@ -170,23 +171,4 @@ class ScanUponDemandItemControllerIntegrationTest {
 		return retrievedScanUponDemandItem.get();
 	}
 
-	/**
-	 * Verifies that the item created at and updated at timestamps are within the expected interval
-	 * for item creation.
-	 * @param itemCreated the item created
-	 * @param intervalStart roughly the start of the test
-	 * @param intervalEnd roughly the end of the test
-	 */
-	private void verifyCreationTimestampsWithinExecutionInterval(final ScanUponDemandItem itemCreated,
-																 final LocalDateTime intervalStart,
-																 final LocalDateTime intervalEnd) {
-		assertThat(itemCreated.getCreatedAt().isAfter(intervalStart) ||
-				itemCreated.getCreatedAt().isEqual(intervalStart), is(true));
-		assertThat(itemCreated.getCreatedAt().isBefore(intervalEnd) ||
-				itemCreated.getCreatedAt().isEqual(intervalEnd), is(true));
-		assertThat(itemCreated.getUpdatedAt().isAfter(intervalStart) ||
-				itemCreated.getUpdatedAt().isEqual(intervalStart), is(true));
-		assertThat(itemCreated.getUpdatedAt().isBefore(intervalEnd) ||
-				itemCreated.getUpdatedAt().isEqual(intervalEnd), is(true));
-	}
 }
