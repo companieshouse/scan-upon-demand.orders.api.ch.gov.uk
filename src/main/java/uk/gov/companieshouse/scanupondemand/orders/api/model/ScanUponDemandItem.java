@@ -82,8 +82,16 @@ public class ScanUponDemandItem {
 		data.setCustomerReference(companyReference);
 	}
 
+	public String getEtag() {
+		return data.getEtag();
+	}
+
 	public void setEtag(String etag) {
 		data.setEtag(etag);
+	}
+
+	public Links getLinks() {
+		return data.getLinks();
 	}
 
 	public void setLinks(Links links) {
@@ -96,6 +104,10 @@ public class ScanUponDemandItem {
 
 	public void setPostageCost(String postageCost) {
 		data.setPostageCost(postageCost);
+	}
+
+	public Integer getQuantity() {
+		return data.getQuantity();
 	}
 
 	public void setQuantity(Integer quantity) {

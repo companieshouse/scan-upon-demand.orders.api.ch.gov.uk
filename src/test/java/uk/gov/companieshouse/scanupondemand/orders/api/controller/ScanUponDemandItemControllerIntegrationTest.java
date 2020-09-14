@@ -14,15 +14,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.ApiClientService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
+import uk.gov.companieshouse.scanupondemand.orders.api.service.EtagGeneratorService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.IdGeneratorService;
+import uk.gov.companieshouse.scanupondemand.orders.api.service.ScanUponDemandCostCalculatorService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
@@ -31,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
+import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
 
@@ -45,6 +52,18 @@ class ScanUponDemandItemControllerIntegrationTest {
 	private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
 	private static final String CUSTOMER_REFERENCE = "SCUD Item ordered by Yiannis";
 	private static final int QUANTITY_1 = 1;
+	private static final String ETAG = "49336c4c011b3b568c9b346d71e4159893a5e888";
+
+	private static final String DISCOUNT_APPLIED = "0";
+	private static final String ITEM_COST = "3";
+	private static final String CALCULATED_COST = "3";
+	private static final String POSTAGE_COST = "0";
+	private static final String TOTAL_ITEM_COST = "3";
+
+	private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
+			singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST, CALCULATED_COST, SCAN_UPON_DEMAND)),
+			POSTAGE_COST,
+			TOTAL_ITEM_COST);
 
 	private static final Links LINKS;
 
@@ -71,13 +90,18 @@ class ScanUponDemandItemControllerIntegrationTest {
 	@MockBean
 	private ApiClientService apiClientService;
 
+	@MockBean
+	private EtagGeneratorService etagGeneratorService;
+
+	@MockBean
+	private ScanUponDemandCostCalculatorService calculatorService;
+
 	@AfterEach
 	void tearDown() {
 		repository.deleteAll();
 	}
 
 	@Test
-
 	@DisplayName("Successfully creates scan upon demand item")
 	void createScanUponDemandItemSuccessfullyCreatesScanUponDemandItem() throws Exception {
 		final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest = new ScanUponDemandItemRequestDTO();
@@ -86,11 +110,23 @@ class ScanUponDemandItemControllerIntegrationTest {
 		scanUponDemandItemDTORequest.setQuantity(QUANTITY_1);
 
 		when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
+		when(etagGeneratorService.generateEtag()).thenReturn(ETAG);
+		when(calculatorService.calculateCosts()).thenReturn(CALCULATION);
 		when(companyService.getCompanyName(COMPANY_NUMBER)).thenReturn(COMPANY_NAME);
 
 		final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
 		expectedItem.setId(SCAN_UPON_DEMAND_ID);
+		expectedItem.setEtag(ETAG);
+		expectedItem.setLinks(LINKS);
+		expectedItem.setCompanyNumber(COMPANY_NUMBER);
+		expectedItem.setCompanyName(COMPANY_NAME);
+		expectedItem.setCustomerReference(CUSTOMER_REFERENCE);
+		expectedItem.setQuantity(QUANTITY_1);
+		expectedItem.setItemCosts(CALCULATION.getItemCosts());
+		expectedItem.setPostageCost(CALCULATION.getPostageCost());
+		expectedItem.setTotalItemCost(CALCULATION.getTotalItemCost());
 
+		final LocalDateTime intervalStart = LocalDateTime.now();
 
 		mockMvc.perform(post(SCAN_UPON_DEMAND_URL).header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
@@ -101,7 +137,24 @@ class ScanUponDemandItemControllerIntegrationTest {
 				.andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)))
 				.andDo(MockMvcResultHandlers.print());
 
-		final ScanUponDemandItem retrievedCopy = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
+		final ScanUponDemandItem retrievedItem = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
+		final LocalDateTime intervalEnd = LocalDateTime.now();
+		verifyCreationTimestampsWithinExecutionInterval(retrievedItem, intervalStart, intervalEnd);
+		assertThat(retrievedItem.getEtag(), is(ETAG));
+		assertThat(retrievedItem.getLinks(), is(LINKS));
+		assertThat(retrievedItem.getCompanyNumber(), is(COMPANY_NUMBER));
+		assertThat(retrievedItem.getCompanyName(), is(COMPANY_NAME));
+		assertThat(retrievedItem.getCustomerReference(), is(CUSTOMER_REFERENCE));
+		assertThat(retrievedItem.getQuantity(), is(QUANTITY_1));
+
+		assertThat(retrievedItem.getItemCosts().size(), is(1));
+		assertThat(retrievedItem.getItemCosts().size(), is(expectedItem.getItemCosts().size()));
+		org.assertj.core.api.Assertions.assertThat(retrievedItem.getItemCosts().get(0))
+				.isEqualToComparingFieldByField(CALCULATION.getItemCosts().get(0));
+
+		assertThat(retrievedItem.getPostageCost(), is(CALCULATION.getPostageCost()));
+		assertThat(retrievedItem.getTotalItemCost(), is(CALCULATION.getTotalItemCost()));
+
 	}
 
 	/**
@@ -116,5 +169,25 @@ class ScanUponDemandItemControllerIntegrationTest {
 		assertThat(retrievedScanUponDemandItem.isPresent(), is(true));
 		assertThat(retrievedScanUponDemandItem.get().getId(), is(scanUponDemandId));
 		return retrievedScanUponDemandItem.get();
+	}
+
+	/**
+	 * Verifies that the item created at and updated at timestamps are within the expected interval
+	 * for item creation.
+	 * @param itemCreated the item created
+	 * @param intervalStart roughly the start of the test
+	 * @param intervalEnd roughly the end of the test
+	 */
+	private void verifyCreationTimestampsWithinExecutionInterval(final ScanUponDemandItem itemCreated,
+																 final LocalDateTime intervalStart,
+																 final LocalDateTime intervalEnd) {
+		assertThat(itemCreated.getCreatedAt().isAfter(intervalStart) ||
+				itemCreated.getCreatedAt().isEqual(intervalStart), is(true));
+		assertThat(itemCreated.getCreatedAt().isBefore(intervalEnd) ||
+				itemCreated.getCreatedAt().isEqual(intervalEnd), is(true));
+		assertThat(itemCreated.getUpdatedAt().isAfter(intervalStart) ||
+				itemCreated.getUpdatedAt().isEqual(intervalStart), is(true));
+		assertThat(itemCreated.getUpdatedAt().isBefore(intervalEnd) ||
+				itemCreated.getUpdatedAt().isEqual(intervalEnd), is(true));
 	}
 }
