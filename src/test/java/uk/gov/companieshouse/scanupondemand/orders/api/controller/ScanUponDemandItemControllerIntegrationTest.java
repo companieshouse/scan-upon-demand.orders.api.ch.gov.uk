@@ -10,16 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.ApiClientService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.EtagGeneratorService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.IdGeneratorService;
@@ -38,8 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 @AutoConfigureMockMvc
@@ -87,9 +84,6 @@ class ScanUponDemandItemControllerIntegrationTest {
 
 	@MockBean
 	private CompanyService companyService;
-
-	@MockBean
-	private ApiClientService apiClientService;
 
 	@MockBean
 	private EtagGeneratorService etagGeneratorService;
@@ -154,7 +148,6 @@ class ScanUponDemandItemControllerIntegrationTest {
 
 		assertThat(retrievedItem.getPostageCost(), is(CALCULATION.getPostageCost()));
 		assertThat(retrievedItem.getTotalItemCost(), is(CALCULATION.getTotalItemCost()));
-
 	}
 
 	/**
