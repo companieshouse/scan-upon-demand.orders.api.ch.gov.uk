@@ -11,7 +11,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
@@ -25,6 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
@@ -85,12 +88,18 @@ class ScanUponDemandItemControllerIntegrationTest {
 		when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
 		when(companyService.getCompanyName(COMPANY_NUMBER)).thenReturn(COMPANY_NAME);
 
+		final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
+		expectedItem.setId(SCAN_UPON_DEMAND_ID);
+
+
 		mockMvc.perform(post(SCAN_UPON_DEMAND_URL).header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest))).andExpect(status().isCreated())
+				.andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
 				.andExpect(jsonPath("$.company_number", is(COMPANY_NUMBER)))
 				.andExpect(jsonPath("$.company_name", is(COMPANY_NAME)))
-				.andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)));
+				.andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)))
+				.andDo(MockMvcResultHandlers.print());
 
 		final ScanUponDemandItem retrievedCopy = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
 	}
