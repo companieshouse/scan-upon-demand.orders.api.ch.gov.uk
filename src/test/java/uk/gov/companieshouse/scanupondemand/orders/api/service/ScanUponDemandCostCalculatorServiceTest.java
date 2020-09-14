@@ -11,12 +11,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.companieshouse.scanupondemand.orders.api.config.CostsConfig;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
+import uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
 
 /**
  * Unit tests the {@link ScanUponDemandCostCalculatorService} class.
@@ -24,11 +29,6 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.
 @ExtendWith(MockitoExtension.class)
 class ScanUponDemandCostCalculatorServiceTest {
 
-    private static final String DISCOUNT_APPLIED = "0";
-    private static final int ITEM_COST = 3;
-    private static final String ITEM_COST_STRING = "3";
-    private static final String CALCULATED_COST = "3";
-    private static final String POSTAGE_COST = "0";
     private static final String MVP_TOTAL_ITEM_COST = "3";
     private static final String POST_MVP_TOTAL_ITEM_COST = "15";
 
@@ -37,13 +37,19 @@ class ScanUponDemandCostCalculatorServiceTest {
     private static final int INVALID_QUANTITY = 0;
 
     private static final ItemCostCalculation MVP_EXPECTED_CALCULATION = new ItemCostCalculation(
-            singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST_STRING, CALCULATED_COST, SCAN_UPON_DEMAND)),
-            POSTAGE_COST,
+            singletonList(new ItemCosts(DISCOUNT_APPLIED,
+                                        SCAN_UPON_DEMAND_ITEM_COST_STRING,
+                                        CALCULATED_COST,
+                                        SCAN_UPON_DEMAND)),
+            TestConstants.POSTAGE_COST,
             MVP_TOTAL_ITEM_COST);
 
     private static final ItemCostCalculation POST_MVP_EXPECTED_CALCULATION = new ItemCostCalculation(
-            singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST_STRING, CALCULATED_COST, SCAN_UPON_DEMAND)),
-            POSTAGE_COST,
+            singletonList(new ItemCosts(DISCOUNT_APPLIED,
+                                        SCAN_UPON_DEMAND_ITEM_COST_STRING,
+                                        CALCULATED_COST,
+                                        SCAN_UPON_DEMAND)),
+            TestConstants.POSTAGE_COST,
             POST_MVP_TOTAL_ITEM_COST);
 
     @InjectMocks
@@ -55,7 +61,7 @@ class ScanUponDemandCostCalculatorServiceTest {
     @Test
     @DisplayName("calculateCosts produces expected results for MVP quantity")
     void calculateCostsProducesExpectedResultsForMvpQuantity() {
-        when(costs.getScanUponDemandItemCost()).thenReturn(ITEM_COST);
+        when(costs.getScanUponDemandItemCost()).thenReturn(SCAN_UPON_DEMAND_ITEM_COST);
         assertThat(serviceUnderTest.calculateCosts(MVP_QUANTITY)).
                 isEqualToComparingFieldByFieldRecursively(MVP_EXPECTED_CALCULATION);
     }
@@ -63,7 +69,7 @@ class ScanUponDemandCostCalculatorServiceTest {
     @Test
     @DisplayName("calculateCosts produces expected results for a post MVP quantity")
     void calculateCostsProducesExpectedResultsForPostMvpQuantity() {
-        when(costs.getScanUponDemandItemCost()).thenReturn(ITEM_COST);
+        when(costs.getScanUponDemandItemCost()).thenReturn(SCAN_UPON_DEMAND_ITEM_COST);
         assertThat(serviceUnderTest.calculateCosts(POST_MVP_QUANTITY))
                 .isEqualToComparingFieldByFieldRecursively(POST_MVP_EXPECTED_CALCULATION);
     }

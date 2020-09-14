@@ -19,12 +19,13 @@ import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.POSTAGE_COST;
 
 import java.util.Map;
 
 @ExtendWith(SpringExtension.class)
 @SpringJUnitConfig(ScanUponDemandItemMapperTest.Config.class)
-public class ScanUponDemandItemMapperTest {
+class ScanUponDemandItemMapperTest {
 
 	private static final String COMPANY_NUMBER = "00006400";
 	private static final String CUSTOMER_REFERENCE = "SCUD Item ordered by Yiannis";
@@ -33,7 +34,6 @@ public class ScanUponDemandItemMapperTest {
 	private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
 	private static final String KIND = "item#scan-on-demand";
 	private static final String ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
-	private static final String POSTAGE_COST = "15";
 	private static final boolean POSTAL_DELIVERY = true;
 	private static final String DESCRIPTION_IDENTIFIER = "Description Identifier";
 	private static final String DESCRIPTION = "Description";
@@ -55,7 +55,7 @@ public class ScanUponDemandItemMapperTest {
 	private ScanUponDemandItemMapper mapperUnderTest;
 
 	@Test
-	public void testScanUponDemandItemRequestDTOToScanUponDemandItem() {
+	void testScanUponDemandItemRequestDTOToScanUponDemandItem() {
 
 		final ScanUponDemandItemRequestDTO dto = new ScanUponDemandItemRequestDTO();
 		dto.setCompanyNumber(COMPANY_NUMBER);
@@ -74,7 +74,7 @@ public class ScanUponDemandItemMapperTest {
 	}
 
 	@Test
-	public void testScanUponDemandItemDataToScanUponDemandItemDTO() {
+	void testScanUponDemandItemDataToScanUponDemandItemDTO() {
 		final ScanUponDemandItemData item = new ScanUponDemandItemData();
 		item.setId(ID);
 		item.setCompanyName(COMPANY_NAME);

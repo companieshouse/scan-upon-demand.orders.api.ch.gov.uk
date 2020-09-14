@@ -35,8 +35,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.POSTAGE_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.TOTAL_ITEM_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 @AutoConfigureMockMvc
@@ -52,14 +57,11 @@ class ScanUponDemandItemControllerIntegrationTest {
 	private static final int QUANTITY_1 = 1;
 	private static final String ETAG = "49336c4c011b3b568c9b346d71e4159893a5e888";
 
-	private static final String DISCOUNT_APPLIED = "0";
-	private static final String ITEM_COST = "3";
-	private static final String CALCULATED_COST = "3";
-	private static final String POSTAGE_COST = "0";
-	private static final String TOTAL_ITEM_COST = "3";
-
 	private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
-			singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST, CALCULATED_COST, SCAN_UPON_DEMAND)),
+			singletonList(new ItemCosts(DISCOUNT_APPLIED,
+									    SCAN_UPON_DEMAND_ITEM_COST_STRING,
+									    CALCULATED_COST,
+										SCAN_UPON_DEMAND)),
 			POSTAGE_COST,
 			TOTAL_ITEM_COST);
 

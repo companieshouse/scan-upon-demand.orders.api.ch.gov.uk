@@ -10,6 +10,7 @@ import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
+import uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,10 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.POSTAGE_COST;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 /**
@@ -29,20 +34,14 @@ class ScanUponDemandItemServiceTest {
 
     private static final String ID = "SCD-822015-998103";
 
-    private static final String DISCOUNT_APPLIED = "0";
-    private static final String ITEM_COST = "3";
-    private static final String CALCULATED_COST = "3";
-    private static final String POSTAGE_COST = "0";
-    private static final String TOTAL_ITEM_COST = "3";
-
     private static final int QUANTITY = 1;
 
     private static final ItemCosts ITEM_COSTS =
-            new ItemCosts(DISCOUNT_APPLIED, ITEM_COST, CALCULATED_COST, SCAN_UPON_DEMAND);
+            new ItemCosts(DISCOUNT_APPLIED, SCAN_UPON_DEMAND_ITEM_COST_STRING, CALCULATED_COST, SCAN_UPON_DEMAND);
     private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
             singletonList(ITEM_COSTS),
             POSTAGE_COST,
-            TOTAL_ITEM_COST);
+            TestConstants.TOTAL_ITEM_COST);
 
     @InjectMocks
     private ScanUponDemandItemService serviceUnderTest;
@@ -88,7 +87,7 @@ class ScanUponDemandItemServiceTest {
         verify(costCalculatorService).calculateCosts(QUANTITY);
         assertThat(scanUponDemandItem.getItemCosts(), is(singletonList(ITEM_COSTS)));
         assertThat(scanUponDemandItem.getPostageCost(), is(POSTAGE_COST));
-        assertThat(scanUponDemandItem.getTotalItemCost(), is(TOTAL_ITEM_COST));
+        assertThat(scanUponDemandItem.getTotalItemCost(), is(TestConstants.TOTAL_ITEM_COST));
         verify(repository).save(scanUponDemandItem);
     }
 

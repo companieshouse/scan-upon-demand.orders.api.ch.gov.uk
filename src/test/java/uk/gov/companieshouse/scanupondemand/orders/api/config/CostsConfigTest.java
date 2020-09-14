@@ -7,14 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST;
 
 /**
  * Unit tests the {@link CostsConfig} class.
  */
 @SpringBootTest
 class CostsConfigTest {
-
-    private static final int SCAN_UPON_DEMAND_ITEM_COST = 3;
 
     @Autowired
     private CostsConfig configUnderTest;
