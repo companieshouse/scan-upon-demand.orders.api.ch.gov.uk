@@ -6,13 +6,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.companieshouse.scanupondemand.orders.api.config.CostsConfig;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.when;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
 
 /**
@@ -22,7 +25,8 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.
 class ScanUponDemandCostCalculatorServiceTest {
 
     private static final String DISCOUNT_APPLIED = "0";
-    private static final String ITEM_COST = "3";
+    private static final int ITEM_COST = 3;
+    private static final String ITEM_COST_STRING = "3";
     private static final String CALCULATED_COST = "3";
     private static final String POSTAGE_COST = "0";
     private static final String MVP_TOTAL_ITEM_COST = "3";
@@ -33,21 +37,25 @@ class ScanUponDemandCostCalculatorServiceTest {
     private static final int INVALID_QUANTITY = 0;
 
     private static final ItemCostCalculation MVP_EXPECTED_CALCULATION = new ItemCostCalculation(
-            singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST, CALCULATED_COST, SCAN_UPON_DEMAND)),
+            singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST_STRING, CALCULATED_COST, SCAN_UPON_DEMAND)),
             POSTAGE_COST,
             MVP_TOTAL_ITEM_COST);
 
     private static final ItemCostCalculation POST_MVP_EXPECTED_CALCULATION = new ItemCostCalculation(
-            singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST, CALCULATED_COST, SCAN_UPON_DEMAND)),
+            singletonList(new ItemCosts(DISCOUNT_APPLIED, ITEM_COST_STRING, CALCULATED_COST, SCAN_UPON_DEMAND)),
             POSTAGE_COST,
             POST_MVP_TOTAL_ITEM_COST);
 
     @InjectMocks
     private ScanUponDemandCostCalculatorService serviceUnderTest;
 
+    @Mock
+    private CostsConfig costs;
+
     @Test
     @DisplayName("calculateCosts produces expected results for MVP quantity")
     void calculateCostsProducesExpectedResultsForMvpQuantity() {
+        when(costs.getScanUponDemandItemCost()).thenReturn(ITEM_COST);
         assertThat(serviceUnderTest.calculateCosts(MVP_QUANTITY)).
                 isEqualToComparingFieldByFieldRecursively(MVP_EXPECTED_CALCULATION);
     }
@@ -55,6 +63,7 @@ class ScanUponDemandCostCalculatorServiceTest {
     @Test
     @DisplayName("calculateCosts produces expected results for a post MVP quantity")
     void calculateCostsProducesExpectedResultsForPostMvpQuantity() {
+        when(costs.getScanUponDemandItemCost()).thenReturn(ITEM_COST);
         assertThat(serviceUnderTest.calculateCosts(POST_MVP_QUANTITY))
                 .isEqualToComparingFieldByFieldRecursively(POST_MVP_EXPECTED_CALCULATION);
     }
