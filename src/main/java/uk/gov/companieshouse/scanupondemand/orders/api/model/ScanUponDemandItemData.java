@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -27,6 +28,10 @@ public class ScanUponDemandItemData {
 	private Map<String, String> descriptionValues;
 
 	private String etag;
+
+	private List<ItemCosts> itemCosts;
+
+	private ScanUponDemandItemOptions itemOptions;
 
 	private String kind;
 
@@ -101,6 +106,14 @@ public class ScanUponDemandItemData {
 	public void setEtag(String etag) {
 		this.etag = etag;
 	}
+
+	public List<ItemCosts> getItemCosts() { return itemCosts; }
+
+	public void setItemCosts(List<ItemCosts> itemCosts) { this.itemCosts = itemCosts; }
+
+	public ScanUponDemandItemOptions getItemOptions() { return itemOptions; }
+
+	public void setItemOptions(ScanUponDemandItemOptions itemOptions) { this.itemOptions = itemOptions; }
 
 	public String getKind() {
 		return kind;

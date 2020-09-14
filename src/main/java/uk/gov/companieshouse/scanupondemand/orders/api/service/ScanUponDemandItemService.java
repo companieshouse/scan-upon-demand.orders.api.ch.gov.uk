@@ -5,6 +5,7 @@ import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Service for the management and storage of scan upon demand items.
@@ -52,4 +53,12 @@ public class ScanUponDemandItemService {
 		item.setUpdatedAt(now);
 	}
 
+	/**
+	 * Returns scan upon demand item
+	 * @param id id of the requested item
+	 * @return
+	 */
+	public Optional<ScanUponDemandItem> getScanUponDemandItemById(String id) {
+		return repository.findById(id);
+	}
 }

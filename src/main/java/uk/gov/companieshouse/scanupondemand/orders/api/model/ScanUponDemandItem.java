@@ -82,10 +82,14 @@ public class ScanUponDemandItem {
 	public void setEtag(String etag) {
 		data.setEtag(etag);
 	}
-	
+
+	public void setItemOptions(ScanUponDemandItemOptions itemOptions) { data.setItemOptions(itemOptions); }
+
 	public void setLinks(Links links) {
 		data.setLinks(links);
 	}
+
+	public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
 
 	public void setQuantity(Integer quantity) {
 		data.setQuantity(quantity);
