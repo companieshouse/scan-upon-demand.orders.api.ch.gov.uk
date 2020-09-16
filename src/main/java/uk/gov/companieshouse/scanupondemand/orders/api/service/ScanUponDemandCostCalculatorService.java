@@ -14,9 +14,8 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.
 @Service
 public class ScanUponDemandCostCalculatorService {
 
-    private static final String DISCOUNT_APPLIED = "0";
-    private static final String CALCULATED_COST = "3";
-    private static final String POSTAGE_COST = "0";
+    private static final int DISCOUNT_APPLIED = 0;
+    private static final int POSTAGE_COST = 0;
 
     private final CostsConfig costs;
 
@@ -35,11 +34,16 @@ public class ScanUponDemandCostCalculatorService {
      */
     public ItemCostCalculation calculateCosts(final int quantity) {
         checkArguments(quantity);
-        final String itemCost =  Integer.toString(costs.getScanUponDemandItemCost());
-        final String totalItemCost = Integer.toString(quantity * costs.getScanUponDemandItemCost());
+        final int calculatedCost = costs.getScanUponDemandItemCost() - DISCOUNT_APPLIED;
+        final String totalItemCost = Integer.toString(quantity * calculatedCost);
         return new ItemCostCalculation(
-                singletonList(new ItemCosts(DISCOUNT_APPLIED, itemCost, CALCULATED_COST, SCAN_UPON_DEMAND)),
-                POSTAGE_COST, totalItemCost);
+                singletonList(
+                        new ItemCosts(Integer.toString(DISCOUNT_APPLIED),
+                                      Integer.toString(costs.getScanUponDemandItemCost()),
+                                      Integer.toString(calculatedCost),
+                                      SCAN_UPON_DEMAND)),
+                Integer.toString(POSTAGE_COST),
+                totalItemCost);
     }
 
     /**

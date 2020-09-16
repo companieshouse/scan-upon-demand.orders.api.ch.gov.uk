@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.POSTAGE_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
 
@@ -31,6 +32,10 @@ class ScanUponDemandCostCalculatorServiceTest {
 
     private static final String MVP_TOTAL_ITEM_COST = "3";
     private static final String POST_MVP_TOTAL_ITEM_COST = "15";
+    private static final int ADJUSTED_SCAN_UPON_DEMAND_ITEM_COST = 5;
+    private static final String ADJUSTED_SCAN_UPON_DEMAND_ITEM_COST_STRING = "5";
+    private static final String ADJUSTED_ITEM_COST_CALCULATED_COST = "5";
+    private static final String ADJUSTED_ITEM_COST_TOTAL_ITEM_COST = "5";
 
     private static final int MVP_QUANTITY = 1;
     private static final int POST_MVP_QUANTITY = 5;
@@ -41,7 +46,7 @@ class ScanUponDemandCostCalculatorServiceTest {
                                         SCAN_UPON_DEMAND_ITEM_COST_STRING,
                                         CALCULATED_COST,
                                         SCAN_UPON_DEMAND)),
-            TestConstants.POSTAGE_COST,
+            POSTAGE_COST,
             MVP_TOTAL_ITEM_COST);
 
     private static final ItemCostCalculation POST_MVP_EXPECTED_CALCULATION = new ItemCostCalculation(
@@ -49,8 +54,16 @@ class ScanUponDemandCostCalculatorServiceTest {
                                         SCAN_UPON_DEMAND_ITEM_COST_STRING,
                                         CALCULATED_COST,
                                         SCAN_UPON_DEMAND)),
-            TestConstants.POSTAGE_COST,
+            POSTAGE_COST,
             POST_MVP_TOTAL_ITEM_COST);
+
+    private static final ItemCostCalculation ADJUSTED_ITEM_COST_EXPECTED_CALCULATION = new ItemCostCalculation(
+            singletonList(new ItemCosts(DISCOUNT_APPLIED,
+                    ADJUSTED_SCAN_UPON_DEMAND_ITEM_COST_STRING,
+                    ADJUSTED_ITEM_COST_CALCULATED_COST,
+                    SCAN_UPON_DEMAND)),
+            POSTAGE_COST,
+            ADJUSTED_ITEM_COST_TOTAL_ITEM_COST);
 
     @InjectMocks
     private ScanUponDemandCostCalculatorService serviceUnderTest;
@@ -81,6 +94,14 @@ class ScanUponDemandCostCalculatorServiceTest {
                 Assertions.assertThrows(IllegalArgumentException.class,
                         () -> serviceUnderTest.calculateCosts(INVALID_QUANTITY));
         MatcherAssert.assertThat(exception.getMessage(), is("quantity must be greater than or equal to 1!"));
+    }
+
+    @Test
+    @DisplayName("Calculated cost should be the item cost minus discount applied")
+    void calculatedCostIsItemCostMinusDiscountApplied() {
+        when(costs.getScanUponDemandItemCost()).thenReturn(ADJUSTED_SCAN_UPON_DEMAND_ITEM_COST);
+        assertThat(serviceUnderTest.calculateCosts(MVP_QUANTITY)).
+                isEqualToComparingFieldByFieldRecursively(ADJUSTED_ITEM_COST_EXPECTED_CALCULATION);
     }
 
 }
