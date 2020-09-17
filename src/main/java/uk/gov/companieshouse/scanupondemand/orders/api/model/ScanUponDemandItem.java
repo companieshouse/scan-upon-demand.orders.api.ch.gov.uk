@@ -11,96 +11,96 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "scan_upon_demands")
 public class ScanUponDemandItem {
-	
-	@Id
-	private String id;
 
-	private LocalDateTime createdAt;
+    @Id
+    private String id;
 
-	private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 
-	private ScanUponDemandItemData data = new ScanUponDemandItemData();
+    private LocalDateTime updatedAt;
 
-	private String userId;
+    private ScanUponDemandItemData data = new ScanUponDemandItemData();
 
-	public String getId() {
-		return id;
-	}
+    private String userId;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public ScanUponDemandItemData getData() {
-		return data;
-	}
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-	public void setData(ScanUponDemandItemData data) {
-		this.data = data;
-	}
+    public ScanUponDemandItemData getData() {
+        return data;
+    }
 
-	public String getCompanyName() {
-		return data.getCompanyName();
-	}
+    public void setData(ScanUponDemandItemData data) {
+        this.data = data;
+    }
 
-	public void setCompanyName(String companyName) {
-		data.setCompanyName(companyName);
-	}
+    public String getCompanyName() {
+        return data.getCompanyName();
+    }
 
-	public String getCompanyNumber() {
-		return data.getCompanyNumber();
-	}
+    public void setCompanyName(String companyName) {
+        data.setCompanyName(companyName);
+    }
 
-	public void setCompanyNumber(String companyNumber) {
-		data.setCompanyNumber(companyNumber);
-	}
+    public String getCompanyNumber() {
+        return data.getCompanyNumber();
+    }
 
-	public String getCustomerReference() {
-		return data.getCustomerReference();
-	}
+    public void setCompanyNumber(String companyNumber) {
+        data.setCompanyNumber(companyNumber);
+    }
 
-	public void setCustomerReference(String companyReference) {
-		data.setCustomerReference(companyReference);
-	}
+    public String getCustomerReference() {
+        return data.getCustomerReference();
+    }
 
-	public void setEtag(String etag) {
-		data.setEtag(etag);
-	}
+    public void setCustomerReference(String companyReference) {
+        data.setCustomerReference(companyReference);
+    }
 
-	public void setItemOptions(ScanUponDemandItemOptions itemOptions) { data.setItemOptions(itemOptions); }
+    public void setEtag(String etag) {
+        data.setEtag(etag);
+    }
 
-	public void setLinks(Links links) {
-		data.setLinks(links);
-	}
+    public void setItemOptions(ScanUponDemandItemOptions itemOptions) { data.setItemOptions(itemOptions); }
 
-	public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
+    public void setLinks(Links links) {
+        data.setLinks(links);
+    }
 
-	public void setQuantity(Integer quantity) {
-		data.setQuantity(quantity);
-	}
+    public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setQuantity(Integer quantity) {
+        data.setQuantity(quantity);
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
 }
