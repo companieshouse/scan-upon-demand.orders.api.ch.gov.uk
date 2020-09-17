@@ -13,44 +13,44 @@ import javax.validation.constraints.NotNull;
 @JsonPropertyOrder(alphabetic = true)
 public class ScanUponDemandItemRequestDTO {
 
-	@NotNull
-	@JsonProperty("company_number")
-	private String companyNumber;
+    @NotNull
+    @JsonProperty("company_number")
+    private String companyNumber;
 
-	@JsonProperty("customer_reference")
-	private String customerReference;
+    @JsonProperty("customer_reference")
+    private String customerReference;
 
-	@NotNull
-	@JsonProperty("quantity")
-	private Integer quantity;
+    @NotNull
+    @JsonProperty("quantity")
+    private Integer quantity;
 
-	public void setCompanyNumber(String companyNumber) {
-		this.companyNumber = companyNumber;
-	}
+    public void setCompanyNumber(String companyNumber) {
+        this.companyNumber = companyNumber;
+    }
 
-	public String getCompanyNumber() {
-		return companyNumber;
-	}
+    public String getCompanyNumber() {
+        return companyNumber;
+    }
 
-	public void setCustomerReference(String customerReference) {
-		this.customerReference = customerReference;
-	}
+    public void setCustomerReference(String customerReference) {
+        this.customerReference = customerReference;
+    }
 
-	public String getCustomerReference() {
-		return customerReference;
-	}
+    public String getCustomerReference() {
+        return customerReference;
+    }
 
-	public Integer getQuantity() {
-		return quantity;
-	}
+    public Integer getQuantity() {
+        return quantity;
+    }
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
-	}
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 
 }

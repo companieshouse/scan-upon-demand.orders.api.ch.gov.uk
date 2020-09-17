@@ -13,75 +13,84 @@ import java.util.List;
 
 @Document(collection = "scan_upon_demands")
 public class ScanUponDemandItem {
-	
-	@Id
-	private String id;
 
-	private LocalDateTime createdAt;
+    @Id
+    private String id;
 
-	private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 
-	private ScanUponDemandItemData data = new ScanUponDemandItemData();
+    private LocalDateTime updatedAt;
 
-	private String userId;
+    private ScanUponDemandItemData data = new ScanUponDemandItemData();
 
-	public String getId() {
-		return id;
-	}
+    private String userId;
 
-	public void setId(String id) {
-		this.id = id;
-		data.setId(id);
-	}
+    public String getId() {
+        return id;
+    }
 
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
+    public void setId(String id) {
+        this.id = id;
+        data.setId(id);
+    }
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public ScanUponDemandItemData getData() {
-		return data;
-	}
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-	public void setData(ScanUponDemandItemData data) {
-		this.data = data;
-	}
+    public ScanUponDemandItemData getData() {
+        return data;
+    }
 
-	public String getCompanyName() {
-		return data.getCompanyName();
-	}
+    public void setData(ScanUponDemandItemData data) {
+        this.data = data;
+    }
 
-	public void setCompanyName(String companyName) {
-		data.setCompanyName(companyName);
-	}
+    public String getCompanyName() {
+        return data.getCompanyName();
+    }
 
-	public String getCompanyNumber() {
-		return data.getCompanyNumber();
-	}
+    public void setCompanyName(String companyName) {
+        data.setCompanyName(companyName);
+    }
 
-	public void setCompanyNumber(String companyNumber) {
-		data.setCompanyNumber(companyNumber);
-	}
+    public String getCompanyNumber() {
+        return data.getCompanyNumber();
+    }
 
-	public String getCustomerReference() {
-		return data.getCustomerReference();
-	}
+    public void setCompanyNumber(String companyNumber) {
+        data.setCompanyNumber(companyNumber);
+    }
 
-	public void setCustomerReference(String companyReference) {
-		data.setCustomerReference(companyReference);
-	}
+    public String getCustomerReference() {
+        return data.getCustomerReference();
+    }
 
+    public void setCustomerReference(String companyReference) {
+        data.setCustomerReference(companyReference);
+    }
+
+    public void setEtag(String etag) {
+        data.setEtag(etag);
+    }
+
+    public void setItemOptions(ScanUponDemandItemOptions itemOptions) { data.setItemOptions(itemOptions); }
+
+    public void setLinks(Links links) {
+        data.setLinks(links);
+    }
 	public String getEtag() {
 		return data.getEtag();
 	}
@@ -98,6 +107,11 @@ public class ScanUponDemandItem {
 		data.setLinks(links);
 	}
 
+    public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
+
+    public void setQuantity(Integer quantity) {
+        data.setQuantity(quantity);
+    }
 	public String getPostageCost() {
 		return data.getPostageCost();
 	}
@@ -114,6 +128,9 @@ public class ScanUponDemandItem {
 		data.setQuantity(quantity);
 	}
 
+    public String getUserId() {
+        return userId;
+    }
 	public String getTotalItemCost() {
 		return data.getTotalItemCost();
 	}
@@ -126,9 +143,9 @@ public class ScanUponDemandItem {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
 	public List<ItemCosts> getItemCosts() {
 		return data.getItemCosts();
