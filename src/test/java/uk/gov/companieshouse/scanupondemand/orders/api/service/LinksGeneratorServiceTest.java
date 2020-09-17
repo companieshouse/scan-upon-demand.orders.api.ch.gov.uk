@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
 
 class LinksGeneratorServiceTest {
 
-    private static final String SELF_PATH = "/orderable/scan-upon-demand";
+    private static final String SELF_PATH = "/orderable/scans-upon-demand";
     private static final String ITEM_ID = "SCD-462515-995726";
 
     @Test

@@ -31,13 +31,13 @@
                         }
                     },
                      "url": {
-                        "raw": "{{base_url}}/orderable/scan-upon-demand",
+                        "raw": "{{base_url}}/orderable/scans-upon-demand",
                         "host": [
                             "{{base_url}}"
                         ],
                         "path": [
                             "orderable",
-                            "scan-upon-demand"
+                            "scans-upon-demand"
                         ]
                     }
                  },

@@ -34,11 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
-import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_OAUTH2_VALUE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_VALUE;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
 
@@ -122,7 +118,6 @@ class ScanUponDemandItemControllerIntegrationTest {
 		final ScanUponDemandItem item = new ScanUponDemandItem();
 		item.setData(itemData);
 		item.setId(SCAN_UPON_DEMAND_ID);
-		item.setUserId(ERIC_IDENTITY_VALUE);
 		item.setCompanyName(COMPANY_NAME);
 		item.setCompanyNumber(COMPANY_NUMBER);
 		item.setCustomerReference(CUSTOMER_REFERENCE);
@@ -149,8 +144,6 @@ class ScanUponDemandItemControllerIntegrationTest {
 		// When and then
 		mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
 				.header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-				.header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
-				.header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
 				.header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -164,8 +157,6 @@ class ScanUponDemandItemControllerIntegrationTest {
 		// When and then
 		mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
 				.header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-				.header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
-				.header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
 				.header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotFound())
