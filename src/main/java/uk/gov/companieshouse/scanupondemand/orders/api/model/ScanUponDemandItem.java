@@ -91,72 +91,53 @@ public class ScanUponDemandItem {
     public void setLinks(Links links) {
         data.setLinks(links);
     }
-	public String getEtag() {
-		return data.getEtag();
-	}
+    public String getEtag() {
+        return data.getEtag();
+    }
 
-	public void setEtag(String etag) {
-		data.setEtag(etag);
-	}
+    public Links getLinks() {
+        return data.getLinks();
+    }
 
-	public Links getLinks() {
-		return data.getLinks();
-	}
-
-	public void setLinks(Links links) {
-		data.setLinks(links);
-	}
 
     public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
 
     public void setQuantity(Integer quantity) {
         data.setQuantity(quantity);
     }
-	public String getPostageCost() {
-		return data.getPostageCost();
-	}
+    public String getPostageCost() {
+        return data.getPostageCost();
+    }
 
-	public void setPostageCost(String postageCost) {
-		data.setPostageCost(postageCost);
-	}
-
-	public Integer getQuantity() {
-		return data.getQuantity();
-	}
-
-	public void setQuantity(Integer quantity) {
-		data.setQuantity(quantity);
-	}
+    public Integer getQuantity() {
+        return data.getQuantity();
+    }
 
     public String getUserId() {
         return userId;
     }
-	public String getTotalItemCost() {
-		return data.getTotalItemCost();
-	}
+    public String getTotalItemCost() {
+        return data.getTotalItemCost();
+    }
 
-	public void setTotalItemCost(String totalItemCost) {
-		data.setTotalItemCost(totalItemCost);
-	}
-
-	public String getUserId() {
-		return userId;
-	}
+    public void setTotalItemCost(String totalItemCost) {
+        data.setTotalItemCost(totalItemCost);
+    }
 
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-	public List<ItemCosts> getItemCosts() {
-		return data.getItemCosts();
-	}
+    public List<ItemCosts> getItemCosts() {
+        return data.getItemCosts();
+    }
 
-	public void setItemCosts(List<ItemCosts> itemCosts) {
-		data.setItemCosts(itemCosts);
-	}
+    public void setItemCosts(List<ItemCosts> itemCosts) {
+        data.setItemCosts(itemCosts);
+    }
 
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
-	}
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }

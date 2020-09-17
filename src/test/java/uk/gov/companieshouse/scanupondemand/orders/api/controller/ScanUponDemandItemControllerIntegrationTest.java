@@ -22,6 +22,7 @@ import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
+import uk.gov.companieshouse.scanupondemand.orders.api.service.ApiClientService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.EtagGeneratorService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.IdGeneratorService;
@@ -73,13 +74,13 @@ class ScanUponDemandItemControllerIntegrationTest {
     private static final Map<String, Object> FILING_HISTORY_DESCRIPTION_VALUES;
     public static final String FILING_HISTORY_TYPE_CH01 = "CH01";
 
-	private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
-			singletonList(new ItemCosts(DISCOUNT_APPLIED,
-					SCAN_UPON_DEMAND_ITEM_COST_STRING,
-					CALCULATED_COST,
-					SCAN_UPON_DEMAND)),
-			POSTAGE_COST,
-			TOTAL_ITEM_COST);
+    private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
+            singletonList(new ItemCosts(DISCOUNT_APPLIED,
+                    SCAN_UPON_DEMAND_ITEM_COST_STRING,
+                    CALCULATED_COST,
+                    SCAN_UPON_DEMAND)),
+            POSTAGE_COST,
+            TOTAL_ITEM_COST);
 
     static {
         LINKS = new Links();
@@ -100,10 +101,10 @@ class ScanUponDemandItemControllerIntegrationTest {
     private CompanyService companyService;
     @MockBean
     private ApiClientService apiClientService;
-	@MockBean
-	private EtagGeneratorService etagGeneratorService;
-	@MockBean
-	private ScanUponDemandCostCalculatorService calculatorService;
+    @MockBean
+    private EtagGeneratorService etagGeneratorService;
+    @MockBean
+    private ScanUponDemandCostCalculatorService calculatorService;
 
     @AfterEach
     void tearDown() {
@@ -119,50 +120,50 @@ class ScanUponDemandItemControllerIntegrationTest {
         scanUponDemandItemDTORequest.setQuantity(QUANTITY_1);
 
         when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
-        when(etagGeneratorService.generateEtag()).thenReturn(ETAG);
-		when(calculatorService.calculateCosts(QUANTITY_1)).thenReturn(CALCULATION);
+        when(etagGeneratorService.generateEtag()).thenReturn(TOKEN_ETAG);
+        when(calculatorService.calculateCosts(QUANTITY_1)).thenReturn(CALCULATION);
         when(companyService.getCompanyName(COMPANY_NUMBER)).thenReturn(COMPANY_NAME);
 
-		final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
-		expectedItem.setId(SCAN_UPON_DEMAND_ID);
-		expectedItem.setEtag(ETAG);
-		expectedItem.setLinks(LINKS);
-		expectedItem.setCompanyNumber(COMPANY_NUMBER);
-		expectedItem.setCompanyName(COMPANY_NAME);
-		expectedItem.setCustomerReference(CUSTOMER_REFERENCE);
-		expectedItem.setQuantity(QUANTITY_1);
-		expectedItem.setItemCosts(CALCULATION.getItemCosts());
-		expectedItem.setPostageCost(CALCULATION.getPostageCost());
-		expectedItem.setTotalItemCost(CALCULATION.getTotalItemCost());
+        final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
+        expectedItem.setId(SCAN_UPON_DEMAND_ID);
+        expectedItem.setEtag(TOKEN_ETAG);
+        expectedItem.setLinks(LINKS);
+        expectedItem.setCompanyNumber(COMPANY_NUMBER);
+        expectedItem.setCompanyName(COMPANY_NAME);
+        expectedItem.setCustomerReference(CUSTOMER_REFERENCE);
+        expectedItem.setQuantity(QUANTITY_1);
+        expectedItem.setItemCosts(CALCULATION.getItemCosts());
+        expectedItem.setPostageCost(CALCULATION.getPostageCost());
+        expectedItem.setTotalItemCost(CALCULATION.getTotalItemCost());
 
-		final LocalDateTime intervalStart = LocalDateTime.now();
+        final LocalDateTime intervalStart = LocalDateTime.now();
 
-		mockMvc.perform(post(SCAN_UPON_DEMAND_URL).header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest))).andExpect(status().isCreated())
-				.andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
-				.andExpect(jsonPath("$.company_number", is(COMPANY_NUMBER)))
-				.andExpect(jsonPath("$.company_name", is(COMPANY_NAME)))
-				.andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)));
+        mockMvc.perform(post(SCAN_UPON_DEMAND_URL).header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest))).andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
+                .andExpect(jsonPath("$.company_number", is(COMPANY_NUMBER)))
+                .andExpect(jsonPath("$.company_name", is(COMPANY_NAME)))
+                .andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)));
 
-		final ScanUponDemandItem retrievedItem = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
-		final LocalDateTime intervalEnd = LocalDateTime.now();
-		verifyCreationTimestampsWithinExecutionInterval(retrievedItem, intervalStart, intervalEnd);
-		assertThat(retrievedItem.getEtag(), is(ETAG));
-		assertThat(retrievedItem.getLinks(), is(LINKS));
-		assertThat(retrievedItem.getCompanyNumber(), is(COMPANY_NUMBER));
-		assertThat(retrievedItem.getCompanyName(), is(COMPANY_NAME));
-		assertThat(retrievedItem.getCustomerReference(), is(CUSTOMER_REFERENCE));
-		assertThat(retrievedItem.getQuantity(), is(QUANTITY_1));
+        final ScanUponDemandItem retrievedItem = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
+        final LocalDateTime intervalEnd = LocalDateTime.now();
+        verifyCreationTimestampsWithinExecutionInterval(retrievedItem, intervalStart, intervalEnd);
+        assertThat(retrievedItem.getEtag(), is(TOKEN_ETAG));
+        assertThat(retrievedItem.getLinks(), is(LINKS));
+        assertThat(retrievedItem.getCompanyNumber(), is(COMPANY_NUMBER));
+        assertThat(retrievedItem.getCompanyName(), is(COMPANY_NAME));
+        assertThat(retrievedItem.getCustomerReference(), is(CUSTOMER_REFERENCE));
+        assertThat(retrievedItem.getQuantity(), is(QUANTITY_1));
 
-		assertThat(retrievedItem.getItemCosts().size(), is(1));
-		assertThat(retrievedItem.getItemCosts().size(), is(expectedItem.getItemCosts().size()));
-		org.assertj.core.api.Assertions.assertThat(retrievedItem.getItemCosts().get(0))
-				.isEqualToComparingFieldByField(CALCULATION.getItemCosts().get(0));
+        assertThat(retrievedItem.getItemCosts().size(), is(1));
+        assertThat(retrievedItem.getItemCosts().size(), is(expectedItem.getItemCosts().size()));
+        org.assertj.core.api.Assertions.assertThat(retrievedItem.getItemCosts().get(0))
+                .isEqualToComparingFieldByField(CALCULATION.getItemCosts().get(0));
 
-		assertThat(retrievedItem.getPostageCost(), is(CALCULATION.getPostageCost()));
-		assertThat(retrievedItem.getTotalItemCost(), is(CALCULATION.getTotalItemCost()));
-	}
+        assertThat(retrievedItem.getPostageCost(), is(CALCULATION.getPostageCost()));
+        assertThat(retrievedItem.getTotalItemCost(), is(CALCULATION.getTotalItemCost()));
+    }
 
     @Test
     @DisplayName("Successfully gets a scan upon demand item")

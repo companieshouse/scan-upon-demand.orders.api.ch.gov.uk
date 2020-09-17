@@ -22,9 +22,9 @@ public class ScanUponDemandItemService {
 
     public ScanUponDemandItemService(final ScanUponDemandItemRepository repository,
                                      final IdGeneratorService idGenerator,
-									 final EtagGeneratorService etagGenerator,
+                                     final EtagGeneratorService etagGenerator,
                                      final LinksGeneratorService linksGenerator,
-									 final ScanUponDemandCostCalculatorService calculator) {
+                                     final ScanUponDemandCostCalculatorService calculator) {
         this.repository = repository;
         this.idGenerator = idGenerator;
         this.etagGenerator = etagGenerator;

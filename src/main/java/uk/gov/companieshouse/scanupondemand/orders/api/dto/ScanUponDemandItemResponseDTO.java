@@ -155,11 +155,11 @@ public class ScanUponDemandItemResponseDTO {
         this.quantity = quantity;
     }
 
-	public String getTotalItemCost() {
-		return totalItemCost;
-	}
+    public String getTotalItemCost() {
+        return totalItemCost;
+    }
 
-	public void setTotalItemCost(String totalItemCost) {
-		this.totalItemCost = totalItemCost;
-	}
+    public void setTotalItemCost(String totalItemCost) {
+        this.totalItemCost = totalItemCost;
+    }
 }
