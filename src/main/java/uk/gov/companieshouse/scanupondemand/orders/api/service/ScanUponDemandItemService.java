@@ -1,6 +1,7 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.service;
 
 import org.springframework.stereotype.Service;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
 
@@ -17,15 +18,18 @@ public class ScanUponDemandItemService {
     private final IdGeneratorService idGenerator;
     private final EtagGeneratorService etagGenerator;
     private final LinksGeneratorService linksGenerator;
+    private final ScanUponDemandCostCalculatorService calculator;
 
     public ScanUponDemandItemService(final ScanUponDemandItemRepository repository,
-
-                                     final IdGeneratorService idGenerator, final EtagGeneratorService etagGenerator,
-                                     final LinksGeneratorService linksGenerator) {
+                                     final IdGeneratorService idGenerator,
+                                     final EtagGeneratorService etagGenerator,
+                                     final LinksGeneratorService linksGenerator,
+                                     final ScanUponDemandCostCalculatorService calculator) {
         this.repository = repository;
         this.idGenerator = idGenerator;
         this.etagGenerator = etagGenerator;
         this.linksGenerator = linksGenerator;
+        this.calculator = calculator;
     }
 
     /**
@@ -39,6 +43,10 @@ public class ScanUponDemandItemService {
         setCreationDateTimes(item);
         item.setEtag(etagGenerator.generateEtag());
         item.setLinks(linksGenerator.generateLinks(item.getId()));
+        final ItemCostCalculation costs = calculator.calculateCosts(item.getQuantity());
+        item.setItemCosts(costs.getItemCosts());
+        item.setPostageCost(costs.getPostageCost());
+        item.setTotalItemCost(costs.getTotalItemCost());
         return repository.save(item);
     }
 

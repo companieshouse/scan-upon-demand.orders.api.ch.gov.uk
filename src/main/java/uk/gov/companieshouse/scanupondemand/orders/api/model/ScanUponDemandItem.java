@@ -1,9 +1,11 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
-import java.time.LocalDateTime;
-
+import com.google.gson.Gson;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * An instance of this represents a scan upon demand item.
@@ -29,6 +31,7 @@ public class ScanUponDemandItem {
 
     public void setId(String id) {
         this.id = id;
+        data.setId(id);
     }
 
     public LocalDateTime getCreatedAt() {
@@ -88,19 +91,53 @@ public class ScanUponDemandItem {
     public void setLinks(Links links) {
         data.setLinks(links);
     }
+    public String getEtag() {
+        return data.getEtag();
+    }
+
+    public Links getLinks() {
+        return data.getLinks();
+    }
+
 
     public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
 
     public void setQuantity(Integer quantity) {
         data.setQuantity(quantity);
     }
+    public String getPostageCost() {
+        return data.getPostageCost();
+    }
+
+    public Integer getQuantity() {
+        return data.getQuantity();
+    }
 
     public String getUserId() {
         return userId;
+    }
+    public String getTotalItemCost() {
+        return data.getTotalItemCost();
+    }
+
+    public void setTotalItemCost(String totalItemCost) {
+        data.setTotalItemCost(totalItemCost);
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
+    public List<ItemCosts> getItemCosts() {
+        return data.getItemCosts();
+    }
+
+    public void setItemCosts(List<ItemCosts> itemCosts) {
+        data.setItemCosts(itemCosts);
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }

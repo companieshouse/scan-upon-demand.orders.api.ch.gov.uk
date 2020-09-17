@@ -43,6 +43,8 @@ public class ScanUponDemandItemData {
 
     private Integer quantity;
 
+    private String totalItemCost;
+
     public String getId() {
         return id;
     }
@@ -154,6 +156,14 @@ public class ScanUponDemandItemData {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+	public String getTotalItemCost() {
+		return totalItemCost;
+	}
+
+	public void setTotalItemCost(String totalItemCost) {
+		this.totalItemCost = totalItemCost;
+	}
 
     @Override
     public String toString() {
