@@ -11,7 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.companieshouse.scanupondemand.orders.api.config.CostsConfig;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
-import uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -97,8 +96,8 @@ class ScanUponDemandCostCalculatorServiceTest {
     }
 
     @Test
-    @DisplayName("Calculated cost should be the item cost minus discount applied")
-    void calculatedCostIsItemCostMinusDiscountApplied() {
+    @DisplayName("Calculated cost should be the item cost")
+    void calculatedCostIsItemCost() {
         when(costs.getScanUponDemandItemCost()).thenReturn(ADJUSTED_SCAN_UPON_DEMAND_ITEM_COST);
         assertThat(serviceUnderTest.calculateCosts(MVP_QUANTITY)).
                 isEqualToComparingFieldByFieldRecursively(ADJUSTED_ITEM_COST_EXPECTED_CALCULATION);

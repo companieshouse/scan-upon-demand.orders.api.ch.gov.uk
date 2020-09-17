@@ -14,8 +14,8 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.
 @Service
 public class ScanUponDemandCostCalculatorService {
 
-    private static final int DISCOUNT_APPLIED = 0;
-    private static final int POSTAGE_COST = 0;
+    private static final String ZERO_DISCOUNT_APPLIED = "0";  // No rules have been devised for any SCUD discounting.
+    private static final String ZERO_POSTAGE_COST = "0";      // Postage is not applicable to SCUD.
 
     private final CostsConfig costs;
 
@@ -34,15 +34,15 @@ public class ScanUponDemandCostCalculatorService {
      */
     public ItemCostCalculation calculateCosts(final int quantity) {
         checkArguments(quantity);
-        final int calculatedCost = costs.getScanUponDemandItemCost() - DISCOUNT_APPLIED;
+        final int calculatedCost = costs.getScanUponDemandItemCost();
         final String totalItemCost = Integer.toString(quantity * calculatedCost);
         return new ItemCostCalculation(
                 singletonList(
-                        new ItemCosts(Integer.toString(DISCOUNT_APPLIED),
+                        new ItemCosts(ZERO_DISCOUNT_APPLIED,
                                       Integer.toString(costs.getScanUponDemandItemCost()),
                                       Integer.toString(calculatedCost),
                                       SCAN_UPON_DEMAND)),
-                Integer.toString(POSTAGE_COST),
+                ZERO_POSTAGE_COST,
                 totalItemCost);
     }
 
