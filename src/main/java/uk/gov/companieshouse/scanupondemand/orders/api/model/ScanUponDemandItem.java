@@ -99,7 +99,6 @@ public class ScanUponDemandItem {
         return data.getLinks();
     }
 
-
     public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
 
     public void setQuantity(Integer quantity) {
@@ -134,6 +133,10 @@ public class ScanUponDemandItem {
 
     public void setItemCosts(List<ItemCosts> itemCosts) {
         data.setItemCosts(itemCosts);
+    }
+
+    public Boolean isPostalDelivery() {
+        return data.isPostalDelivery();
     }
 
     @Override

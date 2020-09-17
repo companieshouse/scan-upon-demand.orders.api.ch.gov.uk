@@ -12,6 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
  */
 public class ScanUponDemandItemData {
 
+    // Postal delivery is not applicable to SCUD.
+    private static final boolean NO_POSTAL_DELIVERY = false;
+
     @Field("id")
     private String id;
 
@@ -39,7 +42,7 @@ public class ScanUponDemandItemData {
 
     private String postageCost;
 
-    private Boolean isPostalDelivery;
+    private Boolean isPostalDelivery = NO_POSTAL_DELIVERY;
 
     private Integer quantity;
 

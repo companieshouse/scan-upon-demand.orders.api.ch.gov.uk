@@ -15,9 +15,7 @@ import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemReq
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
@@ -46,14 +44,11 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUti
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.POSTAGE_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.TOTAL_ITEM_COST;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
 
 @AutoConfigureMockMvc
 
@@ -73,6 +68,7 @@ class ScanUponDemandItemControllerIntegrationTest {
     private static final String FILING_HISTORY_DESCRIPTION = "change-person-director-company-with-change-date";
     private static final Map<String, Object> FILING_HISTORY_DESCRIPTION_VALUES;
     public static final String FILING_HISTORY_TYPE_CH01 = "CH01";
+    private static final boolean POSTAL_DELIVERY = false;
 
     private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
             singletonList(new ItemCosts(DISCOUNT_APPLIED,
@@ -135,6 +131,7 @@ class ScanUponDemandItemControllerIntegrationTest {
         expectedItem.setItemCosts(CALCULATION.getItemCosts());
         expectedItem.setPostageCost(CALCULATION.getPostageCost());
         expectedItem.setTotalItemCost(CALCULATION.getTotalItemCost());
+        expectedItem.setPostalDelivery(POSTAL_DELIVERY);
 
         final LocalDateTime intervalStart = LocalDateTime.now();
 
@@ -163,6 +160,7 @@ class ScanUponDemandItemControllerIntegrationTest {
 
         assertThat(retrievedItem.getPostageCost(), is(CALCULATION.getPostageCost()));
         assertThat(retrievedItem.getTotalItemCost(), is(CALCULATION.getTotalItemCost()));
+        assertThat(retrievedItem.isPostalDelivery(), is(POSTAL_DELIVERY));
     }
 
     @Test
@@ -202,6 +200,7 @@ class ScanUponDemandItemControllerIntegrationTest {
         expectedItem.setLinks(LINKS);
         expectedItem.setPostageCost(POSTAGE_COST);
         expectedItem.setItemOptions(itemOptions);
+        expectedItem.setPostalDelivery(POSTAL_DELIVERY);
 
         // When and then
         mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
