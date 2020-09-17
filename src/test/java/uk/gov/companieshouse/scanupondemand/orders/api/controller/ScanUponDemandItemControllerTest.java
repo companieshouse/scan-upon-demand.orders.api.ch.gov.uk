@@ -24,44 +24,44 @@ import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants
 @ExtendWith(MockitoExtension.class)
 public class ScanUponDemandItemControllerTest {
 
-	private static final String ID = "SCD-552015-995597";
+    private static final String ID = "SCD-552015-995597";
 
-	@InjectMocks
-	private ScanUponDemandItemController controllerUnderTest;
+    @InjectMocks
+    private ScanUponDemandItemController controllerUnderTest;
 
-	@Mock
-	private ScanUponDemandItemService scanUponDemandItemService;
+    @Mock
+    private ScanUponDemandItemService scanUponDemandItemService;
 
-	@Mock
-	private ScanUponDemandItem item;
+    @Mock
+    private ScanUponDemandItem item;
 
-	@Mock
-	private ScanUponDemandItemData data;
+    @Mock
+    private ScanUponDemandItemData data;
 
-	@Mock
-	private ScanUponDemandItemResponseDTO dto;
+    @Mock
+    private ScanUponDemandItemResponseDTO dto;
 
-	@Mock
-	private ScanUponDemandItemMapper mapper;
-	
-	@Test
-	@DisplayName("GET scan upon demand resource returns item")
-	void getScanUponDemandItemPresent() {
-		when(scanUponDemandItemService.getScanUponDemandItemById(ID)).thenReturn(Optional.of(item));
-		when(item.getData()).thenReturn(data);
-		when(mapper.scanUponDemandItemToScanUponDemandItemResponseDTO(data)).thenReturn(dto);
-		ResponseEntity<Object> response = controllerUnderTest.getScanUponDemandItem(ID, REQUEST_ID_VALUE);
+    @Mock
+    private ScanUponDemandItemMapper mapper;
 
-		assertThat(response.getStatusCode(), is(HttpStatus.OK));
-		assertThat(response.getBody(), is(dto));
-	}
+    @Test
+    @DisplayName("GET scan upon demand resource returns item")
+    void getScanUponDemandItemPresent() {
+        when(scanUponDemandItemService.getScanUponDemandItemById(ID)).thenReturn(Optional.of(item));
+        when(item.getData()).thenReturn(data);
+        when(mapper.scanUponDemandItemToScanUponDemandItemResponseDTO(data)).thenReturn(dto);
+        ResponseEntity<Object> response = controllerUnderTest.getScanUponDemandItem(ID, REQUEST_ID_VALUE);
 
-	@Test
-	@DisplayName("Get scan upon demand resource returns HTTP NOT FOUND")
-	void getCertifiedCopyItemNotFound() {
-		when(scanUponDemandItemService.getScanUponDemandItemById(ID)).thenReturn(Optional.empty());
-		ResponseEntity<Object> response = controllerUnderTest.getScanUponDemandItem(ID, REQUEST_ID_VALUE);
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody(), is(dto));
+    }
 
-		assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
-	}
+    @Test
+    @DisplayName("Get scan upon demand resource returns HTTP NOT FOUND")
+    void getCertifiedCopyItemNotFound() {
+        when(scanUponDemandItemService.getScanUponDemandItemById(ID)).thenReturn(Optional.empty());
+        ResponseEntity<Object> response = controllerUnderTest.getScanUponDemandItem(ID, REQUEST_ID_VALUE);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+    }
 }
