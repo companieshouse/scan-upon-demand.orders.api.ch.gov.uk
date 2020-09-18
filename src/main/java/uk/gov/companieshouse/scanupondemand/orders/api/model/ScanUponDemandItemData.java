@@ -1,10 +1,9 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
-import java.util.Map;
-
 import com.google.gson.Gson;
-
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.Map;
 
 /**
  * An instance of this represents an item of any type.
@@ -27,6 +26,8 @@ public class ScanUponDemandItemData {
 	private Map<String, String> descriptionValues;
 
 	private String etag;
+
+	private FilingHistoryDocument itemOptions;
 
 	private String kind;
 
@@ -100,6 +101,14 @@ public class ScanUponDemandItemData {
 
 	public void setEtag(String etag) {
 		this.etag = etag;
+	}
+
+	public FilingHistoryDocument getItemOptions() {
+		return itemOptions;
+	}
+
+	public void setItemOptions(FilingHistoryDocument itemOptions) {
+		this.itemOptions = itemOptions;
 	}
 
 	public String getKind() {

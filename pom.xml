@@ -14,8 +14,9 @@
 	<description>CH API handling CRUD operations on Scan Upon Demand Service</description>
 
 	<properties>
+		<api-security-java.version>0.2.10</api-security-java.version>
 		<api-helper-java.version>1.1.0-rc1</api-helper-java.version>
-		<api-sdk-java.version>4.2.1</api-sdk-java.version>
+		<api-sdk-java.version>4.2.36</api-sdk-java.version>
 		<api-sdk-manager-java-library.version>1.0.2</api-sdk-manager-java-library.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<gson.version>2.8.0</gson.version>
@@ -67,6 +68,12 @@
 		</dependency>
 		<dependency>
 			<groupId>uk.gov.companieshouse</groupId>
+			<artifactId>api-security-java</artifactId>
+			<version>${api-security-java.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>uk.gov.companieshouse</groupId>
 			<artifactId>api-sdk-java</artifactId>
 			<version>${api-sdk-java.version}</version>
 		</dependency>
@@ -80,6 +87,18 @@
 			<artifactId>api-helper-java</artifactId>
 			<version>${api-helper-java.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito2</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -131,12 +150,6 @@
 			<artifactId>structured-logging</artifactId>
 			<version>${structured-logging.version}</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.stefanbirkner</groupId>

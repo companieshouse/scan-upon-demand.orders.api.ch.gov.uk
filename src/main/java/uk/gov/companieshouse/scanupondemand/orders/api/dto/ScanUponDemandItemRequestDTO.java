@@ -13,44 +13,55 @@ import javax.validation.constraints.NotNull;
 @JsonPropertyOrder(alphabetic = true)
 public class ScanUponDemandItemRequestDTO {
 
-	@NotNull
-	@JsonProperty("company_number")
-	private String companyNumber;
+    @NotNull
+    @JsonProperty("company_number")
+    private String companyNumber;
 
-	@JsonProperty("customer_reference")
-	private String customerReference;
+    @JsonProperty("customer_reference")
+    private String customerReference;
 
-	@NotNull
-	@JsonProperty("quantity")
-	private Integer quantity;
+    @NotNull
+    @JsonProperty("item_options")
+    private FilingHistoryDocumentRequestDTO itemOptions;
 
-	public void setCompanyNumber(String companyNumber) {
-		this.companyNumber = companyNumber;
-	}
+    @NotNull
+    @JsonProperty("quantity")
+    private Integer quantity;
 
-	public String getCompanyNumber() {
-		return companyNumber;
-	}
+    public void setCompanyNumber(String companyNumber) {
+        this.companyNumber = companyNumber;
+    }
 
-	public void setCustomerReference(String customerReference) {
-		this.customerReference = customerReference;
-	}
+    public String getCompanyNumber() {
+        return companyNumber;
+    }
 
-	public String getCustomerReference() {
-		return customerReference;
-	}
+    public void setCustomerReference(String customerReference) {
+        this.customerReference = customerReference;
+    }
 
-	public Integer getQuantity() {
-		return quantity;
-	}
+    public String getCustomerReference() {
+        return customerReference;
+    }
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+    public Integer getQuantity() {
+        return quantity;
+    }
 
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
-	}
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
+    public FilingHistoryDocumentRequestDTO getItemOptions() {
+        return itemOptions;
+    }
+
+    public void setItemOptions(FilingHistoryDocumentRequestDTO itemOptions) {
+        this.itemOptions = itemOptions;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }

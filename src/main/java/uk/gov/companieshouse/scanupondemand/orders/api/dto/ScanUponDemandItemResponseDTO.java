@@ -1,140 +1,151 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.dto;
 
 import org.springframework.data.mongodb.core.mapping.Field;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.FilingHistoryDocument;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
 
 import java.util.Map;
 
 public class ScanUponDemandItemResponseDTO {
 
-	@Field("id")
-	private String id;
+    @Field("id")
+    private String id;
 
-	private String companyName;
+    private String companyName;
 
-	private String companyNumber;
+    private String companyNumber;
 
-	private String customerReference;
+    private String customerReference;
 
-	private String description;
+    private String description;
 
-	private String descriptionIdentifier;
+    private String descriptionIdentifier;
 
-	private Map<String, String> descriptionValues;
+    private Map<String, String> descriptionValues;
 
-	private String etag;
+    private String etag;
 
-	private String kind;
+    private FilingHistoryDocument itemOptions;
 
-	private Links links;
+    private String kind;
 
-	private String postageCost;
+    private Links links;
 
-	private Boolean isPostalDelivery;
+    private String postageCost;
 
-	private Integer quantity;
+    private Boolean isPostalDelivery;
 
-	public String getId() {
-		return id;
-	}
+    private Integer quantity;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getCompanyName() {
-		return companyName;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
+    public String getCompanyName() {
+        return companyName;
+    }
 
-	public String getCompanyNumber() {
-		return companyNumber;
-	}
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
-	public void setCompanyNumber(String companyNumber) {
-		this.companyNumber = companyNumber;
-	}
+    public String getCompanyNumber() {
+        return companyNumber;
+    }
 
-	public String getCustomerReference() {
-		return customerReference;
-	}
+    public void setCompanyNumber(String companyNumber) {
+        this.companyNumber = companyNumber;
+    }
 
-	public void setCustomerReference(String customerReference) {
-		this.customerReference = customerReference;
-	}
+    public String getCustomerReference() {
+        return customerReference;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setCustomerReference(String customerReference) {
+        this.customerReference = customerReference;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getDescriptionIdentifier() {
-		return descriptionIdentifier;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDescriptionIdentifier(String descriptionIdentifier) {
-		this.descriptionIdentifier = descriptionIdentifier;
-	}
+    public String getDescriptionIdentifier() {
+        return descriptionIdentifier;
+    }
 
-	public Map<String, String> getDescriptionValues() {
-		return descriptionValues;
-	}
+    public void setDescriptionIdentifier(String descriptionIdentifier) {
+        this.descriptionIdentifier = descriptionIdentifier;
+    }
 
-	public void setDescriptionValues(Map<String, String> descriptionValues) {
-		this.descriptionValues = descriptionValues;
-	}
+    public Map<String, String> getDescriptionValues() {
+        return descriptionValues;
+    }
 
-	public String getEtag() {
-		return etag;
-	}
+    public void setDescriptionValues(Map<String, String> descriptionValues) {
+        this.descriptionValues = descriptionValues;
+    }
 
-	public void setEtag(String etag) {
-		this.etag = etag;
-	}
+    public String getEtag() {
+        return etag;
+    }
 
-	public String getKind() {
-		return kind;
-	}
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
 
-	public void setKind(String kind) {
-		this.kind = kind;
-	}
+    public FilingHistoryDocument getItemOptions() {
+        return itemOptions;
+    }
 
-	public Links getLinks() {
-		return links;
-	}
+    public void setItemOptions(FilingHistoryDocument itemOptions) {
+        this.itemOptions = itemOptions;
+    }
 
-	public void setLinks(Links links) {
-		this.links = links;
-	}
+    public String getKind() {
+        return kind;
+    }
 
-	public String getPostageCost() {
-		return postageCost;
-	}
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 
-	public void setPostageCost(String postageCost) {
-		this.postageCost = postageCost;
-	}
+    public Links getLinks() {
+        return links;
+    }
 
-	public Boolean getPostalDelivery() {
-		return isPostalDelivery;
-	}
+    public void setLinks(Links links) {
+        this.links = links;
+    }
 
-	public void setPostalDelivery(Boolean postalDelivery) {
-		isPostalDelivery = postalDelivery;
-	}
+    public String getPostageCost() {
+        return postageCost;
+    }
 
-	public Integer getQuantity() {
-		return quantity;
-	}
+    public void setPostageCost(String postageCost) {
+        this.postageCost = postageCost;
+    }
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
+    public Boolean getPostalDelivery() {
+        return isPostalDelivery;
+    }
+
+    public void setPostalDelivery(Boolean postalDelivery) {
+        isPostalDelivery = postalDelivery;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }
