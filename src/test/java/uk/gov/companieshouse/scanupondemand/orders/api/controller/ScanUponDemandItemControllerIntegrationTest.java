@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemOptionsRequestDto;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
@@ -27,19 +28,24 @@ import uk.gov.companieshouse.scanupondemand.orders.api.service.IdGeneratorServic
 import uk.gov.companieshouse.scanupondemand.orders.api.service.ScanUponDemandCostCalculatorService;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
+import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
@@ -224,6 +230,35 @@ class ScanUponDemandItemControllerIntegrationTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @Test
+    @DisplayName("Fails to create scan upon demand item that fails validation")
+    void createScanUponDemandItemFailsToScanUponDemandItem() throws Exception {
+        final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto
+                = new ScanUponDemandItemOptionsRequestDto();
+        final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest
+                = new ScanUponDemandItemRequestDTO();
+        scanUponDemandItemDTORequest.setItemOptions(scanUponDemandItemOptionsRequestDto);
+
+
+        final ApiError expectedValidationError =
+                new ApiError(BAD_REQUEST, asList("company_number: must not be null",
+                        "item_options.filing_history_id: must not be empty",
+                        "quantity: must not be null"));
+
+        when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
+
+        mockMvc.perform(post(SCAN_UPON_DEMAND_URL)
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content()
+                        .json(objectMapper.writeValueAsString(expectedValidationError)));
+
+        assertItemWasNotSaved(SCAN_UPON_DEMAND_ID);
+
+    }
+
     /**
      * Verifies that the scan upon demand item can be retrieved from the database
      * using its expected ID value.
@@ -236,5 +271,16 @@ class ScanUponDemandItemControllerIntegrationTest {
         assertThat(retrievedScanUponDemandItem.isPresent(), is(true));
         assertThat(retrievedScanUponDemandItem.get().getId(), is(scanUponDemandId));
         return retrievedScanUponDemandItem.get();
+    }
+
+    /**
+     * Verifies that the scan upon demand item cannot in fact be retrieved
+     * from the database.
+     * @param scanUponDemandId the expected ID of the newly created item
+     */
+    private void assertItemWasNotSaved(final String scanUponDemandId) {
+        final Optional<ScanUponDemandItem> retrievedScanUponDemandItem
+                = repository.findById(scanUponDemandId);
+        assertThat(retrievedScanUponDemandItem.isPresent(), is(false));
     }
 }
