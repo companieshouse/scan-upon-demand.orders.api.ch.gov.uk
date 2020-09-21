@@ -245,7 +245,8 @@ class ScanUponDemandItemControllerIntegrationTest {
         // When and then
         mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedItem), true))
@@ -258,7 +259,8 @@ class ScanUponDemandItemControllerIntegrationTest {
         // When and then
         mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andDo(MockMvcResultHandlers.print());
@@ -283,6 +285,8 @@ class ScanUponDemandItemControllerIntegrationTest {
 
         mockMvc.perform(post(SCAN_UPON_DEMAND_URL)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest)))
                 .andExpect(status().isBadRequest())
