@@ -169,7 +169,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
->>>>>>> master
 
     <build>
         <plugins>

@@ -1,22 +1,5 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.controller;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.SCAN_UPON_DEMAND_ID_LOG_KEY;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.COMPANY_NUMBER_LOG_KEY;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.STATUS_LOG_KEY;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.USER_ID_LOG_KEY;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +17,22 @@ import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.FilingHistoryDocumentService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.ScanUponDemandItemService;
 import uk.gov.companieshouse.scanupondemand.orders.api.util.EricHeaderHelper;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
+import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.COMPANY_NUMBER_LOG_KEY;
+import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
+import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.SCAN_UPON_DEMAND_ID_LOG_KEY;
+import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.STATUS_LOG_KEY;
+import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.USER_ID_LOG_KEY;
 
 @RestController
 public class ScanUponDemandItemController {
@@ -55,7 +54,6 @@ public class ScanUponDemandItemController {
 
     @PostMapping("${uk.gov.companieshouse.scanupondemand.orders.api.home}")
     public ResponseEntity<Object> createScanUponDemandItem(
-
         final @Valid @RequestBody ScanUponDemandItemRequestDTO scanUponDemandItemRequestDTO,
         HttpServletRequest request,
         final @RequestHeader(REQUEST_ID_HEADER_NAME) String requestId) {
@@ -89,7 +87,6 @@ public class ScanUponDemandItemController {
 
         return ResponseEntity.status(CREATED).body(createdScanUponDemandItemResponseDTO);
     }
-
 
     @GetMapping("${uk.gov.companieshouse.scanupondemand.orders.api.home}/{id}")
     public ResponseEntity<Object> getScanUponDemandItem(final @PathVariable String id,
