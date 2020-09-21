@@ -24,11 +24,11 @@ import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemand
 import uk.gov.companieshouse.scanupondemand.orders.api.service.ApiClientService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.EtagGeneratorService;
+import uk.gov.companieshouse.scanupondemand.orders.api.service.FilingHistoryDocumentService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.IdGeneratorService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.ScanUponDemandCostCalculatorService;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -37,6 +37,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,31 +50,27 @@ import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTIT
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
 import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
 import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.TOTAL_ITEM_COST;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.*;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
+
 
 @AutoConfigureMockMvc
 
 @SpringBootTest
 class ScanUponDemandItemControllerIntegrationTest {
+
     private static final String SCAN_UPON_DEMAND_ID = "SCD-462515-995726";
     private static final String COMPANY_NUMBER = "00006400";
     private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
     private static final String CUSTOMER_REFERENCE = "SCUD Item ordered by Yiannis";
     private static final int QUANTITY_1 = 1;
-    private static final Links LINKS;
-    private static final String TOKEN_ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
-    private static final String POSTAGE_COST = "0";
-
-    private static final String FILING_HISTORY_ID = "1";
+    private static final String FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N5";
     private static final String FILING_HISTORY_DATE = "2010-02-12";
     private static final String FILING_HISTORY_DESCRIPTION = "change-person-director-company-with-change-date";
     private static final Map<String, Object> FILING_HISTORY_DESCRIPTION_VALUES;
+    private static final Links LINKS;
+    private static final String TOKEN_ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
+    private static final String POSTAGE_COST = "0";
     public static final String FILING_HISTORY_TYPE_CH01 = "CH01";
     private static final boolean POSTAL_DELIVERY = false;
 
@@ -91,6 +89,7 @@ class ScanUponDemandItemControllerIntegrationTest {
         FILING_HISTORY_DESCRIPTION_VALUES.put("change_date", "2010-02-12");
         FILING_HISTORY_DESCRIPTION_VALUES.put("officer_name", "Thomas David Wheare");
     }
+
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -107,6 +106,8 @@ class ScanUponDemandItemControllerIntegrationTest {
     private EtagGeneratorService etagGeneratorService;
     @MockBean
     private ScanUponDemandCostCalculatorService calculatorService;
+    @MockBean
+    private FilingHistoryDocumentService filingHistoryDocumentService;
 
     @AfterEach
     void tearDown() {
@@ -117,14 +118,27 @@ class ScanUponDemandItemControllerIntegrationTest {
     @DisplayName("Successfully creates scan upon demand item")
     void createScanUponDemandItemSuccessfullyCreatesScanUponDemandItem() throws Exception {
         final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest = new ScanUponDemandItemRequestDTO();
+        final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto
+            = new ScanUponDemandItemOptionsRequestDto();
+        scanUponDemandItemOptionsRequestDto.setFilingHistoryId(FILING_HISTORY_ID);
+
         scanUponDemandItemDTORequest.setCompanyNumber(COMPANY_NUMBER);
         scanUponDemandItemDTORequest.setCustomerReference(CUSTOMER_REFERENCE);
+        scanUponDemandItemDTORequest.setItemOptions(scanUponDemandItemOptionsRequestDto);
         scanUponDemandItemDTORequest.setQuantity(QUANTITY_1);
+
+        final ScanUponDemandItemOptions filing =
+            new ScanUponDemandItemOptions(FILING_HISTORY_DATE,
+                FILING_HISTORY_DESCRIPTION,
+                FILING_HISTORY_DESCRIPTION_VALUES,
+                FILING_HISTORY_ID,
+                FILING_HISTORY_TYPE_CH01);
 
         when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
         when(etagGeneratorService.generateEtag()).thenReturn(TOKEN_ETAG);
         when(calculatorService.calculateCosts(QUANTITY_1)).thenReturn(CALCULATION);
         when(companyService.getCompanyName(COMPANY_NUMBER)).thenReturn(COMPANY_NAME);
+        when(filingHistoryDocumentService.getFilingHistoryDocument(eq(COMPANY_NUMBER), anyString())).thenReturn(filing);
 
         final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
         expectedItem.setId(SCAN_UPON_DEMAND_ID);
@@ -138,16 +152,30 @@ class ScanUponDemandItemControllerIntegrationTest {
         expectedItem.setPostageCost(CALCULATION.getPostageCost());
         expectedItem.setTotalItemCost(CALCULATION.getTotalItemCost());
         expectedItem.setPostalDelivery(POSTAL_DELIVERY);
+        expectedItem.setItemOptions(filing);
 
         final LocalDateTime intervalStart = LocalDateTime.now();
 
-        mockMvc.perform(post(SCAN_UPON_DEMAND_URL).header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+        mockMvc.perform(post(SCAN_UPON_DEMAND_URL)
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest))).andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
                 .andExpect(jsonPath("$.company_number", is(COMPANY_NUMBER)))
                 .andExpect(jsonPath("$.company_name", is(COMPANY_NAME)))
-                .andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)));
+                .andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)))
+                .andExpect(jsonPath("$.item_options.filing_history_date",
+                    is(FILING_HISTORY_DATE)))
+                .andExpect(jsonPath("$.item_options.filing_history_description",
+                    is(FILING_HISTORY_DESCRIPTION)))
+                .andExpect(jsonPath("$.item_options.filing_history_description_values",
+                    is(FILING_HISTORY_DESCRIPTION_VALUES)))
+                .andExpect(jsonPath("$.item_options.filing_history_id",
+                    is(FILING_HISTORY_ID)))
+                .andExpect(jsonPath("$.item_options.filing_history_type",
+                    is(FILING_HISTORY_TYPE_CH01)));
 
         final ScanUponDemandItem retrievedItem = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
         final LocalDateTime intervalEnd = LocalDateTime.now();
@@ -167,6 +195,12 @@ class ScanUponDemandItemControllerIntegrationTest {
         assertThat(retrievedItem.getPostageCost(), is(CALCULATION.getPostageCost()));
         assertThat(retrievedItem.getTotalItemCost(), is(CALCULATION.getTotalItemCost()));
         assertThat(retrievedItem.isPostalDelivery(), is(POSTAL_DELIVERY));
+
+        assertThat(retrievedItem.getItemOptions().getFilingHistoryDate(), is (FILING_HISTORY_DATE));
+        assertThat(retrievedItem.getItemOptions().getFilingHistoryDescription(), is (FILING_HISTORY_DESCRIPTION));
+        assertThat(retrievedItem.getItemOptions().getFilingHistoryDescriptionValues(), is(FILING_HISTORY_DESCRIPTION_VALUES));
+        assertThat(retrievedItem.getItemOptions().getFilingHistoryId(), is(FILING_HISTORY_ID));
+        assertThat(retrievedItem.getItemOptions().getFilingHistoryType(), is(FILING_HISTORY_TYPE_CH01));
     }
 
     @Test

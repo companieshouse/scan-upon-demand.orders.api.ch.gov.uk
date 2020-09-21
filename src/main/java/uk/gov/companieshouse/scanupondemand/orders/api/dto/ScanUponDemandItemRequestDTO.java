@@ -24,7 +24,7 @@ public class ScanUponDemandItemRequestDTO {
     @Valid
     @NotNull
     @JsonProperty("item_options")
-    ScanUponDemandItemOptionsRequestDto itemOptions;
+    private ScanUponDemandItemOptionsRequestDto itemOptions;
 
     @NotNull
     @JsonProperty("quantity")
@@ -66,5 +66,4 @@ public class ScanUponDemandItemRequestDTO {
     public String toString() {
         return new Gson().toJson(this);
     }
-
 }

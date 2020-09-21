@@ -1,11 +1,10 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
+import com.google.gson.Gson;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.Gson;
-
-import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  * An instance of this represents an item of any type.

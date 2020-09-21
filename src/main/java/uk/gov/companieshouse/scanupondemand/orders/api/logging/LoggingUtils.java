@@ -1,12 +1,13 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.logging;
 
+import org.springframework.http.HttpStatus;
+import uk.gov.companieshouse.logging.Logger;
+import uk.gov.companieshouse.logging.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
-import uk.gov.companieshouse.logging.Logger;
-import uk.gov.companieshouse.logging.LoggerFactory;
+import static java.util.Collections.singletonList;
 
 public class LoggingUtils {
 
@@ -22,7 +23,6 @@ public class LoggingUtils {
     public static final String ERRORS_LOG_KEY = "errors";
     public static final String IDENTITY_LOG_KEY = "identity";
     public static final String REQUEST_ID_HEADER_NAME = "X-Request-ID";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(APPLICATION_NAMESPACE);
 
     public static Logger getLogger() {
@@ -43,6 +43,19 @@ public class LoggingUtils {
     }
 
     /**
+     * Method to set up a map for logging purposes and add a value for the
+     * company number.
+     *
+     * @param companyNumber the company number to log under the key {@link LoggingUtils#COMPANY_NUMBER_LOG_KEY}
+     * @return the log map for use in log messages
+     */
+    public static Map<String, Object> createLogMapWithCompanyNumber(final String companyNumber) {
+        Map<String, Object> logMap = new HashMap<>();
+        logMap.put(COMPANY_NUMBER_LOG_KEY, companyNumber);
+        return logMap;
+    }
+
+    /**
      * method to add errors and a status to a map for logging
      * purposes
      * @param logMap the map of logging data
@@ -52,6 +65,20 @@ public class LoggingUtils {
                                            final List<String> errors,
                                            final HttpStatus status) {
         logMap.put(ERRORS_LOG_KEY, errors);
+        logMap.put(STATUS_LOG_KEY, status);
+    }
+
+    /**
+     * Method to add an error and a status to a map for logging
+     * purposes.
+     *
+     * @param logMap the map of logging data
+     * @param error  error message
+     */
+    public static void logErrorWithStatus(final Map<String, Object> logMap,
+                                          final String error,
+                                          final HttpStatus status) {
+        logMap.put(ERRORS_LOG_KEY, singletonList(error));
         logMap.put(STATUS_LOG_KEY, status);
     }
 }
