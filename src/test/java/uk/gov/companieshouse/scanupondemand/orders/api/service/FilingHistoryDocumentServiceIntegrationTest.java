@@ -23,7 +23,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.companieshouse.api.model.filinghistory.FilingApi;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.FilingHistoryDocument;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -59,7 +59,7 @@ class FilingHistoryDocumentServiceIntegrationTest {
     private static final String ID_1 = "MDAxMTEyNzExOGFkaXF6a2N4";
     private static final String UNKNOWN_ID = "000000000000000000000000";
 
-    private static final FilingHistoryDocument FILING_1 = new FilingHistoryDocument(
+    private static final ScanUponDemandItemOptions FILING_1 = new ScanUponDemandItemOptions(
             "2005-03-21",
             "accounts-with-accounts-type-group",
             Collections.singletonMap("made_up_date", "2004-08-31"),
@@ -67,10 +67,10 @@ class FilingHistoryDocumentServiceIntegrationTest {
             "AA"
     );
 
-    private static final FilingHistoryDocument FILING_SOUGHT =
-        new FilingHistoryDocument(null, null, null, ID_1, null);
+    private static final ScanUponDemandItemOptions FILING_SOUGHT =
+        new ScanUponDemandItemOptions(null, null, null, ID_1, null);
 
-    private static final FilingHistoryDocument FILING_EXPECTED = FILING_1;
+    private static final ScanUponDemandItemOptions FILING_EXPECTED = FILING_1;
 
     @Configuration
     @ComponentScan(basePackageClasses = FilingHistoryDocumentServiceIntegrationTest.class)
@@ -85,7 +85,6 @@ class FilingHistoryDocumentServiceIntegrationTest {
                     .setPropertyNamingStrategy(SNAKE_CASE)
                     .findAndRegisterModules();
         }
-
     }
 
     @Autowired
@@ -100,6 +99,9 @@ class FilingHistoryDocumentServiceIntegrationTest {
     @MockBean
     private ScanUponDemandItemService scanUponDemandItemService;
 
+    @MockBean
+    private ScanUponDemandCostCalculatorService scanUponDemandCostCalculatorService;
+
     @Test
     @DisplayName("getFilingHistoryDocument gets the expected filing history document successfully")
     void getFilingHistoryDocumentsSuccessfully() throws JsonProcessingException {
@@ -113,7 +115,7 @@ class FilingHistoryDocumentServiceIntegrationTest {
 
 
         // When
-        final FilingHistoryDocument filing =
+        final ScanUponDemandItemOptions filing =
                 serviceUnderTest.getFilingHistoryDocument(COMPANY_NUMBER, ID_1);
 
 
@@ -186,11 +188,11 @@ class FilingHistoryDocumentServiceIntegrationTest {
 
     /**
      * Factory method that creates an instance of {@link FilingApi} for testing purposes, "reverse-engineered"
-     * from the {@link FilingHistoryDocument} provided.
+     * from the {@link ScanUponDemandItemOptions} provided.
      * @param document the filing history document that should result from the filing this creates
      * @return the filing created
      */
-    private static FilingApi filingApi(final FilingHistoryDocument document) {
+    private static FilingApi filingApi(final ScanUponDemandItemOptions document) {
         final FilingApi filing = new FilingApi();
         filing.setTransactionId(document.getFilingHistoryId());
         filing.setDate(LocalDate.parse(document.getFilingHistoryDate()));

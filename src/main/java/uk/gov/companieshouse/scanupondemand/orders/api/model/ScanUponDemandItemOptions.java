@@ -4,15 +4,14 @@ import com.google.gson.Gson;
 
 import java.util.Map;
 
-public class FilingHistoryDocument {
+public class ScanUponDemandItemOptions {
+    public ScanUponDemandItemOptions(){}
 
-    public FilingHistoryDocument() {}
-
-    public FilingHistoryDocument(final String filingHistoryDate,
-                                 final String filingHistoryDescription,
-                                 final Map<String, Object> filingHistoryDescriptionValues,
-                                 final String filingHistoryId,
-                                 final String filingHistoryType) {
+    public ScanUponDemandItemOptions(final String filingHistoryDate,
+                                     final String filingHistoryDescription,
+                                     final Map<String, Object> filingHistoryDescriptionValues,
+                                     final String filingHistoryId,
+                                     final String filingHistoryType) {
         this.filingHistoryDate = filingHistoryDate;
         this.filingHistoryDescription = filingHistoryDescription;
         this.filingHistoryDescriptionValues = filingHistoryDescriptionValues;
@@ -29,6 +28,8 @@ public class FilingHistoryDocument {
     private String filingHistoryId;
 
     private String filingHistoryType;
+
+    private String filingHistoryCost;
 
     public String getFilingHistoryDate() {
         return filingHistoryDate;
@@ -68,6 +69,14 @@ public class FilingHistoryDocument {
 
     public void setFilingHistoryType(String filingHistoryType) {
         this.filingHistoryType = filingHistoryType;
+    }
+
+    public String getFilingHistoryCost() {
+        return filingHistoryCost;
+    }
+
+    public void setFilingHistoryCost(String filingHistoryCost) {
+        this.filingHistoryCost = filingHistoryCost;
     }
 
     @Override

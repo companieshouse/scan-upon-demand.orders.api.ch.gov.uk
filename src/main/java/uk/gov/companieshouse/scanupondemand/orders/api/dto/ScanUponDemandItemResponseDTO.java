@@ -1,9 +1,11 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.dto;
 
 import org.springframework.data.mongodb.core.mapping.Field;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.FilingHistoryDocument;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
 
+import java.util.List;
 import java.util.Map;
 
 public class ScanUponDemandItemResponseDTO {
@@ -25,7 +27,9 @@ public class ScanUponDemandItemResponseDTO {
 
     private String etag;
 
-    private FilingHistoryDocument itemOptions;
+    private List<ItemCosts> itemCosts;
+
+    private ScanUponDemandItemOptions itemOptions;
 
     private String kind;
 
@@ -36,6 +40,8 @@ public class ScanUponDemandItemResponseDTO {
     private Boolean isPostalDelivery;
 
     private Integer quantity;
+
+    private String totalItemCost;
 
     public String getId() {
         return id;
@@ -101,13 +107,13 @@ public class ScanUponDemandItemResponseDTO {
         this.etag = etag;
     }
 
-    public FilingHistoryDocument getItemOptions() {
-        return itemOptions;
-    }
+    public List<ItemCosts> getItemCosts() { return itemCosts; }
 
-    public void setItemOptions(FilingHistoryDocument itemOptions) {
-        this.itemOptions = itemOptions;
-    }
+    public void setItemCosts(List<ItemCosts> itemCosts) { this.itemCosts = itemCosts; }
+
+    public ScanUponDemandItemOptions getItemOptions() { return itemOptions; }
+
+    public void setItemOptions(ScanUponDemandItemOptions itemOptions) { this.itemOptions = itemOptions; }
 
     public String getKind() {
         return kind;
@@ -147,5 +153,13 @@ public class ScanUponDemandItemResponseDTO {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getTotalItemCost() {
+        return totalItemCost;
+    }
+
+    public void setTotalItemCost(String totalItemCost) {
+        this.totalItemCost = totalItemCost;
     }
 }

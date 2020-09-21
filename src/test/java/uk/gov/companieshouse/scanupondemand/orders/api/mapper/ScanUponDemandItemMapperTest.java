@@ -10,10 +10,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.FilingHistoryDocumentRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.FilingHistoryDocument;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +23,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.FILING_HISTORY_TYPE_CH01;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.POSTAGE_COST;
 
 @ExtendWith(SpringExtension.class)
 @SpringJUnitConfig(ScanUponDemandItemMapperTest.Config.class)
-public class ScanUponDemandItemMapperTest {
+class ScanUponDemandItemMapperTest {
 
 	private static final String COMPANY_NUMBER = "00006400";
 	private static final String CUSTOMER_REFERENCE = "SCUD Item ordered by Yiannis";
@@ -35,12 +36,11 @@ public class ScanUponDemandItemMapperTest {
 	private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
 	private static final String KIND = "item#scan-on-demand";
 	private static final String ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
-	private static final String POSTAGE_COST = "15";
 	private static final boolean POSTAL_DELIVERY = true;
 	private static final String DESCRIPTION_IDENTIFIER = "Description Identifier";
 	private static final String DESCRIPTION = "Description";
     private static final Map<String, String> DESCRIPTION_VALUES = singletonMap("key1", "value1");
-	private static final FilingHistoryDocument ITEM_OPTIONS;
+	private static final ScanUponDemandItemOptions ITEM_OPTIONS;
 	private static final String FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N5";
 	private static final String FILING_HISTORY_DATE = "2010-02-12";
 	private static final String FILING_HISTORY_DESCRIPTION = "change-person-director-company-with-change-date";
@@ -53,7 +53,7 @@ public class ScanUponDemandItemMapperTest {
 		FILING_HISTORY_DESCRIPTION_VALUES.put("change_date", "2010-02-12");
 		FILING_HISTORY_DESCRIPTION_VALUES.put("officer_name", "Thomas David Wheare");
 
-		ITEM_OPTIONS = new FilingHistoryDocument();
+		ITEM_OPTIONS = new ScanUponDemandItemOptions();
 		ITEM_OPTIONS.setFilingHistoryId(FILING_HISTORY_ID);
 		ITEM_OPTIONS.setFilingHistoryType(FILING_HISTORY_TYPE_CH01);
 		ITEM_OPTIONS.setFilingHistoryDescriptionValues(FILING_HISTORY_DESCRIPTION_VALUES);
@@ -73,7 +73,7 @@ public class ScanUponDemandItemMapperTest {
 	private ScanUponDemandItemMapper mapperUnderTest;
 
 	@Test
-	public void testScanUponDemandItemRequestDTOToScanUponDemandItem() {
+	void testScanUponDemandItemRequestDTOToScanUponDemandItem() {
 
 		final FilingHistoryDocumentRequestDTO filingHistoryDocumentRequestDTO = new FilingHistoryDocumentRequestDTO();
 		filingHistoryDocumentRequestDTO.setFilingHistoryId(FILING_HISTORY_ID);
@@ -97,7 +97,7 @@ public class ScanUponDemandItemMapperTest {
 	}
 
 	@Test
-	public void testScanUponDemandItemDataToScanUponDemandItemDTO() {
+	void testScanUponDemandItemDataToScanUponDemandItemDTO() {
 		final ScanUponDemandItemData item = new ScanUponDemandItemData();
 		item.setId(ID);
 		item.setCompanyName(COMPANY_NAME);

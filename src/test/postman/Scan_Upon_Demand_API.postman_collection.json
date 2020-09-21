@@ -5,6 +5,7 @@
 		"description": "Postman requests for the Scan Upon Demand API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
+
 	"item": [{
 		"name": "Scan Upon Demand API",
 		"item": [{
@@ -31,13 +32,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orderable/scan-upon-demand",
+							"raw": "{{base_url}}/orderable/scans-upon-demand",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orderable",
-								"scan-upon-demand"
+								"scans-upon-demand"
 							]
 						}
 					},
@@ -63,13 +64,13 @@
 								}
 							},
 							"url": {
-								"raw": "{{base_url}}/orderable/scan-upon-demand",
+								"raw": "{{base_url}}/orderable/scans-upon-demand",
 								"host": [
 									"{{base_url}}"
 								],
 								"path": [
 									"orderable",
-									"scan-upon-demand"
+									"scans-upon-demand"
 								]
 							}
 						},
@@ -101,13 +102,13 @@
 								}
 							},
 							"url": {
-								"raw": "{{base_url}}/orderable/scan-upon-demand",
+								"raw": "{{base_url}}/orderable/scans-upon-demand",
 								"host": [
 									"{{base_url}}"
 								],
 								"path": [
 									"orderable",
-									"scan-upon-demand"
+									"scans-upon-demand"
 								]
 							}
 						},
@@ -133,13 +134,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/orderable/scan-upon-demand",
+									"raw": "{{base_url}}/orderable/scans-upon-demand",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"orderable",
-										"scan-upon-demand"
+										"scans-upon-demand"
 									]
 								}
 							},
@@ -169,13 +170,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orderable/scan-upon-demand",
+							"raw": "{{base_url}}/orderable/scans-upon-demand",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orderable",
-								"scan-upon-demand"
+								"scans-upon-demand"
 							]
 						}
 					},

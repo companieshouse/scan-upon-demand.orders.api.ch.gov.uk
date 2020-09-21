@@ -9,7 +9,7 @@ import uk.gov.companieshouse.api.handler.exception.URIValidationException;
 import uk.gov.companieshouse.api.model.filinghistory.FilingApi;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.FilingHistoryDocument;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
 
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class FilingHistoryDocumentService {
      * @param filingHistoryDocumentId the filing history document ID
      * @return fully populated document
      */
-    public FilingHistoryDocument getFilingHistoryDocument(
+    public ScanUponDemandItemOptions getFilingHistoryDocument(
             final String companyNumber,
             final String filingHistoryDocumentId) {
 
@@ -50,7 +50,7 @@ public class FilingHistoryDocumentService {
         final String uri = GET_FILING_HISTORY_DOCUMENT.expand(companyNumber, filingHistoryDocumentId).toString();
         try {
             final FilingApi filing = apiClient.filing().get(uri).execute().getData();
-            return new FilingHistoryDocument(filing.getDate().toString(),
+            return new ScanUponDemandItemOptions(filing.getDate().toString(),
                         filing.getDescription(),
                         filing.getDescriptionValues(),
                         filing.getTransactionId(),

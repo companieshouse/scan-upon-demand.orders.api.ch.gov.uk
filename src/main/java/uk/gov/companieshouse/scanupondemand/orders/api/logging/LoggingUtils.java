@@ -3,7 +3,6 @@ package uk.gov.companieshouse.scanupondemand.orders.api.logging;
 import org.springframework.http.HttpStatus;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,8 @@ public class LoggingUtils {
     public static final String USER_ID_LOG_KEY = "user_id";
     public static final String STATUS_LOG_KEY = "status";
     public static final String ERRORS_LOG_KEY = "errors";
+    public static final String IDENTITY_LOG_KEY = "identity";
     public static final String REQUEST_ID_HEADER_NAME = "X-Request-ID";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(APPLICATION_NAMESPACE);
 
     public static Logger getLogger() {
@@ -56,6 +55,12 @@ public class LoggingUtils {
         return logMap;
     }
 
+    /**
+     * method to add errors and a status to a map for logging
+     * purposes
+     * @param logMap the map of logging data
+     * @param errors a list of errors
+     */
     public static void logErrorsWithStatus(final Map<String, Object> logMap,
                                            final List<String> errors,
                                            final HttpStatus status) {

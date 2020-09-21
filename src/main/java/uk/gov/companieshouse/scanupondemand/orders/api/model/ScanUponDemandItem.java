@@ -1,9 +1,11 @@
 package uk.gov.companieshouse.scanupondemand.orders.api.model;
 
+import com.google.gson.Gson;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 /**
  * An instance of this represents a scan upon demand item.
@@ -56,6 +58,10 @@ public class ScanUponDemandItem {
         this.data = data;
     }
 
+    public String getCompanyName() {
+        return data.getCompanyName();
+    }
+
     public void setCompanyName(String companyName) {
         data.setCompanyName(companyName);
     }
@@ -68,6 +74,10 @@ public class ScanUponDemandItem {
         data.setCompanyNumber(companyNumber);
     }
 
+    public String getCustomerReference() {
+        return data.getCustomerReference();
+    }
+
     public void setCustomerReference(String companyReference) {
         data.setCustomerReference(companyReference);
     }
@@ -76,17 +86,24 @@ public class ScanUponDemandItem {
         data.setEtag(etag);
     }
 
-    public void setItemOptions(FilingHistoryDocument itemOptions) {
-        data.setItemOptions(itemOptions);
-    }
+    public void setItemOptions(ScanUponDemandItemOptions itemOptions) { data.setItemOptions(itemOptions); }
 
-    public void setKind(String kind) {
-        data.setKind(kind);
+    public ScanUponDemandItemOptions getItemOptions() {
+        return data.getItemOptions();
     }
 
     public void setLinks(Links links) {
         data.setLinks(links);
     }
+    public String getEtag() {
+        return data.getEtag();
+    }
+
+    public Links getLinks() {
+        return data.getLinks();
+    }
+
+    public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
 
     public void setQuantity(Integer quantity) {
         data.setQuantity(quantity);
@@ -100,4 +117,36 @@ public class ScanUponDemandItem {
         this.userId = userId;
     }
 
+    public String getPostageCost() {
+        return data.getPostageCost();
+    }
+
+    public Integer getQuantity() {
+        return data.getQuantity();
+    }
+
+    public String getTotalItemCost() {
+        return data.getTotalItemCost();
+    }
+
+    public void setTotalItemCost(String totalItemCost) {
+        data.setTotalItemCost(totalItemCost);
+    }
+
+    public List<ItemCosts> getItemCosts() {
+        return data.getItemCosts();
+    }
+
+    public void setItemCosts(List<ItemCosts> itemCosts) {
+        data.setItemCosts(itemCosts);
+    }
+
+    public Boolean isPostalDelivery() {
+        return data.isPostalDelivery();
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }
