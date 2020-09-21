@@ -266,7 +266,7 @@ class ScanUponDemandItemControllerIntegrationTest {
 
     @Test
     @DisplayName("Fails to create scan upon demand item that fails validation")
-    void createScanUponDemandItemFailsToScanUponDemandItem() throws Exception {
+    void createScanUponDemandItemFailsToCreateScanUponDemandItem() throws Exception {
         final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto
                 = new ScanUponDemandItemOptionsRequestDto();
         final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest
