@@ -21,6 +21,10 @@ public class ScanUponDemandItemRequestDTO {
     private String customerReference;
 
     @NotNull
+    @JsonProperty("item_options")
+    private FilingHistoryDocumentRequestDTO itemOptions;
+
+    @NotNull
     @JsonProperty("quantity")
     private Integer quantity;
 
@@ -48,9 +52,16 @@ public class ScanUponDemandItemRequestDTO {
         this.quantity = quantity;
     }
 
+    public FilingHistoryDocumentRequestDTO getItemOptions() {
+        return itemOptions;
+    }
+
+    public void setItemOptions(FilingHistoryDocumentRequestDTO itemOptions) {
+        this.itemOptions = itemOptions;
+    }
+
     @Override
     public String toString() {
         return new Gson().toJson(this);
     }
-
 }

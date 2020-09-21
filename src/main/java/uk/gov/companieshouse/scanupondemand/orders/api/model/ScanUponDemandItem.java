@@ -3,7 +3,6 @@ package uk.gov.companieshouse.scanupondemand.orders.api.model;
 import com.google.gson.Gson;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -88,6 +87,10 @@ public class ScanUponDemandItem {
 
     public void setItemOptions(ScanUponDemandItemOptions itemOptions) { data.setItemOptions(itemOptions); }
 
+    public ScanUponDemandItemOptions getItemOptions() {
+        return data.getItemOptions();
+    }
+
     public void setLinks(Links links) {
         data.setLinks(links);
     }
@@ -104,6 +107,15 @@ public class ScanUponDemandItem {
     public void setQuantity(Integer quantity) {
         data.setQuantity(quantity);
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getPostageCost() {
         return data.getPostageCost();
     }
@@ -112,19 +124,12 @@ public class ScanUponDemandItem {
         return data.getQuantity();
     }
 
-    public String getUserId() {
-        return userId;
-    }
     public String getTotalItemCost() {
         return data.getTotalItemCost();
     }
 
     public void setTotalItemCost(String totalItemCost) {
         data.setTotalItemCost(totalItemCost);
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public List<ItemCosts> getItemCosts() {
