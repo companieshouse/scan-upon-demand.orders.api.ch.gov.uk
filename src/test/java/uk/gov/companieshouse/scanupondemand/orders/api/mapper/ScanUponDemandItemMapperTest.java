@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.FilingHistoryDocumentRequestDTO;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemOptionsRequestDto;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
@@ -75,13 +75,13 @@ class ScanUponDemandItemMapperTest {
 	@Test
 	void testScanUponDemandItemRequestDTOToScanUponDemandItem() {
 
-		final FilingHistoryDocumentRequestDTO filingHistoryDocumentRequestDTO = new FilingHistoryDocumentRequestDTO();
-		filingHistoryDocumentRequestDTO.setFilingHistoryId(FILING_HISTORY_ID);
+		final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto = new ScanUponDemandItemOptionsRequestDto();
+		scanUponDemandItemOptionsRequestDto.setFilingHistoryId(FILING_HISTORY_ID);
 
 		final ScanUponDemandItemRequestDTO dto = new ScanUponDemandItemRequestDTO();
 		dto.setCompanyNumber(COMPANY_NUMBER);
 		dto.setCustomerReference(CUSTOMER_REFERENCE);
-		dto.setItemOptions(filingHistoryDocumentRequestDTO);
+		dto.setItemOptions(scanUponDemandItemOptionsRequestDto);
 		dto.setQuantity(QUANTITY);
 
 		final ScanUponDemandItem scanUponDemandItem = mapperUnderTest

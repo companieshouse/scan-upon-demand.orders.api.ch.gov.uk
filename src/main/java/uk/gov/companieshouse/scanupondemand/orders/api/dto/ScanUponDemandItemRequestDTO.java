@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.gson.Gson;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -20,9 +21,10 @@ public class ScanUponDemandItemRequestDTO {
     @JsonProperty("customer_reference")
     private String customerReference;
 
+    @Valid
     @NotNull
     @JsonProperty("item_options")
-    private FilingHistoryDocumentRequestDTO itemOptions;
+    private ScanUponDemandItemOptionsRequestDto itemOptions;
 
     @NotNull
     @JsonProperty("quantity")
@@ -44,20 +46,20 @@ public class ScanUponDemandItemRequestDTO {
         return customerReference;
     }
 
+    public ScanUponDemandItemOptionsRequestDto getItemOptions() {
+        return itemOptions;
+    }
+
+    public void setItemOptions(ScanUponDemandItemOptionsRequestDto itemOptions) {
+        this.itemOptions = itemOptions;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public FilingHistoryDocumentRequestDTO getItemOptions() {
-        return itemOptions;
-    }
-
-    public void setItemOptions(FilingHistoryDocumentRequestDTO itemOptions) {
-        this.itemOptions = itemOptions;
     }
 
     @Override

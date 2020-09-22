@@ -10,22 +10,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.FilingHistoryDocumentRequestDTO;
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
-import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.ApiClientService;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.FilingHistoryDocumentService;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemOptionsRequestDto;
+import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
+import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
 import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
+import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
+import uk.gov.companieshouse.scanupondemand.orders.api.service.ApiClientService;
+import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.EtagGeneratorService;
+import uk.gov.companieshouse.scanupondemand.orders.api.service.FilingHistoryDocumentService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.IdGeneratorService;
 import uk.gov.companieshouse.scanupondemand.orders.api.service.ScanUponDemandCostCalculatorService;
 
@@ -34,29 +33,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_VALUE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_URL;
-import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.CALCULATED_COST;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.TOTAL_ITEM_COST;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_OAUTH2_VALUE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_VALUE;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
+import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
+import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
+import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.*;
 import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 
@@ -124,13 +118,13 @@ class ScanUponDemandItemControllerIntegrationTest {
     @DisplayName("Successfully creates scan upon demand item")
     void createScanUponDemandItemSuccessfullyCreatesScanUponDemandItem() throws Exception {
         final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest = new ScanUponDemandItemRequestDTO();
-        final FilingHistoryDocumentRequestDTO filingHistoryDocumentRequestDTO
-            = new FilingHistoryDocumentRequestDTO();
-        filingHistoryDocumentRequestDTO.setFilingHistoryId(FILING_HISTORY_ID);
+        final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto
+            = new ScanUponDemandItemOptionsRequestDto();
+        scanUponDemandItemOptionsRequestDto.setFilingHistoryId(FILING_HISTORY_ID);
 
         scanUponDemandItemDTORequest.setCompanyNumber(COMPANY_NUMBER);
         scanUponDemandItemDTORequest.setCustomerReference(CUSTOMER_REFERENCE);
-        scanUponDemandItemDTORequest.setItemOptions(filingHistoryDocumentRequestDTO);
+        scanUponDemandItemDTORequest.setItemOptions(scanUponDemandItemOptionsRequestDto);
         scanUponDemandItemDTORequest.setQuantity(QUANTITY_1);
 
         final ScanUponDemandItemOptions filing =
@@ -251,7 +245,8 @@ class ScanUponDemandItemControllerIntegrationTest {
         // When and then
         mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedItem), true))
@@ -264,10 +259,42 @@ class ScanUponDemandItemControllerIntegrationTest {
         // When and then
         mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName("Fails to create scan upon demand item that fails validation")
+    void createScanUponDemandItemFailsToCreateScanUponDemandItem() throws Exception {
+        final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto
+                = new ScanUponDemandItemOptionsRequestDto();
+        final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest
+                = new ScanUponDemandItemRequestDTO();
+        scanUponDemandItemDTORequest.setItemOptions(scanUponDemandItemOptionsRequestDto);
+
+
+        final ApiError expectedValidationError =
+                new ApiError(BAD_REQUEST, asList("company_number: must not be null",
+                        "item_options.filing_history_id: must not be empty",
+                        "quantity: must not be null"));
+
+        when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
+
+        mockMvc.perform(post(SCAN_UPON_DEMAND_URL)
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content()
+                        .json(objectMapper.writeValueAsString(expectedValidationError)));
+
+        assertItemWasNotSaved(SCAN_UPON_DEMAND_ID);
+
     }
 
     /**
@@ -282,5 +309,16 @@ class ScanUponDemandItemControllerIntegrationTest {
         assertThat(retrievedScanUponDemandItem.isPresent(), is(true));
         assertThat(retrievedScanUponDemandItem.get().getId(), is(scanUponDemandId));
         return retrievedScanUponDemandItem.get();
+    }
+
+    /**
+     * Verifies that the scan upon demand item cannot in fact be retrieved
+     * from the database.
+     * @param scanUponDemandId the expected ID of the newly created item
+     */
+    private void assertItemWasNotSaved(final String scanUponDemandId) {
+        final Optional<ScanUponDemandItem> retrievedScanUponDemandItem
+                = repository.findById(scanUponDemandId);
+        assertThat(retrievedScanUponDemandItem.isPresent(), is(false));
     }
 }

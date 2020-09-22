@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.NotEmpty;
 
 @JsonPropertyOrder(alphabetic = true)
-public class FilingHistoryDocumentRequestDTO {
+public class ScanUponDemandItemOptionsRequestDto {
 
     @NotEmpty
     @JsonProperty("filing_history_id")
@@ -19,4 +19,5 @@ public class FilingHistoryDocumentRequestDTO {
     public void setFilingHistoryId(String filingHistoryId) {
         this.filingHistoryId = filingHistoryId;
     }
+
 }
