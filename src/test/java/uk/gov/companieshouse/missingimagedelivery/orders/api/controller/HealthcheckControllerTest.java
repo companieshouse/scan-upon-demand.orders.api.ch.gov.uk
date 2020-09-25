@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.controller;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

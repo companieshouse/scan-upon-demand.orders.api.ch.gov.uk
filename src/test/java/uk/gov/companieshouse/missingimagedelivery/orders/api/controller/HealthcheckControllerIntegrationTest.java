@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.controller;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +20,6 @@ class HealthcheckControllerIntegrationTest {
     @Test
     @DisplayName("Successfully returns health status")
     public void returnHealthStatusSuccessfully() throws Exception {
-        mockMvc.perform(get("/orderable/scans-upon-demand/healthcheck")).andExpect(status().isOk());
+        mockMvc.perform(get("/orderable/missing-image-deliveries/healthcheck")).andExpect(status().isOk());
     }
 }

@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.util;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.util;
 
 public class Error {
     private String type;

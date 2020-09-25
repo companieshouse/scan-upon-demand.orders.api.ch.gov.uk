@@ -1,17 +1,17 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.service;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.Links;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 class LinksGeneratorServiceTest {
 
-    private static final String SELF_PATH = "/orderable/scans-upon-demand";
-    private static final String ITEM_ID = "SCD-462515-995726";
+    private static final String SELF_PATH = "/orderable/missing-image-deliveries";
+    private static final String ITEM_ID = "MID-462515-995726";
 
     @Test
     @DisplayName("Generates links correctly with valid inputs")
@@ -26,7 +26,7 @@ class LinksGeneratorServiceTest {
     }
 
     @Test
-    @DisplayName("Unpopulated scan upon demand id argument results in an IllegalArgumentException")
+    @DisplayName("Unpopulated missing image deliveries id argument results in an IllegalArgumentException")
     void itemIdMustNotBeBlank() {
 
         final LinksGeneratorService generatorUnderTest = new LinksGeneratorService(SELF_PATH);

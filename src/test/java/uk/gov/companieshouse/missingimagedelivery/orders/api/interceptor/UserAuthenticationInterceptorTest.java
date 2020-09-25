@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.interceptor;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.lenient;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_HEADER_NAME;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_HEADER_NAME;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_OAUTH2_VALUE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.ERIC_IDENTITY_VALUE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.REQUEST_ID_HEADER_NAME;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_HEADER_NAME;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_HEADER_NAME;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_OAUTH2_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.REQUEST_ID_HEADER_NAME;
 
 @ExtendWith(MockitoExtension.class)
 public class UserAuthenticationInterceptorTest {

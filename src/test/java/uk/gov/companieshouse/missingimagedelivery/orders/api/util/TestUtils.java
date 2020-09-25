@@ -1,8 +1,8 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.util;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.util;
 
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.springframework.core.env.Environment;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
 import java.time.LocalDateTime;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -30,7 +30,7 @@ public class TestUtils {
      * @param intervalStart roughly the start of the test
      * @param intervalEnd roughly the end of the test
      */
-    public static void verifyCreationTimestampsWithinExecutionInterval(final ScanUponDemandItem itemCreated,
+    public static void verifyCreationTimestampsWithinExecutionInterval(final MissingImageDeliveryItem itemCreated,
                                                                        final LocalDateTime intervalStart,
                                                                        final LocalDateTime intervalEnd) {
         assertThat(itemCreated.getCreatedAt().isAfter(intervalStart) ||

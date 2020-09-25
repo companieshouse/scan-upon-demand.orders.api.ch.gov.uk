@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.controller;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -11,22 +11,22 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemOptionsRequestDto;
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemRequestDTO;
-import uk.gov.companieshouse.scanupondemand.orders.api.dto.ScanUponDemandItemResponseDTO;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.Links;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemData;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
-import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.ApiClientService;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.CompanyService;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.EtagGeneratorService;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.FilingHistoryDocumentService;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.IdGeneratorService;
-import uk.gov.companieshouse.scanupondemand.orders.api.service.ScanUponDemandCostCalculatorService;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.dto.MissingImageDeliveryItemOptionsRequestDto;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.dto.MissingImageDeliveryItemRequestDTO;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.dto.MissingImageDeliveryItemResponseDTO;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCostCalculation;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCosts;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.Links;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemData;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemOptions;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.repository.MissingImageDeliveryItemRepository;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.service.ApiClientService;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.service.CompanyService;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.service.EtagGeneratorService;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.service.FilingHistoryDocumentService;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.service.IdGeneratorService;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.service.MissingImageDeliveryCostCalculatorService;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -48,21 +48,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
-import static uk.gov.companieshouse.scanupondemand.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
-import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.*;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.*;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 
 @AutoConfigureMockMvc
 
 @SpringBootTest
-class ScanUponDemandItemControllerIntegrationTest {
+class MissingImageDeliveryItemControllerIntegrationTest {
 
-    private static final String SCAN_UPON_DEMAND_ID = "SCD-462515-995726";
+    private static final String MISSING_IMAGE_DELIVERY_ID = "MID-462515-995726";
     private static final String COMPANY_NUMBER = "00006400";
     private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
-    private static final String CUSTOMER_REFERENCE = "SCUD Item ordered by Yiannis";
+    private static final String CUSTOMER_REFERENCE = "MID Item ordered by Yiannis";
     private static final int QUANTITY_1 = 1;
     private static final String FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N5";
     private static final String FILING_HISTORY_DATE = "2010-02-12";
@@ -76,15 +76,15 @@ class ScanUponDemandItemControllerIntegrationTest {
 
     private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
             singletonList(new ItemCosts(DISCOUNT_APPLIED,
-                    SCAN_UPON_DEMAND_ITEM_COST_STRING,
+                    MISSING_IMAGE_DELIVERY_ITEM_COST_STRING,
                     CALCULATED_COST,
-                    SCAN_UPON_DEMAND)),
+                    MISSING_IMAGE_DELIVERY)),
             POSTAGE_COST,
             TOTAL_ITEM_COST);
 
     static {
         LINKS = new Links();
-        LINKS.setSelf(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID);
+        LINKS.setSelf(MISSING_IMAGE_DELIVERY_URL + "/" + MISSING_IMAGE_DELIVERY_ID);
         FILING_HISTORY_DESCRIPTION_VALUES = new HashMap<>();
         FILING_HISTORY_DESCRIPTION_VALUES.put("change_date", "2010-02-12");
         FILING_HISTORY_DESCRIPTION_VALUES.put("officer_name", "Thomas David Wheare");
@@ -95,7 +95,7 @@ class ScanUponDemandItemControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private ScanUponDemandItemRepository repository;
+    private MissingImageDeliveryItemRepository repository;
     @MockBean
     private IdGeneratorService idGeneratorService;
     @MockBean
@@ -105,7 +105,7 @@ class ScanUponDemandItemControllerIntegrationTest {
     @MockBean
     private EtagGeneratorService etagGeneratorService;
     @MockBean
-    private ScanUponDemandCostCalculatorService calculatorService;
+    private MissingImageDeliveryCostCalculatorService calculatorService;
     @MockBean
     private FilingHistoryDocumentService filingHistoryDocumentService;
 
@@ -115,33 +115,33 @@ class ScanUponDemandItemControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Successfully creates scan upon demand item")
-    void createScanUponDemandItemSuccessfullyCreatesScanUponDemandItem() throws Exception {
-        final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest = new ScanUponDemandItemRequestDTO();
-        final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto
-            = new ScanUponDemandItemOptionsRequestDto();
-        scanUponDemandItemOptionsRequestDto.setFilingHistoryId(FILING_HISTORY_ID);
+    @DisplayName("Successfully creates missing image delivery item")
+    void createMissingImageDeliveryItemSuccessfullyCreatesMissingImageDeliveryItem() throws Exception {
+        final MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTORequest = new MissingImageDeliveryItemRequestDTO();
+        final MissingImageDeliveryItemOptionsRequestDto missingImageDeliveryItemOptionsRequestDto
+            = new MissingImageDeliveryItemOptionsRequestDto();
+        missingImageDeliveryItemOptionsRequestDto.setFilingHistoryId(FILING_HISTORY_ID);
 
-        scanUponDemandItemDTORequest.setCompanyNumber(COMPANY_NUMBER);
-        scanUponDemandItemDTORequest.setCustomerReference(CUSTOMER_REFERENCE);
-        scanUponDemandItemDTORequest.setItemOptions(scanUponDemandItemOptionsRequestDto);
-        scanUponDemandItemDTORequest.setQuantity(QUANTITY_1);
+        missingImageDeliveryItemDTORequest.setCompanyNumber(COMPANY_NUMBER);
+        missingImageDeliveryItemDTORequest.setCustomerReference(CUSTOMER_REFERENCE);
+        missingImageDeliveryItemDTORequest.setItemOptions(missingImageDeliveryItemOptionsRequestDto);
+        missingImageDeliveryItemDTORequest.setQuantity(QUANTITY_1);
 
-        final ScanUponDemandItemOptions filing =
-            new ScanUponDemandItemOptions(FILING_HISTORY_DATE,
+        final MissingImageDeliveryItemOptions filing =
+            new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
                 FILING_HISTORY_DESCRIPTION,
                 FILING_HISTORY_DESCRIPTION_VALUES,
                 FILING_HISTORY_ID,
                 FILING_HISTORY_TYPE_CH01);
 
-        when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
+        when(idGeneratorService.autoGenerateId()).thenReturn(MISSING_IMAGE_DELIVERY_ID);
         when(etagGeneratorService.generateEtag()).thenReturn(TOKEN_ETAG);
         when(calculatorService.calculateCosts(QUANTITY_1)).thenReturn(CALCULATION);
         when(companyService.getCompanyName(COMPANY_NUMBER)).thenReturn(COMPANY_NAME);
         when(filingHistoryDocumentService.getFilingHistoryDocument(eq(COMPANY_NUMBER), anyString())).thenReturn(filing);
 
-        final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
-        expectedItem.setId(SCAN_UPON_DEMAND_ID);
+        final MissingImageDeliveryItemResponseDTO expectedItem = new MissingImageDeliveryItemResponseDTO();
+        expectedItem.setId(MISSING_IMAGE_DELIVERY_ID);
         expectedItem.setEtag(TOKEN_ETAG);
         expectedItem.setLinks(LINKS);
         expectedItem.setCompanyNumber(COMPANY_NUMBER);
@@ -156,12 +156,12 @@ class ScanUponDemandItemControllerIntegrationTest {
 
         final LocalDateTime intervalStart = LocalDateTime.now();
 
-        mockMvc.perform(post(SCAN_UPON_DEMAND_URL)
+        mockMvc.perform(post(MISSING_IMAGE_DELIVERY_URL)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
                 .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
                 .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest))).andExpect(status().isCreated())
+                .content(objectMapper.writeValueAsString(missingImageDeliveryItemDTORequest))).andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
                 .andExpect(jsonPath("$.company_number", is(COMPANY_NUMBER)))
                 .andExpect(jsonPath("$.company_name", is(COMPANY_NAME)))
@@ -177,7 +177,7 @@ class ScanUponDemandItemControllerIntegrationTest {
                 .andExpect(jsonPath("$.item_options.filing_history_type",
                     is(FILING_HISTORY_TYPE_CH01)));
 
-        final ScanUponDemandItem retrievedItem = assertItemSavedCorrectly(SCAN_UPON_DEMAND_ID);
+        final MissingImageDeliveryItem retrievedItem = assertItemSavedCorrectly(MISSING_IMAGE_DELIVERY_ID);
         final LocalDateTime intervalEnd = LocalDateTime.now();
         verifyCreationTimestampsWithinExecutionInterval(retrievedItem, intervalStart, intervalEnd);
         assertThat(retrievedItem.getEtag(), is(TOKEN_ETAG));
@@ -204,20 +204,20 @@ class ScanUponDemandItemControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Successfully gets a scan upon demand item")
-    void getScanUponDemandItemSuccessfully() throws Exception {
-        final ScanUponDemandItemData itemData = new ScanUponDemandItemData();
+    @DisplayName("Successfully gets a missing image delivery item")
+    void getMissingImageDeliveryItemSuccessfully() throws Exception {
+        final MissingImageDeliveryItemData itemData = new MissingImageDeliveryItemData();
         itemData.setCompanyName(COMPANY_NAME);
         itemData.setCompanyNumber(COMPANY_NUMBER);
-        itemData.setId(SCAN_UPON_DEMAND_ID);
+        itemData.setId(MISSING_IMAGE_DELIVERY_ID);
         itemData.setQuantity(QUANTITY_1);
         itemData.setCustomerReference(CUSTOMER_REFERENCE);
         itemData.setEtag(TOKEN_ETAG);
         itemData.setLinks(LINKS);
         itemData.setPostageCost(POSTAGE_COST);
-        final ScanUponDemandItem item = new ScanUponDemandItem();
+        final MissingImageDeliveryItem item = new MissingImageDeliveryItem();
         item.setData(itemData);
-        item.setId(SCAN_UPON_DEMAND_ID);
+        item.setId(MISSING_IMAGE_DELIVERY_ID);
         item.setCompanyName(COMPANY_NAME);
         item.setCompanyNumber(COMPANY_NUMBER);
         item.setCustomerReference(CUSTOMER_REFERENCE);
@@ -225,16 +225,16 @@ class ScanUponDemandItemControllerIntegrationTest {
         item.setEtag(TOKEN_ETAG);
         item.setLinks(LINKS);
         item.setPostageCost(POSTAGE_COST);
-        final ScanUponDemandItemOptions itemOptions = new ScanUponDemandItemOptions(FILING_HISTORY_DATE,
+        final MissingImageDeliveryItemOptions itemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
                 FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE_CH01);
         item.setItemOptions(itemOptions);
         repository.save(item);
 
-        final ScanUponDemandItemResponseDTO expectedItem = new ScanUponDemandItemResponseDTO();
+        final MissingImageDeliveryItemResponseDTO expectedItem = new MissingImageDeliveryItemResponseDTO();
         expectedItem.setCompanyNumber(COMPANY_NUMBER);
         expectedItem.setCompanyName(COMPANY_NAME);
         expectedItem.setQuantity(QUANTITY_1);
-        expectedItem.setId(SCAN_UPON_DEMAND_ID);
+        expectedItem.setId(MISSING_IMAGE_DELIVERY_ID);
         expectedItem.setCustomerReference(CUSTOMER_REFERENCE);
         expectedItem.setEtag(TOKEN_ETAG);
         expectedItem.setLinks(LINKS);
@@ -243,7 +243,7 @@ class ScanUponDemandItemControllerIntegrationTest {
         expectedItem.setPostalDelivery(POSTAL_DELIVERY);
 
         // When and then
-        mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
+        mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + MISSING_IMAGE_DELIVERY_ID)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
                 .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
                 .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
@@ -254,10 +254,10 @@ class ScanUponDemandItemControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Returns not found when a scan upon demand item does not exist")
-    void getScanUponDemandItemReturnsNotFound() throws Exception {
+    @DisplayName("Returns not found when a missing image delivery item does not exist")
+    void getMissingImageDeliveryItemReturnsNotFound() throws Exception {
         // When and then
-        mockMvc.perform(get(SCAN_UPON_DEMAND_URL + "/" + SCAN_UPON_DEMAND_ID)
+        mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + MISSING_IMAGE_DELIVERY_ID)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
                 .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
                 .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
@@ -267,13 +267,13 @@ class ScanUponDemandItemControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Fails to create scan upon demand item that fails validation")
-    void createScanUponDemandItemFailsToCreateScanUponDemandItem() throws Exception {
-        final ScanUponDemandItemOptionsRequestDto scanUponDemandItemOptionsRequestDto
-                = new ScanUponDemandItemOptionsRequestDto();
-        final ScanUponDemandItemRequestDTO scanUponDemandItemDTORequest
-                = new ScanUponDemandItemRequestDTO();
-        scanUponDemandItemDTORequest.setItemOptions(scanUponDemandItemOptionsRequestDto);
+    @DisplayName("Fails to create missing image delivery item that fails validation")
+    void createMissingImageDeliveryItemFailsToCreateMissingImageDeliveryItem() throws Exception {
+        final MissingImageDeliveryItemOptionsRequestDto missingImageDeliveryItemOptionsRequestDto
+                = new MissingImageDeliveryItemOptionsRequestDto();
+        final MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTORequest
+                = new MissingImageDeliveryItemRequestDTO();
+        missingImageDeliveryItemDTORequest.setItemOptions(missingImageDeliveryItemOptionsRequestDto);
 
 
         final ApiError expectedValidationError =
@@ -281,44 +281,44 @@ class ScanUponDemandItemControllerIntegrationTest {
                         "item_options.filing_history_id: must not be empty",
                         "quantity: must not be null"));
 
-        when(idGeneratorService.autoGenerateId()).thenReturn(SCAN_UPON_DEMAND_ID);
+        when(idGeneratorService.autoGenerateId()).thenReturn(MISSING_IMAGE_DELIVERY_ID);
 
-        mockMvc.perform(post(SCAN_UPON_DEMAND_URL)
+        mockMvc.perform(post(MISSING_IMAGE_DELIVERY_URL)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
                 .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
                 .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(scanUponDemandItemDTORequest)))
+                .content(objectMapper.writeValueAsString(missingImageDeliveryItemDTORequest)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content()
                         .json(objectMapper.writeValueAsString(expectedValidationError)));
 
-        assertItemWasNotSaved(SCAN_UPON_DEMAND_ID);
+        assertItemWasNotSaved(MISSING_IMAGE_DELIVERY_ID);
 
     }
 
     /**
-     * Verifies that the scan upon demand item can be retrieved from the database
+     * Verifies that the missing image delivery item can be retrieved from the database
      * using its expected ID value.
      *
-     * @param scanUponDemandId the expected ID of the newly created item
-     * @return the retrieved scanUponDemand item, for possible further verification
+     * @param missingImageDeliveryId the expected ID of the newly created item
+     * @return the retrieved missingImageDelivery item, for possible further verification
      */
-    private ScanUponDemandItem assertItemSavedCorrectly(final String scanUponDemandId) {
-        final Optional<ScanUponDemandItem> retrievedScanUponDemandItem = repository.findById(scanUponDemandId);
-        assertThat(retrievedScanUponDemandItem.isPresent(), is(true));
-        assertThat(retrievedScanUponDemandItem.get().getId(), is(scanUponDemandId));
-        return retrievedScanUponDemandItem.get();
+    private MissingImageDeliveryItem assertItemSavedCorrectly(final String missingImageDeliveryId) {
+        final Optional<MissingImageDeliveryItem> retrievedMissingImageDeliveryItem = repository.findById(missingImageDeliveryId);
+        assertThat(retrievedMissingImageDeliveryItem.isPresent(), is(true));
+        assertThat(retrievedMissingImageDeliveryItem.get().getId(), is(missingImageDeliveryId));
+        return retrievedMissingImageDeliveryItem.get();
     }
 
     /**
-     * Verifies that the scan upon demand item cannot in fact be retrieved
+     * Verifies that the missing image delivery item cannot in fact be retrieved
      * from the database.
-     * @param scanUponDemandId the expected ID of the newly created item
+     * @param missingImageDeliveryId the expected ID of the newly created item
      */
-    private void assertItemWasNotSaved(final String scanUponDemandId) {
-        final Optional<ScanUponDemandItem> retrievedScanUponDemandItem
-                = repository.findById(scanUponDemandId);
-        assertThat(retrievedScanUponDemandItem.isPresent(), is(false));
+    private void assertItemWasNotSaved(final String missingImageDeliveryId) {
+        final Optional<MissingImageDeliveryItem> retrievedMissingImageDeliveryItem
+                = repository.findById(missingImageDeliveryId);
+        assertThat(retrievedMissingImageDeliveryItem.isPresent(), is(false));
     }
 }

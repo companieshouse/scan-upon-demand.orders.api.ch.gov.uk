@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.service;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,12 +6,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCostCalculation;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ItemCosts;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItem;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
-import uk.gov.companieshouse.scanupondemand.orders.api.repository.ScanUponDemandItemRepository;
-import uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCostCalculation;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCosts;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemOptions;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.repository.MissingImageDeliveryItemRepository;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -22,16 +22,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static uk.gov.companieshouse.scanupondemand.orders.api.model.ProductType.SCAN_UPON_DEMAND;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.DISCOUNT_APPLIED;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.SCAN_UPON_DEMAND_ITEM_COST_STRING;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.DISCOUNT_APPLIED;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_ITEM_COST_STRING;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 /**
- * Unit tests the {@link ScanUponDemandItemService} class.
+ * Unit tests the {@link MissingImageDeliveryItemService} class.
  */
 @ExtendWith(MockitoExtension.class)
-public class ScanUponDemandItemServiceTest {
+public class MissingImageDeliveryItemServiceTest {
 
     private static final String ID = "SCD-822015-998103";
     private static final String CALCULATED_COST = "10";
@@ -44,7 +44,7 @@ public class ScanUponDemandItemServiceTest {
     private static final int QUANTITY = 1;
 
     private static final ItemCosts ITEM_COSTS =
-            new ItemCosts(DISCOUNT_APPLIED, SCAN_UPON_DEMAND_ITEM_COST_STRING, CALCULATED_COST, SCAN_UPON_DEMAND);
+            new ItemCosts(DISCOUNT_APPLIED, MISSING_IMAGE_DELIVERY_ITEM_COST_STRING, CALCULATED_COST, MISSING_IMAGE_DELIVERY);
     private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
             singletonList(ITEM_COSTS),
             POSTAGE_COST,
@@ -52,7 +52,7 @@ public class ScanUponDemandItemServiceTest {
 
 
     @InjectMocks
-    private ScanUponDemandItemService serviceUnderTest;
+    private MissingImageDeliveryItemService serviceUnderTest;
 
     @Mock
     private EtagGeneratorService etagGenerator;
@@ -64,17 +64,17 @@ public class ScanUponDemandItemServiceTest {
     private IdGeneratorService idGeneratorService;
 
     @Mock
-    private ScanUponDemandItemRepository repository;
+    private MissingImageDeliveryItemRepository repository;
 
     @Mock
-    private ScanUponDemandCostCalculatorService costCalculatorService;
+    private MissingImageDeliveryCostCalculatorService costCalculatorService;
 
     @Test
-    @DisplayName("createScanUponDemandItem creates and saves item with id, timestamps, etag and links, returns item with costs and item options")
-    void createScanUponDemandItemPopulatesAndSavesItem() {
+    @DisplayName("createMissingImageDeliveryItem creates and saves item with id, timestamps, etag and links, returns item with costs and item options")
+    void createMissingImageDeliveryItemPopulatesAndSavesItem() {
 
         // Given
-        final ScanUponDemandItemOptions scudItemOptions = new ScanUponDemandItemOptions(
+        final MissingImageDeliveryItemOptions scudItemOptions = new MissingImageDeliveryItemOptions(
             FILING_HISTORY_DATE,
             FILING_HISTORY_DESCRIPTION,
             FILING_HISTORY_DESCRIPTION_VALUES,
@@ -82,7 +82,7 @@ public class ScanUponDemandItemServiceTest {
             FILING_HISTORY_TYPE);
         when(idGeneratorService.autoGenerateId()).thenReturn(ID);
         when(costCalculatorService.calculateCosts(QUANTITY)).thenReturn(CALCULATION);
-        ScanUponDemandItem scanUponDemandItem = new ScanUponDemandItem();
+        MissingImageDeliveryItem scanUponDemandItem = new MissingImageDeliveryItem();
         scanUponDemandItem.setQuantity(QUANTITY);
         scanUponDemandItem.setItemOptions(scudItemOptions);
         when(repository.save(scanUponDemandItem)).thenReturn(scanUponDemandItem);
@@ -90,7 +90,7 @@ public class ScanUponDemandItemServiceTest {
         final LocalDateTime intervalStart = LocalDateTime.now();
 
         // When
-        scanUponDemandItem = serviceUnderTest.createScanUponDemandItem(scanUponDemandItem);
+        scanUponDemandItem = serviceUnderTest.createMissingImageDeliveryItem(scanUponDemandItem);
 
         // Then
         final LocalDateTime intervalEnd = LocalDateTime.now();

@@ -1,4 +1,4 @@
-package uk.gov.companieshouse.scanupondemand.orders.api.service;
+package uk.gov.companieshouse.missingimagedelivery.orders.api.service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,7 +23,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.server.ResponseStatusException;
 import uk.gov.companieshouse.api.model.filinghistory.FilingApi;
-import uk.gov.companieshouse.scanupondemand.orders.api.model.ScanUponDemandItemOptions;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemOptions;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -39,8 +39,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestConstants.FILING_NOT_FOUND;
-import static uk.gov.companieshouse.scanupondemand.orders.api.util.TestUtils.givenSdkIsConfigured;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.FILING_NOT_FOUND;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUtils.givenSdkIsConfigured;
 
 
 /**
@@ -59,7 +59,7 @@ class FilingHistoryDocumentServiceIntegrationTest {
     private static final String ID_1 = "MDAxMTEyNzExOGFkaXF6a2N4";
     private static final String UNKNOWN_ID = "000000000000000000000000";
 
-    private static final ScanUponDemandItemOptions FILING_1 = new ScanUponDemandItemOptions(
+    private static final MissingImageDeliveryItemOptions FILING_1 = new MissingImageDeliveryItemOptions(
             "2005-03-21",
             "accounts-with-accounts-type-group",
             Collections.singletonMap("made_up_date", "2004-08-31"),
@@ -67,10 +67,10 @@ class FilingHistoryDocumentServiceIntegrationTest {
             "AA"
     );
 
-    private static final ScanUponDemandItemOptions FILING_SOUGHT =
-        new ScanUponDemandItemOptions(null, null, null, ID_1, null);
+    private static final MissingImageDeliveryItemOptions FILING_SOUGHT =
+        new MissingImageDeliveryItemOptions(null, null, null, ID_1, null);
 
-    private static final ScanUponDemandItemOptions FILING_EXPECTED = FILING_1;
+    private static final MissingImageDeliveryItemOptions FILING_EXPECTED = FILING_1;
 
     @Configuration
     @ComponentScan(basePackageClasses = FilingHistoryDocumentServiceIntegrationTest.class)
@@ -97,10 +97,10 @@ class FilingHistoryDocumentServiceIntegrationTest {
     private Environment environment;
 
     @MockBean
-    private ScanUponDemandItemService scanUponDemandItemService;
+    private MissingImageDeliveryItemService missingImageDeliveryItemService;
 
     @MockBean
-    private ScanUponDemandCostCalculatorService scanUponDemandCostCalculatorService;
+    private MissingImageDeliveryCostCalculatorService missingImageDeliveryCostCalculatorService;
 
     @Test
     @DisplayName("getFilingHistoryDocument gets the expected filing history document successfully")
@@ -115,7 +115,7 @@ class FilingHistoryDocumentServiceIntegrationTest {
 
 
         // When
-        final ScanUponDemandItemOptions filing =
+        final MissingImageDeliveryItemOptions filing =
                 serviceUnderTest.getFilingHistoryDocument(COMPANY_NUMBER, ID_1);
 
 
@@ -188,11 +188,11 @@ class FilingHistoryDocumentServiceIntegrationTest {
 
     /**
      * Factory method that creates an instance of {@link FilingApi} for testing purposes, "reverse-engineered"
-     * from the {@link ScanUponDemandItemOptions} provided.
+     * from the {@link MissingImageDeliveryItemOptions} provided.
      * @param document the filing history document that should result from the filing this creates
      * @return the filing created
      */
-    private static FilingApi filingApi(final ScanUponDemandItemOptions document) {
+    private static FilingApi filingApi(final MissingImageDeliveryItemOptions document) {
         final FilingApi filing = new FilingApi();
         filing.setTransactionId(document.getFilingHistoryId());
         filing.setDate(LocalDate.parse(document.getFilingHistoryDate()));
