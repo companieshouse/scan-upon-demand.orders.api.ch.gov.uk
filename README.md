@@ -1,7 +1,7 @@
-# Companies House Scan Upon Demand API
+# Companies House Missing Image Delivery API
 
-## scan-upon-demand.orders.api.ch.gov.uk
-API handling CRUD operations on CH Scan Upon Demand Ordering Service
+## missing-image-delivery.orders.api.ch.gov.uk
+API handling CRUD operations on CH Missing Image Delivery Ordering Service
 
 ### Requirements
 * [Java 8][1]
@@ -15,7 +15,7 @@ API handling CRUD operations on CH Scan Upon Demand Ordering Service
 ### Environment Variables
 Name | Description | Mandatory | Location
 --- | --- | --- | ---
-SCAN_UPON_DEMAND_ORDERS_API_PORT | Port this application runs on when deployed. | ✓ | start.sh
+MISSIG_IMAGE_DELIVERY_ORDERS_API_PORT | Port this application runs on when deployed. | ✓ | start.sh
 
 ### Endpoints
 Path | Method | Description
