@@ -1,19 +1,19 @@
 {
 	"info": {
 		"_postman_id": "5773d958-5d6d-4680-aaf0-85074e8bff53",
-		"name": "Scan Upon Demand API",
-		"description": "Postman requests for the Scan Upon Demand API.",
+		"name": "Missing Image Delivery API",
+		"description": "Postman requests for the Missing Image Delivery API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 
 	"item": [{
-		"name": "Scan Upon Demand API",
+		"name": "Missing Image Delivery API",
 		"item": [{
-			"name": "Create Scan Upon Demand item",
+			"name": "Create Missing Image Delivery item",
 			"item": [{
 				"name": "Missing attributes",
 				"item": [{
-					"name": "Create Scan Upon Demand item - missing company",
+					"name": "Create Missing Image Delivery item - missing company",
 					"request": {
 						"method": "POST",
 						"header": [{
@@ -32,20 +32,20 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orderable/scans-upon-demand",
+							"raw": "{{base_url}}/orderable/missing-image-deliveries",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orderable",
-								"scans-upon-demand"
+								"missing-image-deliveries"
 							]
 						}
 					},
 					"response": []
 				},
 					{
-						"name": "Create Scan Upon Demand item - missing filing history ID",
+						"name": "Create Missing Image Delivery item - missing filing history ID",
 						"request": {
 							"method": "POST",
 							"header": [{
@@ -64,13 +64,13 @@
 								}
 							},
 							"url": {
-								"raw": "{{base_url}}/orderable/scans-upon-demand",
+								"raw": "{{base_url}}/orderable/missing-image-deliveries",
 								"host": [
 									"{{base_url}}"
 								],
 								"path": [
 									"orderable",
-									"scans-upon-demand"
+									"missing-image-deliveries"
 								]
 							}
 						},
@@ -83,7 +83,7 @@
 				{
 					"name": "Invalid attributes",
 					"item": [{
-						"name": "Create Scan Upon Demand item unknown company number",
+						"name": "Create Missing Image Delivery item unknown company number",
 						"request": {
 							"method": "POST",
 							"header": [{
@@ -102,20 +102,20 @@
 								}
 							},
 							"url": {
-								"raw": "{{base_url}}/orderable/scans-upon-demand",
+								"raw": "{{base_url}}/orderable/missing-image-deliveries",
 								"host": [
 									"{{base_url}}"
 								],
 								"path": [
 									"orderable",
-									"scans-upon-demand"
+									"missing-image-deliveries"
 								]
 							}
 						},
 						"response": []
 					},
 						{
-							"name": "Create Scan Upon Demand item unknown filing history ID",
+							"name": "Create Missing Image Delivery item unknown filing history ID",
 							"request": {
 								"method": "POST",
 								"header": [{
@@ -134,13 +134,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{base_url}}/orderable/scans-upon-demand",
+									"raw": "{{base_url}}/orderable/missing-image-deliveries",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"orderable",
-										"scans-upon-demand"
+										"missing-image-deliveries"
 									]
 								}
 							},
@@ -170,13 +170,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orderable/scans-upon-demand",
+							"raw": "{{base_url}}/orderable/missing-image-deliveries",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orderable",
-								"scans-upon-demand"
+								"missing-image-deliveries"
 							]
 						}
 					},
