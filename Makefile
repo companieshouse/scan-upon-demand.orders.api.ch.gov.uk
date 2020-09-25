@@ -1,4 +1,4 @@
-artifact_name       := scan-upon-demand.orders.api.ch.gov.uk
+artifact_name       := missing-image-delivery.orders.api.ch.gov.uk
 version             := "unversioned"
 
 .PHONY: all
