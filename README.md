@@ -15,7 +15,7 @@ API handling CRUD operations on CH Missing Image Delivery Ordering Service
 ### Environment Variables
 Name | Description | Mandatory | Location
 --- | --- | --- | ---
-MISSIG_IMAGE_DELIVERY_ORDERS_API_PORT | Port this application runs on when deployed. | ✓ | start.sh
+MISSING_IMAGE_DELIVERY_ORDERS_API_PORT | Port this application runs on when deployed. | ✓ | start.sh
 
 ### Endpoints
 Path | Method | Description
