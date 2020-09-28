@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# Start script for scan-upon-demand.orders.api.ch.gov.uk
+# Start script for missing-image-delivery.orders.api.ch.gov.uk
 
 APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [[ -z "${MESOS_SLAVE_PID}" ]]; then
     source ~/.chs_env/private_env
     source ~/.chs_env/global_env
-    source ~/.chs_env/scan-upon-demand.orders.api.ch.gov.uk/env
+    source ~/.chs_env/missing-image-delivery.orders.api.ch.gov.uk/env
 
-    PORT="${SCAN_UPON_DEMAND_ORDERS_API_PORT:=18572}"
+    PORT="${MISSING_IMAGE_DELIVERY_ORDERS_API_PORT:=18572}"
 else
     PORT="$1"
     CONFIG_URL="$2"
@@ -27,5 +27,5 @@ else
     source "${APP_DIR}/app_env"
 fi
 
-exec java ${JAVA_MEM_ARGS} -jar -Dserver.port="${PORT}" "${APP_DIR}/scan-upon-demand.orders.api.ch.gov.uk.jar"
+exec java ${JAVA_MEM_ARGS} -jar -Dserver.port="${PORT}" "${APP_DIR}/missing-image-delivery.orders.api.ch.gov.uk.jar"
 

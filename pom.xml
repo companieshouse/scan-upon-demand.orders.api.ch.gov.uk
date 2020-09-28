@@ -8,10 +8,10 @@
         <artifactId>companies-house-parent</artifactId>
         <version>1.2.0</version>
     </parent>
-    <artifactId>scan-upon-demand.orders.api.ch.gov.uk</artifactId>
+    <artifactId>missing-image-delivery.orders.api.ch.gov.uk</artifactId>
     <version>unversioned</version>
-    <name>scan-upon-demand.orders.api.ch.gov.uk</name>
-    <description>CH API handling CRUD operations on Scan Upon Demand Service</description>
+    <name>missing-image-delivery.orders.api.ch.gov.uk</name>
+    <description>CH API handling CRUD operations on Missing Image Delivery Service</description>
 
     <properties>
         <api-helper-java.version>1.1.0-rc1</api-helper-java.version>
@@ -35,7 +35,7 @@
         <spring-boot-dependencies.version>2.1.15.RELEASE</spring-boot-dependencies.version>
         <spring-boot-maven-plugin.version>2.1.15.RELEASE</spring-boot-maven-plugin.version>
         <spring-cloud-contract-wiremock-version>2.2.2.RELEASE</spring-cloud-contract-wiremock-version>
-        <start-class>uk.gov.companieshouse.scanupondemand.orders.api.ScanUponDemandApiApplication</start-class>
+        <start-class>uk.gov.companieshouse.missingimagedelivery.orders.api.MissingImageDeliveryApiApplication</start-class>
         <structured-logging.version>1.9.0</structured-logging.version>
         <snakeyaml.version>1.25</snakeyaml.version>
         <system-rules-version>1.17.2</system-rules-version>

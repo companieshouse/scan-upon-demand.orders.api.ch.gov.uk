@@ -1,5 +1,5 @@
-app_name: scan-upon-demand.orders.api.ch.gov.uk
+app_name: missing-image-delivery.orders.api.ch.gov.uk
 group: api
 weight: 991
 routes:
-   1: ^/orderable/scans-upon-demand.*
+   1: ^/orderable/missing-image-deliveries.*
