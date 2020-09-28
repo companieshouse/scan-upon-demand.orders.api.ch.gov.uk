@@ -20,6 +20,8 @@ public class MissingImageDeliveryItemService {
     private final LinksGeneratorService linksGenerator;
     private final MissingImageDeliveryCostCalculatorService calculator;
 
+    private static final String KIND = "item#missing-image-delivery";
+
     public MissingImageDeliveryItemService(final MissingImageDeliveryItemRepository repository,
                                      final IdGeneratorService idGenerator,
                                      final EtagGeneratorService etagGenerator,
@@ -43,6 +45,7 @@ public class MissingImageDeliveryItemService {
         setCreationDateTimes(item);
         item.setEtag(etagGenerator.generateEtag());
         item.setLinks(linksGenerator.generateLinks(item.getId()));
+        item.setKind(KIND);
         final ItemCostCalculation costs = calculator.calculateCosts(item.getQuantity());
         item.setItemCosts(costs.getItemCosts());
         item.setPostageCost(costs.getPostageCost());
