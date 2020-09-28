@@ -12,13 +12,14 @@ import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageD
 @Mapper(componentModel = "spring")
 public interface MissingImageDeliveryItemMapper {
 
-	MissingImageDeliveryItem missingImageDeliveryItemRequestDTOtoMissingImageDeliveryItem(MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTO);
+    MissingImageDeliveryItem missingImageDeliveryItemRequestDTOtoMissingImageDeliveryItem(
+            MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTO);
 
-	MissingImageDeliveryItemResponseDTO missingImageDeliveryItemToMissingImageDeliveryItemResponseDTO(
-			MissingImageDeliveryItemData missingImageDeliveryItemData);
+    MissingImageDeliveryItemResponseDTO missingImageDeliveryItemToMissingImageDeliveryItemResponseDTO(
+            MissingImageDeliveryItemData missingImageDeliveryItemData);
 
-	@AfterMapping
-	default void setDefaults(MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTO,
-			@MappingTarget MissingImageDeliveryItem missingImageDeliveryItem) {
-	}
+    @AfterMapping
+    default void setDefaults(MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTO,
+            @MappingTarget MissingImageDeliveryItem missingImageDeliveryItem) {
+    }
 }

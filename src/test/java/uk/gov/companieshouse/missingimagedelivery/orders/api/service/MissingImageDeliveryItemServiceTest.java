@@ -43,13 +43,10 @@ public class MissingImageDeliveryItemServiceTest {
     private static final String FILING_HISTORY_TYPE = "CH01";
     private static final int QUANTITY = 1;
 
-    private static final ItemCosts ITEM_COSTS =
-            new ItemCosts(DISCOUNT_APPLIED, MISSING_IMAGE_DELIVERY_ITEM_COST_STRING, CALCULATED_COST, MISSING_IMAGE_DELIVERY);
-    private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
-            singletonList(ITEM_COSTS),
-            POSTAGE_COST,
-            TestConstants.TOTAL_ITEM_COST);
-
+    private static final ItemCosts ITEM_COSTS = new ItemCosts(DISCOUNT_APPLIED, MISSING_IMAGE_DELIVERY_ITEM_COST_STRING,
+            CALCULATED_COST, MISSING_IMAGE_DELIVERY);
+    private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(singletonList(ITEM_COSTS),
+            POSTAGE_COST, TestConstants.TOTAL_ITEM_COST);
 
     @InjectMocks
     private MissingImageDeliveryItemService serviceUnderTest;
@@ -74,43 +71,40 @@ public class MissingImageDeliveryItemServiceTest {
     void createMissingImageDeliveryItemPopulatesAndSavesItem() {
 
         // Given
-        final MissingImageDeliveryItemOptions scudItemOptions = new MissingImageDeliveryItemOptions(
-            FILING_HISTORY_DATE,
-            FILING_HISTORY_DESCRIPTION,
-            FILING_HISTORY_DESCRIPTION_VALUES,
-            FILING_HISTORY_ID,
-            FILING_HISTORY_TYPE);
+        final MissingImageDeliveryItemOptions scudItemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
+                FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE);
         when(idGeneratorService.autoGenerateId()).thenReturn(ID);
         when(costCalculatorService.calculateCosts(QUANTITY)).thenReturn(CALCULATION);
-        MissingImageDeliveryItem scanUponDemandItem = new MissingImageDeliveryItem();
-        scanUponDemandItem.setQuantity(QUANTITY);
-        scanUponDemandItem.setItemOptions(scudItemOptions);
-        when(repository.save(scanUponDemandItem)).thenReturn(scanUponDemandItem);
+        MissingImageDeliveryItem missingImageDeliveryItem = new MissingImageDeliveryItem();
+        missingImageDeliveryItem.setQuantity(QUANTITY);
+        missingImageDeliveryItem.setItemOptions(scudItemOptions);
+        when(repository.save(missingImageDeliveryItem)).thenReturn(missingImageDeliveryItem);
 
         final LocalDateTime intervalStart = LocalDateTime.now();
 
         // When
-        scanUponDemandItem = serviceUnderTest.createMissingImageDeliveryItem(scanUponDemandItem);
+        missingImageDeliveryItem = serviceUnderTest.createMissingImageDeliveryItem(missingImageDeliveryItem);
 
         // Then
         final LocalDateTime intervalEnd = LocalDateTime.now();
 
-        verifyCreationTimestampsWithinExecutionInterval(scanUponDemandItem, intervalStart, intervalEnd);
-        assertThat(scanUponDemandItem.getId(), is(ID));
+        verifyCreationTimestampsWithinExecutionInterval(missingImageDeliveryItem, intervalStart, intervalEnd);
+        assertThat(missingImageDeliveryItem.getId(), is(ID));
         verify(etagGenerator).generateEtag();
         verify(linksGenerator).generateLinks(ID);
-        assertThat(scanUponDemandItem.getId(), is(ID));
+        assertThat(missingImageDeliveryItem.getId(), is(ID));
         verify(costCalculatorService).calculateCosts(QUANTITY);
-        assertThat(scanUponDemandItem.getItemCosts(), is(singletonList(ITEM_COSTS)));
-        assertThat(scanUponDemandItem.getPostageCost(), is(POSTAGE_COST));
-        assertThat(scanUponDemandItem.getTotalItemCost(), is(TestConstants.TOTAL_ITEM_COST));
-        assertThat(scanUponDemandItem.getItemOptions().getFilingHistoryDate(), is (FILING_HISTORY_DATE));
-        assertThat(scanUponDemandItem.getItemOptions().getFilingHistoryDescription(), is (FILING_HISTORY_DESCRIPTION));
-        assertThat(scanUponDemandItem.getItemOptions().getFilingHistoryDescriptionValues(), is(FILING_HISTORY_DESCRIPTION_VALUES));
-        assertThat(scanUponDemandItem.getItemOptions().getFilingHistoryId(), is(FILING_HISTORY_ID));
-        assertThat(scanUponDemandItem.getItemOptions().getFilingHistoryType(), is(FILING_HISTORY_TYPE));
-        verify(repository).save(scanUponDemandItem);
+        assertThat(missingImageDeliveryItem.getItemCosts(), is(singletonList(ITEM_COSTS)));
+        assertThat(missingImageDeliveryItem.getPostageCost(), is(POSTAGE_COST));
+        assertThat(missingImageDeliveryItem.getTotalItemCost(), is(TestConstants.TOTAL_ITEM_COST));
+        assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryDate(), is(FILING_HISTORY_DATE));
+        assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryDescription(),
+                is(FILING_HISTORY_DESCRIPTION));
+        assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryDescriptionValues(),
+                is(FILING_HISTORY_DESCRIPTION_VALUES));
+        assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryId(), is(FILING_HISTORY_ID));
+        assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryType(), is(FILING_HISTORY_TYPE));
+        verify(repository).save(missingImageDeliveryItem);
     }
 
 }
-

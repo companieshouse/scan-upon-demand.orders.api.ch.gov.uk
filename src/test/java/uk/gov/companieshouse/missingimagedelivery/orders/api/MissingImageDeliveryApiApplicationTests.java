@@ -9,8 +9,8 @@ import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 @AutoConfigureWireMock(port = 0)
 class MissingImageDeliverypiApplicationTests {
 
-	@SuppressWarnings("squid:S2699")    // at least one assertion
-	@Test
-	void contextLoads() {
-	}
+    @SuppressWarnings("squid:S2699") // at least one assertion
+    @Test
+    void contextLoads() {
+    }
 }

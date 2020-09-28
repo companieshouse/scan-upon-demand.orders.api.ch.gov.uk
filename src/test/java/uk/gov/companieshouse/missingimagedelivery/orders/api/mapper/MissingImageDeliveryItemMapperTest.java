@@ -39,7 +39,7 @@ class MissingImageDeliveryItemMapperTest {
 	private static final boolean POSTAL_DELIVERY = true;
 	private static final String DESCRIPTION_IDENTIFIER = "Description Identifier";
 	private static final String DESCRIPTION = "Description";
-    private static final Map<String, String> DESCRIPTION_VALUES = singletonMap("key1", "value1");
+	private static final Map<String, String> DESCRIPTION_VALUES = singletonMap("key1", "value1");
 	private static final MissingImageDeliveryItemOptions ITEM_OPTIONS;
 	private static final String FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N5";
 	private static final String FILING_HISTORY_DATE = "2010-02-12";

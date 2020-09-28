@@ -10,7 +10,7 @@ import java.util.List;
  * An instance of this represents a missing image delivery item.
  */
 
-@Document(collection = "scan_upon_demands")
+@Document(collection = "missing_image_deliveries")
 public class MissingImageDeliveryItem {
 
     @Id

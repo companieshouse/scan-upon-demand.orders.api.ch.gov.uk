@@ -10,7 +10,7 @@
     </parent>
     <artifactId>missing-image-delivery.orders.api.ch.gov.uk</artifactId>
     <version>unversioned</version>
-    <name>scan-upon-demand.orders.api.ch.gov.uk</name>
+    <name>missing-image-delivery.orders.api.ch.gov.uk</name>
     <description>CH API handling CRUD operations on Missing Image Delivery Service</description>
 
     <properties>
