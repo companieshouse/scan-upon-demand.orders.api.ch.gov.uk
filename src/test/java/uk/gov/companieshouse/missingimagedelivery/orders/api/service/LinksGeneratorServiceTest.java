@@ -35,7 +35,7 @@ class LinksGeneratorServiceTest {
                 Assertions.assertThrows(IllegalArgumentException.class,
                         () -> generatorUnderTest.generateLinks(null));
 
-        assertThat(exception.getMessage(), is("Scan Upon Demand Item ID not populated!"));
+        assertThat(exception.getMessage(), is("Missing Image Delivery Item ID not populated!"));
 
     }
 
