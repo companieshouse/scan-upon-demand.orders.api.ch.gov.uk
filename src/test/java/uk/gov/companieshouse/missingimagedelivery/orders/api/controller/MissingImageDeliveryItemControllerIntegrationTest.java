@@ -72,6 +72,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
     private static final String TOKEN_ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
     private static final String POSTAGE_COST = "0";
     public static final String FILING_HISTORY_TYPE_CH01 = "CH01";
+    private static final String KIND = "item#missing-image-delivery";
     private static final boolean POSTAL_DELIVERY = false;
 
     private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(
@@ -144,6 +145,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
         expectedItem.setId(MISSING_IMAGE_DELIVERY_ID);
         expectedItem.setEtag(TOKEN_ETAG);
         expectedItem.setLinks(LINKS);
+        expectedItem.setKind(KIND);
         expectedItem.setCompanyNumber(COMPANY_NUMBER);
         expectedItem.setCompanyName(COMPANY_NAME);
         expectedItem.setCustomerReference(CUSTOMER_REFERENCE);
@@ -224,6 +226,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
         item.setQuantity(QUANTITY_1);
         item.setEtag(TOKEN_ETAG);
         item.setLinks(LINKS);
+        item.setKind(KIND);
         item.setPostageCost(POSTAGE_COST);
         final MissingImageDeliveryItemOptions itemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
                 FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE_CH01);
@@ -241,6 +244,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
         expectedItem.setPostageCost(POSTAGE_COST);
         expectedItem.setItemOptions(itemOptions);
         expectedItem.setPostalDelivery(POSTAL_DELIVERY);
+        expectedItem.setKind(KIND);
 
         // When and then
         mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + MISSING_IMAGE_DELIVERY_ID)

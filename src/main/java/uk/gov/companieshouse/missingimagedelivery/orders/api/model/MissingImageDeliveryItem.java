@@ -102,6 +102,10 @@ public class MissingImageDeliveryItem {
         return data.getLinks();
     }
 
+    public String getKind() {
+       return data.getKind();
+    }
+
     public void setKind(String kind) {
         data.setKind(kind);
     }
