@@ -167,6 +167,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
                 .andExpect(jsonPath("$.company_number", is(COMPANY_NUMBER)))
                 .andExpect(jsonPath("$.company_name", is(COMPANY_NAME)))
+                .andExpect(jsonPath("$.kind", is(KIND)))
                 .andExpect(jsonPath("$.customer_reference", is(CUSTOMER_REFERENCE)))
                 .andExpect(jsonPath("$.item_options.filing_history_date",
                     is(FILING_HISTORY_DATE)))
