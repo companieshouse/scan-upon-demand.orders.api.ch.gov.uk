@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor.UserAuthenticationInterceptor;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor.UserAuthorisationInterceptor;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.service.MissingImageDeliveryItemService;
 
 import static com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE;
 
@@ -19,10 +22,14 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
     @Value("${uk.gov.companieshouse.missingimagedelivery.orders.api.home}")
     private String MISSING_IMAGE_DELIVERY_HOME;
 
+    @Autowired
+    private MissingImageDeliveryItemService missingImageDeliveryItemService;
+
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(new UserAuthenticationInterceptor()).addPathPatterns(MISSING_IMAGE_DELIVERY_HOME + "/**")
                 .excludePathPatterns(MISSING_IMAGE_DELIVERY_HOME + "/healthcheck");
+        registry.addInterceptor(new UserAuthorisationInterceptor(missingImageDeliveryItemService)).addPathPatterns(MISSING_IMAGE_DELIVERY_HOME + "/**");
     }
 
     @Bean
