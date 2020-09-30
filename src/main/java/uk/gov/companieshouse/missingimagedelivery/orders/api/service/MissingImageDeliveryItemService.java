@@ -26,6 +26,8 @@ public class MissingImageDeliveryItemService {
     private static final String DESCRIPTION_IDENTIFIER = "missing-image-delivery";
     private static final String COMPANY_NUMBER_KEY = "company_number";
 
+    private static final String KIND = "item#missing-image-delivery";
+
     public MissingImageDeliveryItemService(final MissingImageDeliveryItemRepository repository,
                                      final IdGeneratorService idGenerator,
                                      final EtagGeneratorService etagGenerator,
@@ -51,6 +53,7 @@ public class MissingImageDeliveryItemService {
         setCreationDateTimes(item);
         item.setEtag(etagGenerator.generateEtag());
         item.setLinks(linksGenerator.generateLinks(item.getId()));
+        item.setKind(KIND);
 
         populateDescriptions(item);
 

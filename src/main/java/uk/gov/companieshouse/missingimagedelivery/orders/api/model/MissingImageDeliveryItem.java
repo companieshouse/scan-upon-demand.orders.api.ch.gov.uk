@@ -116,6 +116,14 @@ public class MissingImageDeliveryItem {
         return data.getLinks();
     }
 
+    public String getKind() {
+       return data.getKind();
+    }
+
+    public void setKind(String kind) {
+        data.setKind(kind);
+    }
+
     public void setPostageCost(String postageCost) { data.setPostageCost(postageCost); }
 
     public void setQuantity(Integer quantity) {

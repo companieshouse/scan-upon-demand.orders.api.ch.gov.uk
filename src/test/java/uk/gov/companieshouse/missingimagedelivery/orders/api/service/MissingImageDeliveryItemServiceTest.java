@@ -45,6 +45,7 @@ public class MissingImageDeliveryItemServiceTest {
     private static final Map<String, Object> FILING_HISTORY_DESCRIPTION_VALUES = new HashMap<>();
     private static final String FILING_HISTORY_TYPE = "CH01";
     private static final int QUANTITY = 1;
+    private static final String KIND = "item#missing-image-delivery";
 
     private static final ItemCosts ITEM_COSTS = new ItemCosts(DISCOUNT_APPLIED, MISSING_IMAGE_DELIVERY_ITEM_COST_STRING,
             CALCULATED_COST, MISSING_IMAGE_DELIVERY);
@@ -86,7 +87,9 @@ public class MissingImageDeliveryItemServiceTest {
         MissingImageDeliveryItem missingImageDeliveryItem = new MissingImageDeliveryItem();
         missingImageDeliveryItem.setData(missingImageDeliveryItemData);
         missingImageDeliveryItem.setQuantity(QUANTITY);
+        missingImageDeliveryItem.setKind(KIND);
         missingImageDeliveryItem.setItemOptions(midItemOptions);
+
         when(repository.save(missingImageDeliveryItem)).thenReturn(missingImageDeliveryItem);
 
         final LocalDateTime intervalStart = LocalDateTime.now();
@@ -106,6 +109,7 @@ public class MissingImageDeliveryItemServiceTest {
         verify(descriptionProviderService).getDescription(COMPANY_NUMBER);
         assertThat(missingImageDeliveryItem.getItemCosts(), is(singletonList(ITEM_COSTS)));
         assertThat(missingImageDeliveryItem.getPostageCost(), is(POSTAGE_COST));
+        assertThat(missingImageDeliveryItem.getKind(), is(KIND));
         assertThat(missingImageDeliveryItem.getTotalItemCost(), is(TestConstants.TOTAL_ITEM_COST));
         assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryDate(), is(FILING_HISTORY_DATE));
         assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryDescription(),
