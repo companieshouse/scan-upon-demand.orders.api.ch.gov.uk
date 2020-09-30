@@ -151,7 +151,7 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Create certified copy item",
+					"name": "Create Missing Image Delivery item",
 					"request": {
 						"method": "POST",
 						"header": [{
@@ -253,7 +253,7 @@
 						"response": []
 					}
 				],
-				"description": "NOT USED\n--------\n* It turns out that the API method tested by the requests in this folder is NOT used within the Certified Copies API after all. \n* Kept as useful for probing what's available through the Filing History API only.",
+				"description": "NOT USED\n--------\n* It turns out that the API method tested by the requests in this folder is NOT used within the Missing Image Delivery API after all. \n* Kept as useful for probing what's available through the Filing History API only.",
 				"event": [{
 					"listen": "prerequest",
 					"script": {

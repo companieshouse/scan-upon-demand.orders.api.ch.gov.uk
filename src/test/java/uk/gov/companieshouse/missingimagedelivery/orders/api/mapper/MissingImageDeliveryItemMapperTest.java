@@ -30,9 +30,9 @@ import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestCon
 class MissingImageDeliveryItemMapperTest {
 
 	private static final String COMPANY_NUMBER = "00006400";
-	private static final String CUSTOMER_REFERENCE = "SCUD Item ordered by Yiannis";
+	private static final String CUSTOMER_REFERENCE = "MID Item ordered by Yiannis";
 	private static final Integer QUANTITY = 1;
-	private static final String ID = "SCD-462515-995726";
+	private static final String ID = "MID-462515-995726";
 	private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
 	private static final String KIND = "item#missing-image-delivery";
 	private static final String ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
