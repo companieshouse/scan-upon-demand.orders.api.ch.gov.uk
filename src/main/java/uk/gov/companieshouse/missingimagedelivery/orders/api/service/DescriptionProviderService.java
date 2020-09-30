@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.LoggingUtils.logErrorWithStatus;
 
 @Service
 public class DescriptionProviderService {
