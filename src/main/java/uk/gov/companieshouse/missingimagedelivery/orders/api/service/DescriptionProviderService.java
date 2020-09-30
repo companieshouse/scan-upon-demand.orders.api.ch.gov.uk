@@ -45,7 +45,6 @@ public class DescriptionProviderService {
      */
     public String getDescription(final String companyNumber) {
         if (missingImageDeliveryDescription == null) {
-            // Error logged again here at time description is requested.
             LoggingUtils.logOrdersDescriptionsConfigError(COMPANY_MISSING_IMAGE_DELIVERY_DESCRIPTION_KEY,
                     "Missing image delivery description not found in orders descriptions file");
             return null;

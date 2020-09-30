@@ -92,6 +92,6 @@ public class LoggingUtils {
     public static void logOrdersDescriptionsConfigError(final String descriptionKey, final String errorMessage) {
         Map<String, Object> logMap = new HashMap<>();
         logMap.put(DESCRIPTION_LOG_KEY, descriptionKey);
-        LOGGER.error(errorMessage);
+        LOGGER.error(errorMessage, logMap);
     }
 }
