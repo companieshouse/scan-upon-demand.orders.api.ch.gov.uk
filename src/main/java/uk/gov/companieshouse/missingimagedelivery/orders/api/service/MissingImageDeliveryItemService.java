@@ -6,6 +6,8 @@ import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageD
 import uk.gov.companieshouse.missingimagedelivery.orders.api.repository.MissingImageDeliveryItemRepository;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -19,17 +21,23 @@ public class MissingImageDeliveryItemService {
     private final EtagGeneratorService etagGenerator;
     private final LinksGeneratorService linksGenerator;
     private final MissingImageDeliveryCostCalculatorService calculator;
+    private final DescriptionProviderService descriptionProviderService;
+
+    private final String DESCRIPTION_IDENTIFIER = "missing-image-delivery";
+    private static final String COMPANY_NUMBER_KEY = "company_number";
 
     public MissingImageDeliveryItemService(final MissingImageDeliveryItemRepository repository,
                                      final IdGeneratorService idGenerator,
                                      final EtagGeneratorService etagGenerator,
                                      final LinksGeneratorService linksGenerator,
-                                     final MissingImageDeliveryCostCalculatorService calculator) {
+                                     final MissingImageDeliveryCostCalculatorService calculator,
+                                     final DescriptionProviderService descriptionProvider) {
         this.repository = repository;
         this.idGenerator = idGenerator;
         this.etagGenerator = etagGenerator;
         this.linksGenerator = linksGenerator;
         this.calculator = calculator;
+        this.descriptionProviderService = descriptionProvider;
     }
 
     /**
@@ -43,11 +51,25 @@ public class MissingImageDeliveryItemService {
         setCreationDateTimes(item);
         item.setEtag(etagGenerator.generateEtag());
         item.setLinks(linksGenerator.generateLinks(item.getId()));
+
+        populateDescriptions(item);
+
         final ItemCostCalculation costs = calculator.calculateCosts(item.getQuantity());
         item.setItemCosts(costs.getItemCosts());
         item.setPostageCost(costs.getPostageCost());
         item.setTotalItemCost(costs.getTotalItemCost());
         return repository.save(item);
+    }
+
+    private void populateDescriptions(final MissingImageDeliveryItem missingImageDeliveryItem) {
+        String description = descriptionProviderService.getDescription(missingImageDeliveryItem.getData().getCompanyNumber());
+        missingImageDeliveryItem.setDescriptionIdentifier(DESCRIPTION_IDENTIFIER);
+        missingImageDeliveryItem.setDescription(description);
+
+        Map<String, String> descriptionValues = new HashMap<>();
+        descriptionValues.put(DESCRIPTION_IDENTIFIER, description);
+        descriptionValues.put(COMPANY_NUMBER_KEY, missingImageDeliveryItem.getData().getCompanyNumber());
+        missingImageDeliveryItem.setDescriptionValues(descriptionValues);
     }
 
     /**
