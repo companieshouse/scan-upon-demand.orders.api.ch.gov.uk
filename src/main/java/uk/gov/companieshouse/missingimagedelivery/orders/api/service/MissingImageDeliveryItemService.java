@@ -23,7 +23,7 @@ public class MissingImageDeliveryItemService {
     private final MissingImageDeliveryCostCalculatorService calculator;
     private final DescriptionProviderService descriptionProviderService;
 
-    private final String DESCRIPTION_IDENTIFIER = "missing-image-delivery";
+    private static final String DESCRIPTION_IDENTIFIER = "missing-image-delivery";
     private static final String COMPANY_NUMBER_KEY = "company_number";
 
     public MissingImageDeliveryItemService(final MissingImageDeliveryItemRepository repository,
