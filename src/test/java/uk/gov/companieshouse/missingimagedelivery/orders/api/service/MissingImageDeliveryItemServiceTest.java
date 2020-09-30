@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCosts;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemData;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemOptions;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.repository.MissingImageDeliveryItemRepository;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants;
@@ -33,6 +34,8 @@ import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUti
 @ExtendWith(MockitoExtension.class)
 public class MissingImageDeliveryItemServiceTest {
 
+    private static final String COMPANY_NUMBER = "00000000";
+    private static final String DESCRIPTION = "missing image delivery for company 00000000";
     private static final String ID = "SCD-822015-998103";
     private static final String CALCULATED_COST = "10";
     private static final String POSTAGE_COST = "0";
@@ -67,19 +70,26 @@ public class MissingImageDeliveryItemServiceTest {
     @Mock
     private MissingImageDeliveryCostCalculatorService costCalculatorService;
 
+    @Mock
+    private DescriptionProviderService descriptionProviderService;
+
     @Test
     @DisplayName("createMissingImageDeliveryItem creates and saves item with id, timestamps, etag and links, returns item with costs and item options")
     void createMissingImageDeliveryItemPopulatesAndSavesItem() {
 
         // Given
-        final MissingImageDeliveryItemOptions scudItemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
-                FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE);
         when(idGeneratorService.autoGenerateId()).thenReturn(ID);
+        final MissingImageDeliveryItemOptions midItemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
+                FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE);
         when(costCalculatorService.calculateCosts(QUANTITY)).thenReturn(CALCULATION);
+        MissingImageDeliveryItemData missingImageDeliveryItemData = new MissingImageDeliveryItemData();
+        missingImageDeliveryItemData.setCompanyNumber(COMPANY_NUMBER);
         MissingImageDeliveryItem missingImageDeliveryItem = new MissingImageDeliveryItem();
+        missingImageDeliveryItem.setData(missingImageDeliveryItemData);
         missingImageDeliveryItem.setQuantity(QUANTITY);
         missingImageDeliveryItem.setKind(KIND);
-        missingImageDeliveryItem.setItemOptions(scudItemOptions);
+        missingImageDeliveryItem.setItemOptions(midItemOptions);
+
         when(repository.save(missingImageDeliveryItem)).thenReturn(missingImageDeliveryItem);
 
         final LocalDateTime intervalStart = LocalDateTime.now();
@@ -96,6 +106,7 @@ public class MissingImageDeliveryItemServiceTest {
         verify(linksGenerator).generateLinks(ID);
         assertThat(missingImageDeliveryItem.getId(), is(ID));
         verify(costCalculatorService).calculateCosts(QUANTITY);
+        verify(descriptionProviderService).getDescription(COMPANY_NUMBER);
         assertThat(missingImageDeliveryItem.getItemCosts(), is(singletonList(ITEM_COSTS)));
         assertThat(missingImageDeliveryItem.getPostageCost(), is(POSTAGE_COST));
         assertThat(missingImageDeliveryItem.getKind(), is(KIND));

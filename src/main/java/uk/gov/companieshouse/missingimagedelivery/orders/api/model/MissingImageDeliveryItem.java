@@ -3,8 +3,10 @@ package uk.gov.companieshouse.missingimagedelivery.orders.api.model;
 import com.google.gson.Gson;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * An instance of this represents a missing image delivery item.
@@ -79,6 +81,18 @@ public class MissingImageDeliveryItem {
 
     public void setCustomerReference(String companyReference) {
         data.setCustomerReference(companyReference);
+    }
+
+    public void setDescription(String description) {
+        data.setDescription(description);
+    }
+
+    public void setDescriptionIdentifier(String descriptionIdentifier) {
+        data.setDescriptionIdentifier(descriptionIdentifier);
+    }
+
+    public void setDescriptionValues(Map<String, String> descriptionValues) {
+        data.setDescriptionValues(descriptionValues);
     }
 
     public void setEtag(String etag) {
