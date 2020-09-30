@@ -58,7 +58,7 @@ public class MissingImageDeliveryItemControllerTest {
 
     @Test
     @DisplayName("Get missing image delivery resource returns HTTP NOT FOUND")
-    void getCertifiedCopyItemNotFound() {
+    void getMissingImageDeliveryItemNotFound() {
         when(missingImageDeliveryItemService.getMissingImageDeliveryItemById(ID)).thenReturn(Optional.empty());
         ResponseEntity<Object> response = controllerUnderTest.getMissingImageDeliveryItem(ID, REQUEST_ID_VALUE);
 

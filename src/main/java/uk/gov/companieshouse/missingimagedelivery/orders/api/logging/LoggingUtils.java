@@ -18,6 +18,7 @@ public class LoggingUtils {
     public static final String COMPANY_NUMBER_LOG_KEY = "company_number";
     public static final String REQUEST_ID_LOG_KEY = "request_id";
     public static final String MISSING_IMAGE_DELIVERY_ID_LOG_KEY = "missing_image_delivery_id";
+    public static final String DESCRIPTION_LOG_KEY = "description_key";
     public static final String USER_ID_LOG_KEY = "user_id";
     public static final String STATUS_LOG_KEY = "status";
     public static final String ERRORS_LOG_KEY = "errors";
@@ -80,5 +81,17 @@ public class LoggingUtils {
                                           final HttpStatus status) {
         logMap.put(ERRORS_LOG_KEY, singletonList(error));
         logMap.put(STATUS_LOG_KEY, status);
+    }
+
+    /**
+     * Method to log an error and add a value for the description key.
+     *
+     * @param descriptionKey the company number to log under the key {@link LoggingUtils#DESCRIPTION_LOG_KEY}
+     * @param errorMessage the error message to display
+     */
+    public static void logOrdersDescriptionsConfigError(final String descriptionKey, final String errorMessage) {
+        Map<String, Object> logMap = new HashMap<>();
+        logMap.put(DESCRIPTION_LOG_KEY, descriptionKey);
+        LOGGER.error(errorMessage, logMap);
     }
 }
