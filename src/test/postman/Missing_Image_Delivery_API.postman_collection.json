@@ -5,128 +5,178 @@
 		"description": "Postman requests for the Missing Image Delivery API.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-
-	"item": [{
-		"name": "Missing Image Delivery API",
-		"item": [{
-			"name": "Create Missing Image Delivery item",
-			"item": [{
-				"name": "Missing attributes",
-				"item": [{
-					"name": "Create Missing Image Delivery item - missing company",
-					"request": {
-						"method": "POST",
-						"header": [{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"type": "text",
-							"value": "application/json"
-						}],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"MzAwOTM2MDg5OWFkaXF6a2N4\"\n    },\n    \"quantity\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/orderable/missing-image-deliveries",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orderable",
-								"missing-image-deliveries"
-							]
-						}
-					},
-					"response": []
-				},
-					{
-						"name": "Create Missing Image Delivery item - missing filing history ID",
-						"request": {
-							"method": "POST",
-							"header": [{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}],
-							"body": {
-								"mode": "raw",
-								"raw": "{\n    \"company_number\": \"00006400\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        },\n    \"quantity\": 1\n}",
-								"options": {
-									"raw": {
-										"language": "json"
-									}
-								}
-							},
-							"url": {
-								"raw": "{{base_url}}/orderable/missing-image-deliveries",
-								"host": [
-									"{{base_url}}"
-								],
-								"path": [
-									"orderable",
-									"missing-image-deliveries"
-								]
-							}
-						},
-						"response": []
-					}
-				],
-				"protocolProfileBehavior": {},
-				"_postman_isSubFolder": true
-			},
+	"item": [
+		{
+			"name": "Missing Image Delivery API",
+			"item": [
 				{
-					"name": "Invalid attributes",
-					"item": [{
-						"name": "Create Missing Image Delivery item unknown company number",
-						"request": {
-							"method": "POST",
-							"header": [{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}],
-							"body": {
-								"mode": "raw",
-								"raw": "{\n    \"company_number\": \"00000000\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"MzAwOTM2MDg5OWFkaXF6a2N4\"\n    },\n    \"quantity\": 1\n}",
-								"options": {
-									"raw": {
-										"language": "json"
-									}
-								}
-							},
-							"url": {
-								"raw": "{{base_url}}/orderable/missing-image-deliveries",
-								"host": [
-									"{{base_url}}"
-								],
-								"path": [
-									"orderable",
-									"missing-image-deliveries"
-								]
-							}
-						},
-						"response": []
-					},
+					"name": "Create Missing Image Delivery item",
+					"item": [
 						{
-							"name": "Create Missing Image Delivery item unknown filing history ID",
+							"name": "Missing attributes",
+							"item": [
+								{
+									"name": "Create Missing Image Delivery item - missing company",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"MzAwOTM2MDg5OWFkaXF6a2N4\"\n    },\n    \"quantity\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/orderable/missing-image-deliveries",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"orderable",
+												"missing-image-deliveries"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Missing Image Delivery item - missing filing history ID",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"company_number\": \"00006400\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        },\n    \"quantity\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/orderable/missing-image-deliveries",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"orderable",
+												"missing-image-deliveries"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Invalid attributes",
+							"item": [
+								{
+									"name": "Create Missing Image Delivery item unknown company number",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"company_number\": \"00000000\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"MzAwOTM2MDg5OWFkaXF6a2N4\"\n    },\n    \"quantity\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/orderable/missing-image-deliveries",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"orderable",
+												"missing-image-deliveries"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Missing Image Delivery item unknown filing history ID",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"company_number\": \"00006400\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"0000000\"\n    },\n    \"quantity\": 1\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/orderable/missing-image-deliveries",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"orderable",
+												"missing-image-deliveries"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Create Missing Image Delivery item",
 							"request": {
 								"method": "POST",
-								"header": [{
-									"key": "Content-Type",
-									"name": "Content-Type",
-									"type": "text",
-									"value": "application/json"
-								}],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"company_number\": \"00006400\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"0000000\"\n    },\n    \"quantity\": 1\n}",
+									"raw": "{\n    \"company_number\": \"00006400\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"MzAwOTM2MDg5OWFkaXF6a2N4\"\n    },\n    \"quantity\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -151,43 +201,34 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "Create Missing Image Delivery item",
-					"request": {
-						"method": "POST",
-						"header": [{
-							"key": "Content-Type",
-							"name": "Content-Type",
-							"value": "application/json",
-							"type": "text"
-						}],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"company_number\": \"00006400\",\n    \"customer_reference\": \"Certificate ordered by OJ\",\n    \"item_options\": {\n        \"filing_history_id\": \"MzAwOTM2MDg5OWFkaXF6a2N4\"\n    },\n    \"quantity\": 1\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Get Missing Image Delivery item",
+					"item": [
+						{
+							"name": "Get Missing Image Delivery item",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/orderable/missing-image-deliveries/MID-170916-014751",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"orderable",
+										"missing-image-deliveries",
+										"MID-170916-014751"
+									]
 								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/orderable/missing-image-deliveries",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orderable",
-								"missing-image-deliveries"
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
 				}
 			],
-			"protocolProfileBehavior": {},
-			"_postman_isSubFolder": true
-		}],
-		"protocolProfileBehavior": {}
-	},
+			"protocolProfileBehavior": {}
+		},
 		{
 			"name": "Filing History API",
 			"item": [{
