@@ -8,6 +8,7 @@ public class TestConstants {
     public static final String ERIC_IDENTITY_VALUE = "Y2VkZWVlMzhlZWFjY2M4MzQ3MT";
     public static final String ERIC_IDENTITY_TYPE_OAUTH2_VALUE = "oauth2";
     public static final String ERIC_IDENTITY_TYPE_HEADER_NAME = "ERIC-Identity-Type";
+    public static final String ERIC_IDENTITY_TYPE_API_KEY_VALUE = "key";
     public static final String MISSING_IMAGE_DELIVERY_URL = "/orderable/missing-image-deliveries";
     public static final ApiErrorResponsePayload FILING_NOT_FOUND =
         new ApiErrorResponsePayload(singletonList(new Error("ch:service", "filing-history-item-not-found")));
