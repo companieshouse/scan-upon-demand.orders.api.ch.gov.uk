@@ -229,6 +229,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
         item.setLinks(LINKS);
         item.setKind(KIND);
         item.setPostageCost(POSTAGE_COST);
+        item.setUserId(ERIC_IDENTITY_VALUE);
         final MissingImageDeliveryItemOptions itemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
                 FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE_CH01);
         item.setItemOptions(itemOptions);
