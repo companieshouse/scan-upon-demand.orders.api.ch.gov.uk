@@ -11,12 +11,14 @@ public class MissingImageDeliveryItemOptions {
                                      final String filingHistoryDescription,
                                      final Map<String, Object> filingHistoryDescriptionValues,
                                      final String filingHistoryId,
-                                     final String filingHistoryType) {
+                                     final String filingHistoryType,
+                                     final String filingHistoryCategory) {
         this.filingHistoryDate = filingHistoryDate;
         this.filingHistoryDescription = filingHistoryDescription;
         this.filingHistoryDescriptionValues = filingHistoryDescriptionValues;
         this.filingHistoryId = filingHistoryId;
         this.filingHistoryType = filingHistoryType;
+        this.filingHistoryCategory = filingHistoryCategory;
     }
 
     private String filingHistoryDate;
@@ -28,6 +30,8 @@ public class MissingImageDeliveryItemOptions {
     private String filingHistoryId;
 
     private String filingHistoryType;
+
+    private String filingHistoryCategory;
 
     private String filingHistoryCost;
 
@@ -70,6 +74,12 @@ public class MissingImageDeliveryItemOptions {
     public void setFilingHistoryType(String filingHistoryType) {
         this.filingHistoryType = filingHistoryType;
     }
+
+    public String getFilingHistoryCategory() {
+        return filingHistoryCategory;
+    }
+
+    public void setFilingHistoryCategory(String filingHistoryCategory) { this.filingHistoryCategory = filingHistoryCategory; }
 
     public String getFilingHistoryCost() {
         return filingHistoryCost;
