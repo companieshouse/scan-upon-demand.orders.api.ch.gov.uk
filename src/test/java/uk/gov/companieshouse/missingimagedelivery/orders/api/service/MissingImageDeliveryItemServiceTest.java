@@ -44,6 +44,7 @@ public class MissingImageDeliveryItemServiceTest {
     private static final String FILING_HISTORY_DESCRIPTION = "change-person-director-company-with-change-date";
     private static final Map<String, Object> FILING_HISTORY_DESCRIPTION_VALUES = new HashMap<>();
     private static final String FILING_HISTORY_TYPE = "CH01";
+    public static final String FILING_HISTORY_CATEGORY = "accounts";
     private static final int QUANTITY = 1;
     private static final String KIND = "item#missing-image-delivery";
 
@@ -80,7 +81,8 @@ public class MissingImageDeliveryItemServiceTest {
         // Given
         when(idGeneratorService.autoGenerateId()).thenReturn(ID);
         final MissingImageDeliveryItemOptions midItemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
-                FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE);
+                FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE,
+                FILING_HISTORY_CATEGORY);
         when(costCalculatorService.calculateCosts(QUANTITY)).thenReturn(CALCULATION);
         MissingImageDeliveryItemData missingImageDeliveryItemData = new MissingImageDeliveryItemData();
         missingImageDeliveryItemData.setCompanyNumber(COMPANY_NUMBER);
@@ -118,6 +120,7 @@ public class MissingImageDeliveryItemServiceTest {
                 is(FILING_HISTORY_DESCRIPTION_VALUES));
         assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryId(), is(FILING_HISTORY_ID));
         assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryType(), is(FILING_HISTORY_TYPE));
+        assertThat(missingImageDeliveryItem.getItemOptions().getFilingHistoryCategory(), is(FILING_HISTORY_CATEGORY));
         verify(repository).save(missingImageDeliveryItem);
     }
 

@@ -64,11 +64,17 @@ class FilingHistoryDocumentServiceIntegrationTest {
             "accounts-with-accounts-type-group",
             Collections.singletonMap("made_up_date", "2004-08-31"),
             ID_1,
-            "AA"
+            "AA",
+            "accounts"
     );
 
     private static final MissingImageDeliveryItemOptions FILING_SOUGHT =
-        new MissingImageDeliveryItemOptions(null, null, null, ID_1, null);
+        new MissingImageDeliveryItemOptions(null,
+                null,
+                null,
+                ID_1,
+                null,
+                null);
 
     private static final MissingImageDeliveryItemOptions FILING_EXPECTED = FILING_1;
 
@@ -199,6 +205,7 @@ class FilingHistoryDocumentServiceIntegrationTest {
         filing.setDescriptionValues(document.getFilingHistoryDescriptionValues());
         filing.setDescription(document.getFilingHistoryDescription());
         filing.setType(document.getFilingHistoryType());
+        filing.setCategory(document.getFilingHistoryCategory());
         return filing;
     }
 

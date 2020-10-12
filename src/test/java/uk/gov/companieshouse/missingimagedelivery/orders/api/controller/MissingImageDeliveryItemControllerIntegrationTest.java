@@ -72,6 +72,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
     private static final String TOKEN_ETAG = "9d39ea69b64c80ca42ed72328b48c303c4445e28";
     private static final String POSTAGE_COST = "0";
     public static final String FILING_HISTORY_TYPE_CH01 = "CH01";
+    public static final String FILING_HISTORY_CATEGORY_ACCOUNTS = "accounts";
     private static final String KIND = "item#missing-image-delivery";
     private static final boolean POSTAL_DELIVERY = false;
 
@@ -133,7 +134,8 @@ class MissingImageDeliveryItemControllerIntegrationTest {
                 FILING_HISTORY_DESCRIPTION,
                 FILING_HISTORY_DESCRIPTION_VALUES,
                 FILING_HISTORY_ID,
-                FILING_HISTORY_TYPE_CH01);
+                FILING_HISTORY_TYPE_CH01,
+                FILING_HISTORY_CATEGORY_ACCOUNTS);
 
         when(idGeneratorService.autoGenerateId()).thenReturn(MISSING_IMAGE_DELIVERY_ID);
         when(etagGeneratorService.generateEtag()).thenReturn(TOKEN_ETAG);
@@ -178,7 +180,9 @@ class MissingImageDeliveryItemControllerIntegrationTest {
                 .andExpect(jsonPath("$.item_options.filing_history_id",
                     is(FILING_HISTORY_ID)))
                 .andExpect(jsonPath("$.item_options.filing_history_type",
-                    is(FILING_HISTORY_TYPE_CH01)));
+                    is(FILING_HISTORY_TYPE_CH01)))
+                .andExpect(jsonPath("$.item_options.filing_history_category",
+                        is(FILING_HISTORY_CATEGORY_ACCOUNTS)));
 
         final MissingImageDeliveryItem retrievedItem = assertItemSavedCorrectly(MISSING_IMAGE_DELIVERY_ID);
         final LocalDateTime intervalEnd = LocalDateTime.now();
@@ -204,6 +208,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
         assertThat(retrievedItem.getItemOptions().getFilingHistoryDescriptionValues(), is(FILING_HISTORY_DESCRIPTION_VALUES));
         assertThat(retrievedItem.getItemOptions().getFilingHistoryId(), is(FILING_HISTORY_ID));
         assertThat(retrievedItem.getItemOptions().getFilingHistoryType(), is(FILING_HISTORY_TYPE_CH01));
+        assertThat(retrievedItem.getItemOptions().getFilingHistoryCategory(), is(FILING_HISTORY_CATEGORY_ACCOUNTS));
     }
 
     @Test
@@ -231,7 +236,8 @@ class MissingImageDeliveryItemControllerIntegrationTest {
         item.setPostageCost(POSTAGE_COST);
         item.setUserId(ERIC_IDENTITY_VALUE);
         final MissingImageDeliveryItemOptions itemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
-                FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE_CH01);
+                FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE_CH01,
+                FILING_HISTORY_CATEGORY_ACCOUNTS);
         item.setItemOptions(itemOptions);
         repository.save(item);
 
