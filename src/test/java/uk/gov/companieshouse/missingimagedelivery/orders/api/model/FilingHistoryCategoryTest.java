@@ -6,10 +6,9 @@ import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.nullValue;
 
-public class FilingHistoryCategoryTest {
+class FilingHistoryCategoryTest {
     private static final String ACCOUNTS = "accounts";
     private static final String[] ANNUAL_RETURN = {"annual-return", "confirmation-statement", "return"};
     private static final String[] APPOINTMENT = {"officers", "officer"};

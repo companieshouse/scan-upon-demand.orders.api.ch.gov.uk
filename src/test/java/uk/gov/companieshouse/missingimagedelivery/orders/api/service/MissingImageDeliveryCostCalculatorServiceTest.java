@@ -20,9 +20,9 @@ import static org.mockito.Mockito.when;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY_ACCOUNTS;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.CALCULATED_COST;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.DISCOUNT_APPLIED;
-import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.POSTAGE_COST;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_ITEM_COST;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_ITEM_COST_STRING;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.POSTAGE_COST;
 
 /**
  * Unit tests the {@link MissingImageDeliveryCostCalculatorService} class.

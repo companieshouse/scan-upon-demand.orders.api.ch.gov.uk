@@ -51,7 +51,14 @@ import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTIT
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY_ACCOUNTS;
-import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.*;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.CALCULATED_COST;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.DISCOUNT_APPLIED;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_OAUTH2_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_ITEM_COST_STRING;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_URL;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.REQUEST_ID_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.TOTAL_ITEM_COST;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 

@@ -44,10 +44,6 @@ public class MissingImageDeliveryCostCalculatorService {
                 totalItemCost);
     }
 
-    private String mapCategoryToProductType(String category) {
-        return null;
-    }
-
     /**
      * Utility method that checks the arguments provided to it. Throws an {@link IllegalArgumentException} should these
      * be outside of the range of reasonable values.
