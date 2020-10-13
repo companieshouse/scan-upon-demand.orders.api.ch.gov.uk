@@ -20,6 +20,7 @@ import uk.gov.companieshouse.missingimagedelivery.orders.api.model.Links;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemData;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemOptions;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.repository.MissingImageDeliveryItemRepository;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.service.ApiClientService;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.service.CompanyService;
@@ -49,8 +50,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
-import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY;
-import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.*;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY_ACCOUNTS;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.CALCULATED_COST;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.DISCOUNT_APPLIED;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_TYPE_OAUTH2_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.ERIC_IDENTITY_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_ITEM_COST_STRING;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_URL;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.REQUEST_ID_VALUE;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.TOTAL_ITEM_COST;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
 
 
@@ -80,9 +88,11 @@ class MissingImageDeliveryItemControllerIntegrationTest {
             singletonList(new ItemCosts(DISCOUNT_APPLIED,
                     MISSING_IMAGE_DELIVERY_ITEM_COST_STRING,
                     CALCULATED_COST,
-                    MISSING_IMAGE_DELIVERY)),
+                    MISSING_IMAGE_DELIVERY_ACCOUNTS)),
             POSTAGE_COST,
             TOTAL_ITEM_COST);
+
+    private static final ProductType ACCOUNTS_PRODUCT_TYPE = MISSING_IMAGE_DELIVERY_ACCOUNTS;
 
     static {
         LINKS = new Links();
@@ -139,7 +149,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
 
         when(idGeneratorService.autoGenerateId()).thenReturn(MISSING_IMAGE_DELIVERY_ID);
         when(etagGeneratorService.generateEtag()).thenReturn(TOKEN_ETAG);
-        when(calculatorService.calculateCosts(QUANTITY_1)).thenReturn(CALCULATION);
+        when(calculatorService.calculateCosts(QUANTITY_1, ACCOUNTS_PRODUCT_TYPE)).thenReturn(CALCULATION);
         when(companyService.getCompanyName(COMPANY_NUMBER)).thenReturn(COMPANY_NAME);
         when(filingHistoryDocumentService.getFilingHistoryDocument(eq(COMPANY_NUMBER), anyString())).thenReturn(filing);
 

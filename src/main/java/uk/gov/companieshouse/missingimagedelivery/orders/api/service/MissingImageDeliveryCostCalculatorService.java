@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.config.CostsConfig;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCosts;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType;
 
 import static java.util.Collections.singletonList;
-import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY;
 
 /**
  * Simple service class implemented for consistency across the three Item API implementations.
@@ -23,25 +23,23 @@ public class MissingImageDeliveryCostCalculatorService {
      * Constructor.
      * @param costs the configured costs used by this in its calculations
      */
-    public MissingImageDeliveryCostCalculatorService(final CostsConfig costs) {
-        this.costs = costs;
-    }
+    public MissingImageDeliveryCostCalculatorService(final CostsConfig costs) { this.costs = costs; }
 
     /**
      * Calculates the missing image delivery item costs.
      * @param quantity the number of items
+     * @param productType product type based on category
      * @return all of the relevant costs
      */
-    public ItemCostCalculation calculateCosts(final int quantity) {
+    public ItemCostCalculation calculateCosts(final int quantity, final ProductType productType) {
         checkArguments(quantity);
         final int calculatedCost = costs.getMissingImageDeliveryItemCost();
         final String totalItemCost = Integer.toString(quantity * calculatedCost);
         return new ItemCostCalculation(
-                singletonList(
-                        new ItemCosts(ZERO_DISCOUNT_APPLIED,
-                                      Integer.toString(costs.getMissingImageDeliveryItemCost()),
-                                      Integer.toString(calculatedCost),
-                                      MISSING_IMAGE_DELIVERY)),
+                singletonList(new ItemCosts(ZERO_DISCOUNT_APPLIED,
+                        Integer.toString(costs.getMissingImageDeliveryItemCost()),
+                        Integer.toString(calculatedCost),
+                        productType)),
                 ZERO_POSTAGE_COST,
                 totalItemCost);
     }
