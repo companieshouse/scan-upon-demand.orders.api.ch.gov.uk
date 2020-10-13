@@ -1,8 +1,11 @@
 package uk.gov.companieshouse.missingimagedelivery.orders.api.service;
 
 import org.springframework.stereotype.Service;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.FilingHistoryCategory;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCostCalculation;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemOptions;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.repository.MissingImageDeliveryItemRepository;
 
 import java.time.LocalDateTime;
@@ -57,7 +60,10 @@ public class MissingImageDeliveryItemService {
 
         populateDescriptions(item);
 
-        final ItemCostCalculation costs = calculator.calculateCosts(item.getQuantity());
+        MissingImageDeliveryItemOptions itemOptions = item.getItemOptions();
+        String category = itemOptions.getFilingHistoryCategory();
+        ProductType productType = FilingHistoryCategory.enumValueOf(category).getProductType();
+        final ItemCostCalculation costs = calculator.calculateCosts(item.getQuantity(), productType);
         item.setItemCosts(costs.getItemCosts());
         item.setPostageCost(costs.getPostageCost());
         item.setTotalItemCost(costs.getTotalItemCost());

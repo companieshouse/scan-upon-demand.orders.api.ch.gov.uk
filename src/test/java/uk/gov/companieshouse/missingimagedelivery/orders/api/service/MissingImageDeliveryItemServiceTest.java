@@ -11,6 +11,7 @@ import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ItemCosts;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemData;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItemOptions;
+import uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.repository.MissingImageDeliveryItemRepository;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants;
 
@@ -23,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY;
+import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY_MISC;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.DISCOUNT_APPLIED;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.MISSING_IMAGE_DELIVERY_ITEM_COST_STRING;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUtils.verifyCreationTimestampsWithinExecutionInterval;
@@ -44,12 +45,14 @@ public class MissingImageDeliveryItemServiceTest {
     private static final String FILING_HISTORY_DESCRIPTION = "change-person-director-company-with-change-date";
     private static final Map<String, Object> FILING_HISTORY_DESCRIPTION_VALUES = new HashMap<>();
     private static final String FILING_HISTORY_TYPE = "CH01";
-    public static final String FILING_HISTORY_CATEGORY = "accounts";
     private static final int QUANTITY = 1;
     private static final String KIND = "item#missing-image-delivery";
 
+    public static final String FILING_HISTORY_CATEGORY = "resolution";
+    private static final ProductType MISC_PRODUCT_TYPE = MISSING_IMAGE_DELIVERY_MISC;
+
     private static final ItemCosts ITEM_COSTS = new ItemCosts(DISCOUNT_APPLIED, MISSING_IMAGE_DELIVERY_ITEM_COST_STRING,
-            CALCULATED_COST, MISSING_IMAGE_DELIVERY);
+            CALCULATED_COST, MISSING_IMAGE_DELIVERY_MISC);
     private static final ItemCostCalculation CALCULATION = new ItemCostCalculation(singletonList(ITEM_COSTS),
             POSTAGE_COST, TestConstants.TOTAL_ITEM_COST);
 
@@ -83,7 +86,7 @@ public class MissingImageDeliveryItemServiceTest {
         final MissingImageDeliveryItemOptions midItemOptions = new MissingImageDeliveryItemOptions(FILING_HISTORY_DATE,
                 FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE,
                 FILING_HISTORY_CATEGORY);
-        when(costCalculatorService.calculateCosts(QUANTITY)).thenReturn(CALCULATION);
+        when(costCalculatorService.calculateCosts(QUANTITY, MISC_PRODUCT_TYPE)).thenReturn(CALCULATION);
         MissingImageDeliveryItemData missingImageDeliveryItemData = new MissingImageDeliveryItemData();
         missingImageDeliveryItemData.setCompanyNumber(COMPANY_NUMBER);
         MissingImageDeliveryItem missingImageDeliveryItem = new MissingImageDeliveryItem();
@@ -107,7 +110,7 @@ public class MissingImageDeliveryItemServiceTest {
         verify(etagGenerator).generateEtag();
         verify(linksGenerator).generateLinks(ID);
         assertThat(missingImageDeliveryItem.getId(), is(ID));
-        verify(costCalculatorService).calculateCosts(QUANTITY);
+        verify(costCalculatorService).calculateCosts(QUANTITY, MISC_PRODUCT_TYPE);
         verify(descriptionProviderService).getDescription(COMPANY_NUMBER);
         assertThat(missingImageDeliveryItem.getItemCosts(), is(singletonList(ITEM_COSTS)));
         assertThat(missingImageDeliveryItem.getPostageCost(), is(POSTAGE_COST));
