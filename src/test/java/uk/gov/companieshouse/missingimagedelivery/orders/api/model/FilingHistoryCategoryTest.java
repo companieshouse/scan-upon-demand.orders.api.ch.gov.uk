@@ -70,7 +70,7 @@ class FilingHistoryCategoryTest {
 
     @Test
     void mapsIncorporationCategorySuccessfully(){
-        assertThat(FilingHistoryCategory.enumValueOf(INCORPORATION).getProductType(), is(ProductType.MISSING_IMAGE_DELIVERY_INCORPORATION));
+        assertThat(FilingHistoryCategory.enumValueOf(INCORPORATION).getProductType(), is(ProductType.MISSING_IMAGE_DELIVERY_NEW_INCORPORATION));
         assertThat(FilingHistoryCategory.INCORPORATION.toString(), is("incorporation"));
     }
 
