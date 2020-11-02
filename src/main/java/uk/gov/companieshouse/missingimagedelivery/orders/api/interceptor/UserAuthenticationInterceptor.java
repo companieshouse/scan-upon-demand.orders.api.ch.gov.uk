@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.util.EricHeaderHelper;
@@ -15,6 +16,7 @@ import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.Logg
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.LoggingUtils.STATUS_LOG_KEY;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.LoggingUtils.getLogger;
 
+@Component
 public class UserAuthenticationInterceptor extends HandlerInterceptorAdapter {
 
     private static final Logger LOGGER = getLogger();

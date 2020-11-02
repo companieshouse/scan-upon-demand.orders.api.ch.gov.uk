@@ -18,7 +18,6 @@ import uk.gov.companieshouse.api.interceptor.CRUDAuthenticationInterceptor;
 import uk.gov.companieshouse.api.util.security.Permission.Key;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor.UserAuthenticationInterceptor;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor.UserAuthorisationInterceptor;
-import uk.gov.companieshouse.missingimagedelivery.orders.api.service.MissingImageDeliveryItemService;
 
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
@@ -27,17 +26,22 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
     private String MISSING_IMAGE_DELIVERY_HOME;
 
     @Autowired
-    private MissingImageDeliveryItemService missingImageDeliveryItemService;
+    private UserAuthenticationInterceptor userAuthenticationInterceptor;
+
+    @Autowired
+    private UserAuthorisationInterceptor userAuthorisationInterceptor;
+
+    @Autowired
+    private CRUDAuthenticationInterceptor crudPermissionsInterceptor;
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         final String authPathPattern = MISSING_IMAGE_DELIVERY_HOME + "/**";
         final String healthCheckPathPattern = MISSING_IMAGE_DELIVERY_HOME + "/healthcheck";
-        registry.addInterceptor(new UserAuthenticationInterceptor()).addPathPatterns(authPathPattern)
+        registry.addInterceptor(userAuthenticationInterceptor).addPathPatterns(authPathPattern)
                 .excludePathPatterns(healthCheckPathPattern);
-        registry.addInterceptor(new UserAuthorisationInterceptor(missingImageDeliveryItemService)).addPathPatterns(authPathPattern);
-        registry.addInterceptor(crudPermissionsInterceptor())
-                .addPathPatterns(authPathPattern)
+        registry.addInterceptor(userAuthorisationInterceptor).addPathPatterns(authPathPattern);
+        registry.addInterceptor(crudPermissionsInterceptor).addPathPatterns(authPathPattern)
                 .excludePathPatterns(healthCheckPathPattern);
     }
 
