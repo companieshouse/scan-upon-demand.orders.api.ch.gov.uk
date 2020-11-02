@@ -23,7 +23,7 @@ import uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor.UserAut
 public class ApplicationConfiguration implements WebMvcConfigurer {
 
     @Value("${uk.gov.companieshouse.missingimagedelivery.orders.api.home}")
-    private String MISSING_IMAGE_DELIVERY_HOME;
+    String missingImageDeliveryHome;
 
     @Autowired
     private UserAuthenticationInterceptor userAuthenticationInterceptor;
@@ -36,8 +36,8 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
-        final String authPathPattern = MISSING_IMAGE_DELIVERY_HOME + "/**";
-        final String healthCheckPathPattern = MISSING_IMAGE_DELIVERY_HOME + "/healthcheck";
+        final String authPathPattern = missingImageDeliveryHome + "/**";
+        final String healthCheckPathPattern = missingImageDeliveryHome + "/healthcheck";
         registry.addInterceptor(userAuthenticationInterceptor).addPathPatterns(authPathPattern)
                 .excludePathPatterns(healthCheckPathPattern);
         registry.addInterceptor(userAuthorisationInterceptor).addPathPatterns(authPathPattern);
