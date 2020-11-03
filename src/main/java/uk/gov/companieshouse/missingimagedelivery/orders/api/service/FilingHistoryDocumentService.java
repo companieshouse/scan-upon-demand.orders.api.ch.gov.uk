@@ -55,7 +55,8 @@ public class FilingHistoryDocumentService {
                         filing.getDescriptionValues(),
                         filing.getTransactionId(),
                         filing.getType(),
-                        filing.getCategory());
+                        filing.getCategory(),
+                        filing.getBarcode());
         } catch (ApiErrorResponseException ex) {
             throw getResponseStatusException(ex, apiClient, companyNumber, filingHistoryDocumentId, uri);
         } catch (URIValidationException ex) {
