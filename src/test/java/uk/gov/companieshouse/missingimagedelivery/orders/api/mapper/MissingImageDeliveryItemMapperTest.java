@@ -44,6 +44,7 @@ class MissingImageDeliveryItemMapperTest {
 	private static final String FILING_HISTORY_ID = "MzAwOTM2MDg5OWFkaXF6a2N5";
 	private static final String FILING_HISTORY_DATE = "2010-02-12";
 	private static final String FILING_HISTORY_DESCRIPTION = "change-person-director-company-with-change-date";
+	private static final String FILING_HISTORY_BARCODE = "0005668";
 	private static final Map<String, Object> FILING_HISTORY_DESCRIPTION_VALUES;
 
 	private static final Links LINKS;
@@ -59,6 +60,7 @@ class MissingImageDeliveryItemMapperTest {
 		ITEM_OPTIONS.setFilingHistoryDescriptionValues(FILING_HISTORY_DESCRIPTION_VALUES);
 		ITEM_OPTIONS.setFilingHistoryDescription(FILING_HISTORY_DESCRIPTION);
 		ITEM_OPTIONS.setFilingHistoryDate(FILING_HISTORY_DATE);
+		ITEM_OPTIONS.setFilingHistoryBarcode(FILING_HISTORY_BARCODE);
 
 		LINKS = new Links();
 		LINKS.setSelf("self");
@@ -129,6 +131,7 @@ class MissingImageDeliveryItemMapperTest {
 		assertThat(dto.getItemOptions().getFilingHistoryId(), is(item.getItemOptions().getFilingHistoryId()));
 		assertThat(dto.getItemOptions().getFilingHistoryDescription(), is(item.getItemOptions().getFilingHistoryDescription()));
 		assertThat(dto.getItemOptions().getFilingHistoryDescriptionValues(), is(item.getItemOptions().getFilingHistoryDescriptionValues()));
+		assertThat(dto.getItemOptions().getFilingHistoryBarcode(), is(item.getItemOptions().getFilingHistoryBarcode()));
 		assertThat(dto.getItemOptions().getFilingHistoryDate(), is(item.getItemOptions().getFilingHistoryDate()));
 		assertThat(dto.getKind(), is(item.getKind()));
 		assertThat(dto.getLinks().getSelf(), is(item.getLinks().getSelf()));
