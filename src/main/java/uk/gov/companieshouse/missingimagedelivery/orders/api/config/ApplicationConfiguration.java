@@ -1,35 +1,48 @@
 package uk.gov.companieshouse.missingimagedelivery.orders.api.config;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import static com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+import uk.gov.companieshouse.api.interceptor.CRUDAuthenticationInterceptor;
+import uk.gov.companieshouse.api.util.security.Permission.Key;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor.UserAuthenticationInterceptor;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.interceptor.UserAuthorisationInterceptor;
-import uk.gov.companieshouse.missingimagedelivery.orders.api.service.MissingImageDeliveryItemService;
-
-import static com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE;
 
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
 
     @Value("${uk.gov.companieshouse.missingimagedelivery.orders.api.home}")
-    private String MISSING_IMAGE_DELIVERY_HOME;
+    String missingImageDeliveryHome;
 
     @Autowired
-    private MissingImageDeliveryItemService missingImageDeliveryItemService;
+    private UserAuthenticationInterceptor userAuthenticationInterceptor;
+
+    @Autowired
+    private UserAuthorisationInterceptor userAuthorisationInterceptor;
+
+    @Autowired
+    private CRUDAuthenticationInterceptor crudPermissionsInterceptor;
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(new UserAuthenticationInterceptor()).addPathPatterns(MISSING_IMAGE_DELIVERY_HOME + "/**")
-                .excludePathPatterns(MISSING_IMAGE_DELIVERY_HOME + "/healthcheck");
-        registry.addInterceptor(new UserAuthorisationInterceptor(missingImageDeliveryItemService)).addPathPatterns(MISSING_IMAGE_DELIVERY_HOME + "/**");
+        final String authPathPattern = missingImageDeliveryHome + "/**";
+        final String healthCheckPathPattern = missingImageDeliveryHome + "/healthcheck";
+        registry.addInterceptor(userAuthenticationInterceptor).addPathPatterns(authPathPattern)
+                .excludePathPatterns(healthCheckPathPattern);
+        registry.addInterceptor(userAuthorisationInterceptor).addPathPatterns(authPathPattern);
+        registry.addInterceptor(crudPermissionsInterceptor).addPathPatterns(authPathPattern)
+                .excludePathPatterns(healthCheckPathPattern);
     }
 
     @Bean
@@ -42,4 +55,8 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
                 .findAndRegisterModules();
     }
 
+    @Bean
+    public CRUDAuthenticationInterceptor crudPermissionsInterceptor() {
+        return new CRUDAuthenticationInterceptor(Key.USER_ORDERS);
+    }
 }
