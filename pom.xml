@@ -35,7 +35,8 @@
         <spring-boot-dependencies.version>2.1.15.RELEASE</spring-boot-dependencies.version>
         <spring-boot-maven-plugin.version>2.1.15.RELEASE</spring-boot-maven-plugin.version>
         <spring-cloud-contract-wiremock-version>2.2.2.RELEASE</spring-cloud-contract-wiremock-version>
-        <start-class>uk.gov.companieshouse.missingimagedelivery.orders.api.MissingImageDeliveryApiApplication</start-class>
+        <start-class>uk.gov.companieshouse.missingimagedelivery.orders.api.MissingImageDeliveryApiApplication
+        </start-class>
         <structured-logging.version>1.9.0</structured-logging.version>
         <snakeyaml.version>1.25</snakeyaml.version>
         <system-rules-version>1.17.2</system-rules-version>
@@ -227,6 +228,21 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>2.6.0</version>
+                <configuration>
+                    <extraDirectories>
+                        <paths>
+                            <path>
+                                <from>${project.basedir}/api-enumerations</from>
+                                <into>/api-enumerations</into>
+                            </path>
+                        </paths>
+                    </extraDirectories>
+                </configuration>
             </plugin>
         </plugins>
     </build>
