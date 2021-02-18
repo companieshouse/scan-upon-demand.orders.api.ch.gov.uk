@@ -1,9 +1,10 @@
 package uk.gov.companieshouse.missingimagedelivery.orders.api.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
+
 import uk.gov.companieshouse.missingimagedelivery.orders.api.model.MissingImageDeliveryItem;
 
-@RepositoryRestResource
+@Repository
 public interface MissingImageDeliveryItemRepository extends MongoRepository<MissingImageDeliveryItem, String> {
 }
