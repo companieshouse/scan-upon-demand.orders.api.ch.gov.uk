@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import uk.gov.companieshouse.missingimagedelivery.orders.api.dto.MissingImageDeliveryItemOptionsRequestDto;
@@ -40,6 +41,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,6 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
+import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_AUTHORISED_TOKEN_PERMISSIONS;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.logging.LoggingUtils.REQUEST_ID_HEADER_NAME;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.model.ProductType.MISSING_IMAGE_DELIVERY_ACCOUNTS;
 import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestConstants.CALCULATED_COST;
@@ -63,10 +66,11 @@ import static uk.gov.companieshouse.missingimagedelivery.orders.api.util.TestUti
 
 
 @AutoConfigureMockMvc
-
 @SpringBootTest
+@TestPropertySource(properties = {"ENABLE_TOKEN_PERMISSION_AUTH=1"})
 class MissingImageDeliveryItemControllerIntegrationTest {
 
+    private static final String TOKEN_PERMISSION_VALUE = "user_orders=%s";
     private static final String MISSING_IMAGE_DELIVERY_ID = "MID-462515-995726";
     private static final String COMPANY_NUMBER = "00006400";
     private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
@@ -176,6 +180,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
                 .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
                 .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                .header(ERIC_AUTHORISED_TOKEN_PERMISSIONS, String.format(TOKEN_PERMISSION_VALUE, "create"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(missingImageDeliveryItemDTORequest))).andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedItem)))
@@ -229,6 +234,114 @@ class MissingImageDeliveryItemControllerIntegrationTest {
     @Test
     @DisplayName("Successfully gets a missing image delivery item")
     void getMissingImageDeliveryItemSuccessfully() throws Exception {
+        final MissingImageDeliveryItem item = newMissingImageDeliveryItem();
+        repository.save(item);
+
+        final MissingImageDeliveryItemResponseDTO expectedItem = new MissingImageDeliveryItemResponseDTO();
+        expectedItem.setCompanyNumber(item.getCompanyNumber());
+        expectedItem.setCompanyName(item.getCompanyName());
+        expectedItem.setQuantity(item.getQuantity());
+        expectedItem.setId(item.getId());
+        expectedItem.setCustomerReference(item.getCustomerReference());
+        expectedItem.setEtag(item.getEtag());
+        expectedItem.setLinks(item.getLinks());
+        expectedItem.setPostageCost(item.getPostageCost());
+        expectedItem.setItemOptions(item.getItemOptions());
+        expectedItem.setPostalDelivery(item.isPostalDelivery());
+        expectedItem.setKind(item.getKind());
+
+        // When and then
+        mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + item.getId())
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                .header(ERIC_AUTHORISED_TOKEN_PERMISSIONS, String.format(TOKEN_PERMISSION_VALUE, "read"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedItem), true))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName("Returns not found when a missing image delivery item does not exist")
+    void getMissingImageDeliveryItemReturnsNotFound() throws Exception {
+        // When and then
+        mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + MISSING_IMAGE_DELIVERY_ID)
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    @DisplayName("Get missing image delivery returns unauthorised when using the wrong token permissions")
+    void getMissingImageDeliveryUnauthorised() throws Exception {
+        final MissingImageDeliveryItem item = newMissingImageDeliveryItem();
+        repository.save(item);
+
+        // When and then
+        mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + item.getId())
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                .header(ERIC_AUTHORISED_TOKEN_PERMISSIONS, String.format(TOKEN_PERMISSION_VALUE, "update"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("Fails to create missing image delivery item that fails validation")
+    void createMissingImageDeliveryItemFailsToCreateMissingImageDeliveryItem() throws Exception {
+        final MissingImageDeliveryItemOptionsRequestDto missingImageDeliveryItemOptionsRequestDto
+                = new MissingImageDeliveryItemOptionsRequestDto();
+        final MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTORequest
+                = new MissingImageDeliveryItemRequestDTO();
+        missingImageDeliveryItemDTORequest.setItemOptions(missingImageDeliveryItemOptionsRequestDto);
+
+
+        final ApiError expectedValidationError =
+                new ApiError(BAD_REQUEST, asList("company_number: must not be null",
+                        "item_options.filing_history_id: must not be empty",
+                        "quantity: must not be null"));
+
+        when(idGeneratorService.autoGenerateId()).thenReturn(MISSING_IMAGE_DELIVERY_ID);
+
+        mockMvc.perform(post(MISSING_IMAGE_DELIVERY_URL)
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                .header(ERIC_AUTHORISED_TOKEN_PERMISSIONS, String.format(TOKEN_PERMISSION_VALUE, "create"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(missingImageDeliveryItemDTORequest)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content()
+                        .json(objectMapper.writeValueAsString(expectedValidationError)));
+
+        assertItemWasNotSaved(MISSING_IMAGE_DELIVERY_ID);
+
+    }
+    
+    @Test
+    @DisplayName("Create missing image delivery returns unauthorised when using the wrong token permissions")
+    void createMissingImageDeliveryItemUnauthorised() throws Exception {
+        final MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTORequest
+                = new MissingImageDeliveryItemRequestDTO();
+
+        mockMvc.perform(post(MISSING_IMAGE_DELIVERY_URL)
+                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
+                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                .header(ERIC_AUTHORISED_TOKEN_PERMISSIONS, String.format(TOKEN_PERMISSION_VALUE, "read"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(missingImageDeliveryItemDTORequest)))
+                .andExpect(status().isUnauthorized());
+
+        verifyZeroInteractions(idGeneratorService);
+
+    }
+    private MissingImageDeliveryItem newMissingImageDeliveryItem() {
         final MissingImageDeliveryItemData itemData = new MissingImageDeliveryItemData();
         itemData.setCompanyName(COMPANY_NAME);
         itemData.setCompanyNumber(COMPANY_NUMBER);
@@ -254,74 +367,7 @@ class MissingImageDeliveryItemControllerIntegrationTest {
                 FILING_HISTORY_DESCRIPTION, FILING_HISTORY_DESCRIPTION_VALUES, FILING_HISTORY_ID, FILING_HISTORY_TYPE_CH01,
                 FILING_HISTORY_CATEGORY_ACCOUNTS, FILING_HISTORY_BARCODE);
         item.setItemOptions(itemOptions);
-        repository.save(item);
-
-        final MissingImageDeliveryItemResponseDTO expectedItem = new MissingImageDeliveryItemResponseDTO();
-        expectedItem.setCompanyNumber(COMPANY_NUMBER);
-        expectedItem.setCompanyName(COMPANY_NAME);
-        expectedItem.setQuantity(QUANTITY_1);
-        expectedItem.setId(MISSING_IMAGE_DELIVERY_ID);
-        expectedItem.setCustomerReference(CUSTOMER_REFERENCE);
-        expectedItem.setEtag(TOKEN_ETAG);
-        expectedItem.setLinks(LINKS);
-        expectedItem.setPostageCost(POSTAGE_COST);
-        expectedItem.setItemOptions(itemOptions);
-        expectedItem.setPostalDelivery(POSTAL_DELIVERY);
-        expectedItem.setKind(KIND);
-
-        // When and then
-        mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + MISSING_IMAGE_DELIVERY_ID)
-                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
-                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(expectedItem), true))
-                .andDo(MockMvcResultHandlers.print());
-    }
-
-    @Test
-    @DisplayName("Returns not found when a missing image delivery item does not exist")
-    void getMissingImageDeliveryItemReturnsNotFound() throws Exception {
-        // When and then
-        mockMvc.perform(get(MISSING_IMAGE_DELIVERY_URL + "/" + MISSING_IMAGE_DELIVERY_ID)
-                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
-                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andDo(MockMvcResultHandlers.print());
-    }
-
-    @Test
-    @DisplayName("Fails to create missing image delivery item that fails validation")
-    void createMissingImageDeliveryItemFailsToCreateMissingImageDeliveryItem() throws Exception {
-        final MissingImageDeliveryItemOptionsRequestDto missingImageDeliveryItemOptionsRequestDto
-                = new MissingImageDeliveryItemOptionsRequestDto();
-        final MissingImageDeliveryItemRequestDTO missingImageDeliveryItemDTORequest
-                = new MissingImageDeliveryItemRequestDTO();
-        missingImageDeliveryItemDTORequest.setItemOptions(missingImageDeliveryItemOptionsRequestDto);
-
-
-        final ApiError expectedValidationError =
-                new ApiError(BAD_REQUEST, asList("company_number: must not be null",
-                        "item_options.filing_history_id: must not be empty",
-                        "quantity: must not be null"));
-
-        when(idGeneratorService.autoGenerateId()).thenReturn(MISSING_IMAGE_DELIVERY_ID);
-
-        mockMvc.perform(post(MISSING_IMAGE_DELIVERY_URL)
-                .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
-                .header(ERIC_IDENTITY_TYPE, ERIC_IDENTITY_TYPE_OAUTH2_VALUE)
-                .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(missingImageDeliveryItemDTORequest)))
-                .andExpect(status().isBadRequest())
-                .andExpect(content()
-                        .json(objectMapper.writeValueAsString(expectedValidationError)));
-
-        assertItemWasNotSaved(MISSING_IMAGE_DELIVERY_ID);
-
+        return item;
     }
 
     /**
